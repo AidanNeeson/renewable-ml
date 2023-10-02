@@ -11,7 +11,7 @@ print()
 print('--------------------------------------------------------------------------------')
 print()
 
-# K_clusters = range(1,10)
+# K_clusters = range(1,100)
 
 # kmeans = [KMeans(n_clusters=i, n_init='auto') for i in K_clusters]
 
@@ -26,7 +26,7 @@ print()
 # plt.title('Elbow Curve')
 # plt.show()
 
-kmeans = KMeans(n_clusters = 4, init='k-means++', n_init='auto')
+kmeans = KMeans(n_clusters = 100, init='k-means++', n_init='auto')
 
 kmeans.fit(X[X.columns[0:2]])
 
