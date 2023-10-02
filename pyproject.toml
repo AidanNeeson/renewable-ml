@@ -12,6 +12,9 @@ numpy = "^1.26.0"
 matplotlib = "^3.8.0"
 pandas = "^2.1.1"
 pypvwatts = "^3.0.4"
+jupyter-summarytools = "^0.2.3"
+ipykernel = "^6.25.2"
+jupyter = "^1.0.0"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.4.2"
