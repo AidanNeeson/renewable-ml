@@ -1,2 +1,3 @@
 .ipynb_checkpoints/
 tmp/
+.ruff_cache/
