@@ -53,7 +53,7 @@ work, and articles are listed below:
 - NREL's PVWatts: [API Docs](https://developer.nrel.gov/docs/solar/pvwatts/v8/),
     [Online Calculator](https://pvwatts.nrel.gov/)
 - NREL's WIND Toolkit Power Data: [Full Report](https://www.nrel.gov/docs/fy16osti/66189.pdf),
-[Data](https://data.nrel.gov/submissions/54)
+    [Data](https://data.nrel.gov/submissions/54)
 - ML for Solar Energy Production: [GitHub](https://github.com/ColasGael/Machine-Learning-for-Solar-Energy-Prediction)
 - Solarpy: [GitHub](https://github.com/aqreed/solarpy), [Inspiring Writing](https://www.eng.uc.edu/~beaucag/Classes/SolarPowerForAfrica/Solar%20Engineering%20of%20Thermal%20Processes,%20Photovoltaics%20and%20Wind.pdf)
 - Windpowerlib: [GitHub](https://github.com/wind-python/windpowerlib),
