@@ -70,7 +70,7 @@ work, and articles are listed below:
 To perform these predictions, a sufficient swath of data had to be collected,
 as machine learning techniques would be used to analyze data and make
 predictions. This data can be found in the `data` directory, and consists
-of two data sets: `wind_speeds.csv` and `irradiance.csv`. These two data sets
+of two data sets: `wind.csv` and `solar.csv`. These two data sets
 each consist of 9 attributes, with each attribute having either approximately
 125000 or 11500 observations depending on the data set being examined. Full
 diagnostic reports regarding these data sets can be found in the
