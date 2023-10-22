@@ -19,7 +19,7 @@ solar array of a certain size in a certain location in the United States.
 
 ## Running the Artifact
 
-The notebooks, and their outputs are available to ne examined in the
+The notebooks, and their outputs are available to be examined in the
 [src directory](/src/) at anytime, although the outputs could be outdated,
 nonexistent, or other inconsistencies could arise, so it is best to run them
 yourself. Below are some simple steps to get up and running with this project.
