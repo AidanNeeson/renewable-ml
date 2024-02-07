@@ -8,8 +8,10 @@ scaler = StandardScaler()
 
 df = pd.read_csv("../data/solar.csv")
 
-X = df.loc[:, df.columns[1:3]]
-y = df.loc[:, df.columns[3]]
+X = df.loc[:, [False, True, True, True, False, True, True, False, False]]
+y = df.loc[:, df.columns[-2]]
+
+print(y)
 
 X_train = X[:8000]
 X_test = X[8000:]
