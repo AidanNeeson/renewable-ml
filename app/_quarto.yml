@@ -2,11 +2,21 @@ project:
   type: website
 
 website:
-  title: "app"
+  title: "Aidan Neeson - CMPSC 610 Artifact"
   navbar:
     left:
       - href: index.qmd
         text: Home
+      - href: 1-eda.ipynb
+        text: Data
+      - href: 2-ca.ipynb
+        text: Clustering
+      - href: 3-rf.ipynb
+        text: Random Forest
+      - href: 4-svm.ipynb
+        text: SVM
+      - href: 5-ann.ipynb
+        text: ANN
       - about.qmd
 
 format:

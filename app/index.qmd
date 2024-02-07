@@ -1,7 +1,5 @@
 ---
-title: "app"
+title: "Assessing the Viability and Accuracy of Low-level Machine Learning Models At Predicting Renewable Array Parameters"
 ---
 
-This is a Quarto website.
-
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+This website serves as the artifact for the Allegheny College CMPSC 610 senior comprehensive project. It documents the computational work done to complete the analysis of the machine learning algorithms.
