@@ -1,0 +1,66 @@
+---
+title: "A Look at the Data"
+notebook-view:
+  - notebook: 1-data-manipulation.ipynb
+    title: "Data Showcase and Manipulation"
+    url: https://colab.research.google.com/drive/1JHqernGZ5oXJ4FFCs0i1GkDQs56aWwRY?authuser=4#scrollTo=oWqeiw3pilBq
+---
+
+# Data Approaches
+
+For this research project, the data is entirely geospatial. More specifically, it is all defined by coordinates in the form of latitude and longitude pairs. All of the machine learning algorithms used are able to handle the data in this form, however, some algorithms would prefer the location encoded as a single value, leading to less input parameters. To give each algorithm the opportunity to perform its best, the data was used in two ways:
+
+1. Raw
+    - The raw data was taken from the CSV file, preprocessed, and passed into the models for training.
+2. Clustered
+    - The raw data was first clustered, encoding the longitude and latitude pairs into a single cluster ID. This new data set was then preprocessed and passed into the models for training.
+
+Below, all of the data sets, raw and clustered, are outlined. Their origins are linked, their form is shown, and the tranformations made to create the datasets are showcased.
+
+## Raw Data
+
+### Wind
+
+Data originally comes from [NREL's WIND Toolkit Power Data Site Index.](https://data.nrel.gov/submissions/54)
+
+Data used for training and testing is located in [this drive.](https://drive.google.com/file/d/1nXTvuvTOhB4v5SY9LxBlRAjIigRQtXXM/view)
+
+The raw data has the following form:
+
+{{< embed 1-data-manipulation.ipynb#wind-raw-dataset-preview >}}
+
+### Solar
+
+Data originally comes from [NREL's National Solar Radiation Database.](https://nsrdb.nrel.gov/)
+
+Data used for training and testing is located in [this drive.](https://drive.google.com/file/d/1mfjhqBOprS6HEkCe3Sudl770v1NTVkM3/view)
+
+The raw data has the following form:
+
+{{< embed 1-data-manipulation.ipynb#solar-raw-dataset-preview >}}
+
+## Clustered Data
+
+### Finding the Optimal Number of Clusters
+
+The more clusters, the more accurate a mapping will be. But this brings with it diminishing returns, so to reduce computation times, multiple clustering models can be scored to determine the point at where the benefits of more clusters tapers off. Below are plots that indicate the optimal number of clusters for both the wind data and solar data.
+
+{{< embed 1-data-manipulation.ipynb#fig-optimal-clusters >}}
+
+### Clustering
+
+Now with the optimal number of clusters, models can be fitting for both the wind data and solar data. For this research, `scikit-learn's` `kmeans` model was used.
+
+{{< embed 1-data-manipulation.ipynb#clustered-model echo=true >}}
+
+Labels can be assigned to each column:
+
+{{< embed 1-data-manipulation.ipynb#wind-clustered-data-preview >}}
+
+{{< embed 1-data-manipulation.ipynb#solar-clustered-data-preview >}}
+
+The clustered data can be plotted now:
+
+{{< embed 1-data-manipulation.ipynb#fig-clustered-data >}}
+
+The clusters still retain the information that the longitude and latitude pairs brought with them, but now it is all stored in one value.

@@ -7,10 +7,8 @@ website:
     left:
       - href: index.qmd
         text: Home
-      - href: 1-eda.ipynb
+      - href: data.qmd
         text: Data
-      - href: 2-ca.ipynb
-        text: Clustering
       - href: 3-rf.ipynb
         text: Random Forest
       - href: 4-svm.ipynb
