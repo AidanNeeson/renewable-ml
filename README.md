@@ -43,6 +43,9 @@ of this data means. From there, the notebooks will guide you through each
 cell and through each notebook, giving you the all-inclusive green energy
 prediction experience!
 
+There is now a website that hosts the note books!
+You can find it [here](aidanneeson610artifact.netlify.app)
+
 ## Some Related Works
 
 Some similar work has been done in the past. The largest one, NREL's PVWatts,
