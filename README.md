@@ -44,7 +44,7 @@ cell and through each notebook, giving you the all-inclusive green energy
 prediction experience!
 
 There is now a website that hosts the note books!
-You can find it [here](aidanneeson610artifact.netlify.app)
+You can find it [here](https://aidanneeson610artifact.netlify.app/)
 
 ## Some Related Works
 
