@@ -1,0 +1,49 @@
+state,solar_lcoe,wind_lcoe
+Alabama,40,50
+Arizona,36,51
+Arkansas,40,35
+California,41,47
+Colorado,38,47
+Connecticut,54,40
+Delaware,48,41
+Florida,36,59
+Georgia,41,51
+Idaho,46,44
+Illinois,46,36
+Indiana,46,37
+Iowa,45,32
+Kansas,39,30
+Kentucky,44,45
+Louisiana,38,50
+Maine,51,36
+Maryland,47,39
+Massachusetts,55,37
+Michigan,47,32
+Minnesota,49,32
+Mississippi,38,49
+Missouri,44,35
+Montana,51,31
+Nebraska,43,30
+Nevada,36,52
+New Hampshire,52,36
+New Jersey,54,44
+New Mexico,34,33
+New York,53,37
+North Carolina,42,40
+North Dakota,51,30
+Ohio,47,39
+Oklahoma,41,29
+Oregon,44,41
+Pennsylvania,52,34
+Rhode Island,53,38
+South Carolina,42,48
+South Dakota,42,30
+Tennessee,43,45
+Texas,39,31
+Utah,37,34
+Vermont,54,37
+Virginia,46,39
+Washington,50,48
+West Virginia,48,34
+Wisconsin,48,33
+Wyoming,43,30
