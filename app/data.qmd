@@ -1,66 +1,52 @@
 ---
 title: "A Look at the Data"
 notebook-view:
-  - notebook: 1-data-manipulation.ipynb
+  - notebook: 1-datasets.ipynb
     title: "Data Showcase and Manipulation"
     url: https://colab.research.google.com/drive/1JHqernGZ5oXJ4FFCs0i1GkDQs56aWwRY?authuser=4#scrollTo=oWqeiw3pilBq
 ---
 
-# Data Approaches
+# Approaches
 
-For this research project, the data is entirely geospatial. More specifically, it is all defined by coordinates in the form of latitude and longitude pairs. All of the machine learning algorithms used are able to handle the data in this form, however, some algorithms would prefer the location encoded as a single value, leading to less input parameters. To give each algorithm the opportunity to perform its best, the data was used in two ways:
+Data are a crucial piece of this research project. As such, much of the effort and consideration went into selecting, crafting, and refactoring the datasets to suit the need as best as possible. Throughout this process, many things were tried and tossed away. These include the form of the data, and even methods for processing the data to make it easier for certain machine learning models to use them. In the end, an effective appraoch was discovered. Each of these snapshots will be covered below.
 
-1. Raw
-    - The raw data was taken from the CSV file, preprocessed, and passed into the models for training.
-2. Clustered
-    - The raw data was first clustered, encoding the longitude and latitude pairs into a single cluster ID. This new data set was then preprocessed and passed into the models for training.
+## The Old Data
 
-Below, all of the data sets, raw and clustered, are outlined. Their origins are linked, their form is shown, and the tranformations made to create the datasets are showcased.
+Both the [wind](https://data.nrel.gov/submissions/54) and [solar](https://nsrdb.nrel.gov/) data used in this project orginally come from The National Renewable Energy Laboratory (NREL). The data comes with many attributes that are crucial to the analysis this project seeks to conduct, however, there are still pieces missing to truly acheive the full picture. Regardless, compared to other publically available datasets, these were the best suited for the job, and offered a good starting point.
 
-## Raw Data
+### Structure and Make-up
 
-### Wind
+The original datasets came with some basic attributes:
 
-Data originally comes from [NREL's WIND Toolkit Power Data Site Index.](https://data.nrel.gov/submissions/54)
+- longitude
+- latitude
+- wind speed
+- solar irradiance
+- capacity
+- capacity factor
 
-Data used for training and testing is located in [this drive.](https://drive.google.com/file/d/1nXTvuvTOhB4v5SY9LxBlRAjIigRQtXXM/view)
+This, at first, is not enough data to begin predicting for energy generation and cost. For this, actual data on energy generation and cost is needed. With what was provided, these could be calculated. To start, a few simple calculations were used to find the energy and cost values desired. The attribute `capacity` denotes how much energy a certain technology can produce under ideal conditions. `Capacity factor` denotes what fraction of the technology's `capacity` is produced. With this, a simple estimate for energy generation can be calculated by multiplying both values together. For cost, many estimates exist that outline how much a technology costs per watt of installed capacity. Using these estimates, and multiplying by capacity, a value for cost can be aquired. This produced two datasets that took this shape:
 
-The raw data has the following form:
+#### Old Wind Data
 
-{{< embed 1-data-manipulation.ipynb#wind-raw-dataset-preview >}}
+{{< embed 1-datasets.ipynb#wind-old-dataset-preview >}}
 
-### Solar
+#### Old Solar Data
 
-Data originally comes from [NREL's National Solar Radiation Database.](https://nsrdb.nrel.gov/)
+{{< embed 1-datasets.ipynb#solar-old-dataset-preview >}}
 
-Data used for training and testing is located in [this drive.](https://drive.google.com/file/d/1mfjhqBOprS6HEkCe3Sudl770v1NTVkM3/view)
+The rough and simplistic nature of these estimates are generally okay as the concern of this project is to determine how well machine learning algorithms predict values, and not the correctness and integrity of the values themselves. Nonetheless, issues still appeared because of this. When training and testing the Random Forest Regressor, a feature importance graph was used to determine which attributes are the most important. This can also give insights into how the variables are used by other models as well. When running on the old wind data, the graph indicated one variable was dominating the dataset.
 
-The raw data has the following form:
+{{< embed 5-rf-old.ipynb#feature-importances-old-wind >}}
 
-{{< embed 1-data-manipulation.ipynb#solar-raw-dataset-preview >}}
+{{< embed 5-rf-old.ipynb#feature-importance-graph-old-wind >}}
 
-## Clustered Data
 
-### Finding the Optimal Number of Clusters
-
-The more clusters, the more accurate a mapping will be. But this brings with it diminishing returns, so to reduce computation times, multiple clustering models can be scored to determine the point at where the benefits of more clusters tapers off. Below are plots that indicate the optimal number of clusters for both the wind data and solar data.
-
-{{< embed 1-data-manipulation.ipynb#fig-optimal-clusters >}}
 
 ### Clustering
 
-Now with the optimal number of clusters, models can be fitting for both the wind data and solar data. For this research, `scikit-learn's` `kmeans` model was used.
+## The New Data
 
-{{< embed 1-data-manipulation.ipynb#clustered-model echo=true >}}
+### Wind
 
-Labels can be assigned to each column:
-
-{{< embed 1-data-manipulation.ipynb#wind-clustered-data-preview >}}
-
-{{< embed 1-data-manipulation.ipynb#solar-clustered-data-preview >}}
-
-The clustered data can be plotted now:
-
-{{< embed 1-data-manipulation.ipynb#fig-clustered-data >}}
-
-The clusters still retain the information that the longitude and latitude pairs brought with them, but now it is all stored in one value.
+### Solar

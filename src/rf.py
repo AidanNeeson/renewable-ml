@@ -11,7 +11,7 @@ from sklearn.preprocessing import StandardScaler
 
 scaler = StandardScaler()
 
-df = pd.read_csv("../data/wind_refactored.csv")
+df = pd.read_csv("../data/wind.csv")
 df = df.sample(frac=1)
 
 #| OLD DATA
@@ -25,8 +25,8 @@ df = df.sample(frac=1)
 # X = df.loc[:, [False, False, False, False, True, True, False, True, True, True, True, False]]
 # y = df['cost($)'].values
 
-X = df.loc[:, [False, False, False, False, True, True, True, True, True, True, False, False]]
-y = df.loc[:, [False, False, False, False, False, False, False, False, False, False, True, True]]
+X = df.loc[:, [False, False, False, False, False, True, True, True, True, True, True, False, False]]
+y = df.loc[:, [False, False, False, False, False, False, False, False, False, False, False, True, True]]
 
 X_train = X[:100000]
 X_test = X[100000:]
@@ -56,7 +56,8 @@ indices = np.argsort(importances)
 
 print("Importances")
 print('-----------')
-print(importances)
+for i in indices:
+    print(f"{features[i]}: {importances[i]*100}")
 print('-----------')
 
 plt.title("Feature Importances")
