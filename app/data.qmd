@@ -2,7 +2,7 @@
 title: "A Look at the Data"
 notebook-view:
   - notebook: 1-datasets.ipynb
-    title: "Data Showcase and Manipulation"
+    title: "Data Showcase"
     url: https://colab.research.google.com/drive/1JHqernGZ5oXJ4FFCs0i1GkDQs56aWwRY?authuser=4#scrollTo=oWqeiw3pilBq
 ---
 
@@ -37,15 +37,39 @@ This, at first, is not enough data to begin predicting for energy generation and
 
 The rough and simplistic nature of these estimates are generally okay as the concern of this project is to determine how well machine learning algorithms predict values, and not the correctness and integrity of the values themselves. Nonetheless, issues still appeared because of this. When training and testing the Random Forest Regressor, a feature importance graph was used to determine which attributes are the most important. This can also give insights into how the variables are used by other models as well. When running on the old wind data, the graph indicated one variable was dominating the dataset.
 
-{{< embed 5-rf-old.ipynb#feature-importances-old-wind >}}
-
 {{< embed 5-rf-old.ipynb#feature-importance-graph-old-wind >}}
 
+{{< embed 5-rf-old.ipynb#feature-importances-old-wind >}}
 
+Out of all of the features, `capacity` was shown to have the highest importance. This makes sense as both calculations are made up of direct proportions that scale based on `capacity`. This then indicates that the issue is not Random Forest exclusive, as this bias is present in the dataset, and not in how the algorithm interprets the dataset. Changes had to be implemeneted to remove this bias, which included adding more features and using more in-depth calculations to derive the features to be predicted. These are covered in [The New Data](#the-new-data).
 
 ### Clustering
 
+The initial direction of this project was to look specifically into clustering techniques and cluster analysis. This process consists of grouping similar data into a specified number of clusters. When considering the geospatial data used for this project, clustering would be used to abstract coordinates in the form of longitude and latitude into a single value, a cluster ID. The cluster ID's would then represent the other features of the data point, allowing for predictions of other features to be made based off of a given cluster ID or coordinate location. The main two steps for performing the clustering is breifly outlined below:
+
+1. Determine the number of optimal clusters for the dataset.
+
+To do this, you just need to cluster the data with varying cluster numbers, score them, and graph the scores by the number of clusters and determine the point at which gains start to diminish.
+
+{{< embed 8-data-clustering.ipynb#fig-optimal-clusters >}}
+
+2. Cluster the data and plot the results
+
+With the optimal number of clusters (or any desired number), the data can be clustered, with each data point given a cluster ID.
+
+{{< embed 8-data-clustering.ipynb#clustered-data-preview >}}
+
+Now that clusters are generated, they can be plotted and visualized.
+
+{{< embed 8-data-clustering.ipynb#fig-clustered-data >}}
+
+This not only shows the shape and dimensions of the data, but it also gives insights into how many clusters are suitable for the task. The scale of the data makes the number of optimal clusters here a bit ambiguous. Although around 20 seems to be the best, 20 clusters does not seem to represent the nuances of how geospatial data like wind speed and solar raditation changes throughout the country. This seems to indicate that this approach is a bit unreliable in that regard and could introduce more bias into the data and models.
+
+Additionally, the clustering could also help increase the performance of the algorithms by lowering the number of input parameters. Simplifying the inputs allows the models to interpret the data easier, leading to better predictions. The issues described in [the structure and make-up section](#structure-and-make-up) further examplified this potential benefit. But for those same reasons, clustering ended up not being an ideal pathway forward. Not only would refactoring the data to remove the bias negate the benefits of clustering in the long run, but clustering also ends up become computationally expensive and tedious to implement and analyze given the nature of the data. For these reasons it was discarded as an aspect of the project.
+
 ## The New Data
+
+To overcome the issues outlined above, the datasets were both refactored heavily to remove the bias present. This fixed structural issues, but also allowed for in-depth analysis of mahcine learning models without the time and efficiency overheads that would be present if clustering remained a crucial piece of the project.
 
 ### Wind
 
