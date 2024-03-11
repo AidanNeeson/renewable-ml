@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-    <title>Aidan Neeson - CMPSC 610 Artifact - Data Showcase and Manipulation</title>
+    <title>Aidan Neeson - CMPSC 610 Artifact - Data Clustering</title>
     <style>
       code{white-space: pre-wrap;}
       span.smallcaps{font-variant: small-caps;}
@@ -197,9 +197,9 @@
     <div id="quarto-embed-header" class="headroom fixed-top bg-primary">
       
       <a onclick="window.quartoBackToArticle(); return false;" class="btn btn-primary quarto-back-link"><i class="bi bi-caret-left"></i> Back to Article</a>
-      <h6><i class="bi bi-journal-code"></i> Data Showcase and Manipulation</h6>
+      <h6><i class="bi bi-journal-code"></i> Data Clustering</h6>
 
-            <a href="./1-data-manipulation.ipynb" class="btn btn-primary quarto-download-embed" download="1-data-manipulation.ipynb">Download Notebook</a>
+            <a href="./8-data-clustering.ipynb" class="btn btn-primary quarto-download-embed" download="8-data-clustering.ipynb">Download Notebook</a>
           </div>
 
      <div id="quarto-search-results"></div>
@@ -226,20 +226,16 @@
 <span class="menu-text">Data</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./3-rf.html"> 
+    <a class="nav-link" href="./2-rf.html"> 
 <span class="menu-text">Random Forest</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./4-svm.html"> 
+    <a class="nav-link" href="./3-svm.html"> 
 <span class="menu-text">SVM</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./5-ann.html"> 
+    <a class="nav-link" href="./4-ann.html"> 
 <span class="menu-text">ANN</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="./about.html"> 
-<span class="menu-text">About</span></a>
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
@@ -252,7 +248,13 @@
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#data-clustering-example" id="toc-data-clustering-example" class="nav-link active" data-scroll-target="#data-clustering-example">Data Clustering Example</a></li>
+  </ul>
+</nav>
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
@@ -261,7 +263,7 @@
 <!-- main -->
 <main class="content" id="quarto-document-content">      <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Data Showcase and Manipulation</h1>
+<h1 class="title">Data Clustering</h1>
 </div>
 
 
@@ -275,386 +277,51 @@
   
 
 
-</header>   <div class="cell-container"><div class="cell-decorator"><pre>In [2]:</pre></div><div id="cell-1" class="cell" data-execution_count="2">
+</header>     <div id="cell-1" class="cell markdown">
+<section id="data-clustering-example" class="level1">
+<h1>Data Clustering Example</h1>
+</section>
+</div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [1]:</pre></div><div id="cell-2" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.cluster <span class="im">import</span> KMeans</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [3]:</pre></div><div id="cell-wind-raw-dataset-preview" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>wind_df <span class="op">=</span> pd.read_csv(<span class="st">'../data/wind.csv'</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>solar_df <span class="op">=</span> pd.read_csv(<span class="st">'../data/solar.csv'</span>)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>wind_df.head(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="wind-raw-dataset-preview" class="cell-output cell-output-display" data-execution_count="3">
-<div>
-
-
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">id</th>
-<th data-quarto-table-cell-role="th">lat</th>
-<th data-quarto-table-cell-role="th">long</th>
-<th data-quarto-table-cell-role="th">wind_speed</th>
-<th data-quarto-table-cell-role="th">farm_type</th>
-<th data-quarto-table-cell-role="th">capacity</th>
-<th data-quarto-table-cell-role="th">capacity_factor</th>
-<th data-quarto-table-cell-role="th">power_generation</th>
-<th data-quarto-table-cell-role="th">estimated_cost</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">0</td>
-<td>0</td>
-<td>23.510410</td>
-<td>-117.147260</td>
-<td>6.07</td>
-<td>offshore</td>
-<td>16</td>
-<td>0.169</td>
-<td>23687.04</td>
-<td>20800000</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">1</td>
-<td>1</td>
-<td>24.007446</td>
-<td>-93.946777</td>
-<td>7.43</td>
-<td>offshore</td>
-<td>16</td>
-<td>0.302</td>
-<td>42328.32</td>
-<td>20800000</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2</td>
-<td>2</td>
-<td>25.069138</td>
-<td>-97.482483</td>
-<td>8.19</td>
-<td>offshore</td>
-<td>16</td>
-<td>0.375</td>
-<td>52560.00</td>
-<td>20800000</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">3</td>
-<td>3</td>
-<td>25.069443</td>
-<td>-97.463135</td>
-<td>8.19</td>
-<td>offshore</td>
-<td>16</td>
-<td>0.375</td>
-<td>52560.00</td>
-<td>20800000</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">4</td>
-<td>4</td>
-<td>25.069763</td>
-<td>-97.443756</td>
-<td>8.19</td>
-<td>offshore</td>
-<td>16</td>
-<td>0.376</td>
-<td>52700.16</td>
-<td>20800000</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">5</td>
-<td>5</td>
-<td>25.070091</td>
-<td>-97.424377</td>
-<td>8.19</td>
-<td>offshore</td>
-<td>16</td>
-<td>0.375</td>
-<td>52560.00</td>
-<td>20800000</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">6</td>
-<td>6</td>
-<td>25.070404</td>
-<td>-97.404999</td>
-<td>8.19</td>
-<td>offshore</td>
-<td>16</td>
-<td>0.375</td>
-<td>52560.00</td>
-<td>20800000</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">7</td>
-<td>7</td>
-<td>25.086678</td>
-<td>-97.482849</td>
-<td>8.18</td>
-<td>offshore</td>
-<td>16</td>
-<td>0.375</td>
-<td>52560.00</td>
-<td>20800000</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">8</td>
-<td>8</td>
-<td>25.087006</td>
-<td>-97.463470</td>
-<td>8.19</td>
-<td>offshore</td>
-<td>16</td>
-<td>0.376</td>
-<td>52700.16</td>
-<td>20800000</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">9</td>
-<td>9</td>
-<td>25.087318</td>
-<td>-97.444092</td>
-<td>8.19</td>
-<td>offshore</td>
-<td>16</td>
-<td>0.376</td>
-<td>52700.16</td>
-<td>20800000</td>
-</tr>
-</tbody>
-</table>
-
-</div>
-</div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [2]:</pre></div><div id="cell-3" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">'../data/wind_old.csv'</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> df.loc[:, df.columns[<span class="dv">1</span>:<span class="dv">3</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [6]:</pre></div><div id="cell-solar-raw-dataset-preview" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>solar_df.head(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="solar-raw-dataset-preview" class="cell-output cell-output-display" data-execution_count="6">
-<div>
-
-
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">id</th>
-<th data-quarto-table-cell-role="th">lat</th>
-<th data-quarto-table-cell-role="th">long</th>
-<th data-quarto-table-cell-role="th">irradiance</th>
-<th data-quarto-table-cell-role="th">farm_type</th>
-<th data-quarto-table-cell-role="th">capacity</th>
-<th data-quarto-table-cell-role="th">capacity_factor</th>
-<th data-quarto-table-cell-role="th">power_generation</th>
-<th data-quarto-table-cell-role="th">estimated_cost</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">0</td>
-<td>0</td>
-<td>25.896492</td>
-<td>-97.460358</td>
-<td>5.634079</td>
-<td>large_community</td>
-<td>5.000</td>
-<td>0.235</td>
-<td>1.028219e+04</td>
-<td>13300000</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">1</td>
-<td>1</td>
-<td>26.032654</td>
-<td>-97.738098</td>
-<td>5.616413</td>
-<td>small_utility</td>
-<td>5.000</td>
-<td>0.234</td>
-<td>1.024995e+04</td>
-<td>13300000</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2</td>
-<td>2</td>
-<td>26.059063</td>
-<td>-97.208252</td>
-<td>5.746738</td>
-<td>small_community</td>
-<td>0.150</td>
-<td>0.239</td>
-<td>3.146339e+02</td>
-<td>399000</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">3</td>
-<td>3</td>
-<td>26.078449</td>
-<td>-98.073364</td>
-<td>5.742196</td>
-<td>small_utility</td>
-<td>5.000</td>
-<td>0.239</td>
-<td>1.047951e+04</td>
-<td>13300000</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">4</td>
-<td>4</td>
-<td>26.143227</td>
-<td>-98.311340</td>
-<td>5.817187</td>
-<td>small_utility</td>
-<td>5.000</td>
-<td>0.242</td>
-<td>1.061637e+04</td>
-<td>13300000</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">5</td>
-<td>5</td>
-<td>26.149040</td>
-<td>-98.075409</td>
-<td>5.701752</td>
-<td>large_community</td>
-<td>5.000</td>
-<td>0.238</td>
-<td>1.040570e+04</td>
-<td>13300000</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">6</td>
-<td>6</td>
-<td>26.180355</td>
-<td>-97.367737</td>
-<td>5.720004</td>
-<td>medium_utility</td>
-<td>500.000</td>
-<td>0.238</td>
-<td>1.043901e+06</td>
-<td>1330000000</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">7</td>
-<td>7</td>
-<td>26.254963</td>
-<td>-98.078491</td>
-<td>5.730308</td>
-<td>small_residential</td>
-<td>0.005</td>
-<td>0.239</td>
-<td>1.045781e+01</td>
-<td>13300</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">8</td>
-<td>8</td>
-<td>26.272160</td>
-<td>-98.098694</td>
-<td>5.734213</td>
-<td>large_utility</td>
-<td>2000.000</td>
-<td>0.239</td>
-<td>4.185975e+06</td>
-<td>5320000000</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">9</td>
-<td>9</td>
-<td>26.272625</td>
-<td>-98.078979</td>
-<td>5.755140</td>
-<td>small_community</td>
-<td>0.150</td>
-<td>0.240</td>
-<td>3.150939e+02</td>
-<td>399000</td>
-</tr>
-</tbody>
-</table>
-
-</div>
-</div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [3]:</pre></div><div id="cell-4" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>Y_axis <span class="op">=</span> X[[<span class="st">'lat'</span>]]</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>X_axis <span class="op">=</span> X[[<span class="st">'long'</span>]]</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>K_clusters <span class="op">=</span> <span class="bu">range</span>(<span class="dv">1</span>,<span class="dv">100</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>kmeans <span class="op">=</span> [KMeans(n_clusters<span class="op">=</span>i, n_init<span class="op">=</span><span class="st">'auto'</span>) <span class="cf">for</span> i <span class="kw">in</span> K_clusters]</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>score <span class="op">=</span> [kmeans[i].fit(Y_axis).score(Y_axis) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(kmeans))]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [4]:</pre></div><div id="cell-4" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>wind_X <span class="op">=</span> wind_df.loc[:, wind_df.columns[<span class="dv">1</span>:<span class="dv">3</span>]]</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>solar_X <span class="op">=</span> solar_df.loc[:, solar_df.columns[<span class="dv">1</span>:<span class="dv">3</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div></div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [8]:</pre></div><div id="cell-5" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>K_clusters <span class="op">=</span> <span class="bu">range</span>(<span class="dv">1</span>,<span class="dv">100</span>)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>wind_kmeans <span class="op">=</span> [KMeans(n_clusters<span class="op">=</span>i, n_init<span class="op">=</span><span class="st">'auto'</span>) <span class="cf">for</span> i <span class="kw">in</span> K_clusters]</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>wind_Y_axis <span class="op">=</span> wind_X[[<span class="st">'lat'</span>]]</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>wind_X_axis <span class="op">=</span> wind_X[[<span class="st">'long'</span>]]</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>solar_kmeans <span class="op">=</span> [KMeans(n_clusters<span class="op">=</span>i, n_init<span class="op">=</span><span class="st">'auto'</span>) <span class="cf">for</span> i <span class="kw">in</span> K_clusters]</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>solar_Y_axis <span class="op">=</span> solar_X[[<span class="st">'lat'</span>]]</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>solar_X_axis <span class="op">=</span> solar_X[[<span class="st">'long'</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div></div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [9]:</pre></div><div id="cell-6" class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>wind_score <span class="op">=</span> [wind_kmeans[i].fit(wind_Y_axis).score(wind_Y_axis) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(wind_kmeans))]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div></div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [10]:</pre></div><div id="cell-7" class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>solar_score <span class="op">=</span> [solar_kmeans[i].fit(solar_Y_axis).score(solar_Y_axis) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(solar_kmeans))]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div></div>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>plt.plot(K_clusters, wind_score)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Number of Clusters'</span>)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Score'</span>)</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Wind Elbow Curve'</span>)</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>plt.plot(K_clusters, solar_score)</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Number of Clusters'</span>)</span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Score'</span>)</span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Solar Elbow Curve'</span>)</span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="fig-optimal-clusters" class="quarto-layout-panel">
+<div class="cell-container"><div class="cell-decorator"><pre>In [4]:</pre></div><div id="cell-fig-optimal-clusters" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>plt.plot(K_clusters, score)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Number of Clusters'</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Score'</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Elbow Curve'</span>)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div id="fig-optimal-clusters" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-optimal-clusters-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="quarto-layout-row">
-<div class="cell-output cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-optimal-clusters" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div id="fig-optimal-clusters-1" class="quarto-figure quarto-figure-center quarto-float anchored">
-<figure class="quarto-float quarto-subfloat-fig figure">
-<div aria-describedby="fig-optimal-clusters-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="1-data-manipulation_files/figure-html/fig-optimal-clusters-output-1.png" id="fig-optimal-clusters-1" class="img-fluid figure-img" data-ref-parent="fig-optimal-clusters">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-optimal-clusters-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-(a)
-</figcaption>
-</figure>
-</div>
-</div>
-<div class="cell-output cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-optimal-clusters" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div id="fig-optimal-clusters-2" class="quarto-figure quarto-figure-center quarto-float anchored">
-<figure class="quarto-float quarto-subfloat-fig figure">
-<div aria-describedby="fig-optimal-clusters-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="1-data-manipulation_files/figure-html/fig-optimal-clusters-output-2.png" id="fig-optimal-clusters-2" class="img-fluid figure-img" data-ref-parent="fig-optimal-clusters">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-optimal-clusters-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-(b)
-</figcaption>
-</figure>
-</div>
-</div>
-</div>
+<div aria-describedby="fig-optimal-clusters-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="">
+<img src="8-data-clustering_files/figure-html/fig-optimal-clusters-output-1.png" id="fig-optimal-clusters" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-optimal-clusters-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;1
 </figcaption>
 </figure>
 </div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [5]:</pre></div><div id="cell-clustered-model" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>wind_n_clusters <span class="op">=</span> <span class="dv">20</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>wind_kmeans <span class="op">=</span> KMeans(wind_n_clusters, init<span class="op">=</span><span class="st">'k-means++'</span>, n_init<span class="op">=</span><span class="st">'auto'</span>)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>wind_kmeans.fit(wind_X[wind_X.columns[<span class="dv">0</span>:<span class="dv">2</span>]])</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>solar_n_clusters <span class="op">=</span> <span class="dv">20</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>solar_kmeans <span class="op">=</span> KMeans(solar_n_clusters, init<span class="op">=</span><span class="st">'k-means++'</span>, n_init<span class="op">=</span><span class="st">'auto'</span>)</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>solar_kmeans.fit(solar_X[solar_X.columns[<span class="dv">0</span>:<span class="dv">2</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="clustered-model" class="cell-output cell-output-display" data-execution_count="5">
+</div>
+</div></div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [5]:</pre></div><div id="cell-6" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>n_clusters <span class="op">=</span> <span class="dv">20</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>kmeans <span class="op">=</span> KMeans(n_clusters, init<span class="op">=</span><span class="st">'k-means++'</span>, n_init<span class="op">=</span><span class="st">'auto'</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>kmeans.fit(X[X.columns[<span class="dv">0</span>:<span class="dv">2</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="5">
 <style>#sk-container-id-1 {
   /* Definition of color scheme common for light and dark mode */
   --sklearn-color-text: black;
@@ -1062,10 +729,10 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 </a></style><div id="sk-container-id-1" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>KMeans(n_clusters=20)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br>On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden=""><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-1" type="checkbox" checked=""><label for="sk-estimator-id-1" class="sk-toggleable__label fitted sk-toggleable__label-arrow">&nbsp;&nbsp;KMeans<a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.4/modules/generated/sklearn.cluster.KMeans.html">?<span>Documentation for KMeans</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></label><div class="sk-toggleable__content fitted"><pre>KMeans(n_clusters=20)</pre></div> </div></div></div></div>
 </div>
 </div></div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [6]:</pre></div><div id="cell-wind-clustered-data-preview" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>wind_X[<span class="st">'cluster_label'</span>] <span class="op">=</span> wind_kmeans.fit_predict(wind_X[wind_X.columns[<span class="dv">0</span>:<span class="dv">2</span>]])</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>wind_X.head(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="wind-clustered-data-preview" class="cell-output cell-output-display" data-execution_count="6">
+<div class="cell-container"><div class="cell-decorator"><pre>In [6]:</pre></div><div id="cell-clustered-data-preview" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>X[<span class="st">'cluster_label'</span>] <span class="op">=</span> kmeans.fit_predict(X[X.columns[<span class="dv">0</span>:<span class="dv">2</span>]])</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>X.head(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="clustered-data-preview" class="cell-output cell-output-display" data-execution_count="6">
 <div>
 
 
@@ -1083,61 +750,31 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 <td data-quarto-table-cell-role="th">0</td>
 <td>23.510410</td>
 <td>-117.147260</td>
-<td>16</td>
+<td>7</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">1</td>
 <td>24.007446</td>
 <td>-93.946777</td>
-<td>8</td>
+<td>6</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">2</td>
 <td>25.069138</td>
 <td>-97.482483</td>
-<td>9</td>
+<td>6</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">3</td>
 <td>25.069443</td>
 <td>-97.463135</td>
-<td>9</td>
+<td>6</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">4</td>
 <td>25.069763</td>
 <td>-97.443756</td>
-<td>9</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">5</td>
-<td>25.070091</td>
-<td>-97.424377</td>
-<td>9</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">6</td>
-<td>25.070404</td>
-<td>-97.404999</td>
-<td>9</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">7</td>
-<td>25.086678</td>
-<td>-97.482849</td>
-<td>9</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">8</td>
-<td>25.087006</td>
-<td>-97.463470</td>
-<td>9</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">9</td>
-<td>25.087318</td>
-<td>-97.444092</td>
-<td>9</td>
+<td>6</td>
 </tr>
 </tbody>
 </table>
@@ -1145,152 +782,24 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 </div>
 </div>
 </div></div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [7]:</pre></div><div id="cell-solar-clustered-data-preview" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>solar_X[<span class="st">'cluster_label'</span>] <span class="op">=</span> solar_kmeans.fit_predict(solar_X[solar_X.columns[<span class="dv">0</span>:<span class="dv">2</span>]])</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>solar_X.head(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="solar-clustered-data-preview" class="cell-output cell-output-display" data-execution_count="7">
-<div>
-
-
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">lat</th>
-<th data-quarto-table-cell-role="th">long</th>
-<th data-quarto-table-cell-role="th">cluster_label</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">0</td>
-<td>25.896492</td>
-<td>-97.460358</td>
-<td>19</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">1</td>
-<td>26.032654</td>
-<td>-97.738098</td>
-<td>19</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2</td>
-<td>26.059063</td>
-<td>-97.208252</td>
-<td>19</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">3</td>
-<td>26.078449</td>
-<td>-98.073364</td>
-<td>19</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">4</td>
-<td>26.143227</td>
-<td>-98.311340</td>
-<td>19</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">5</td>
-<td>26.149040</td>
-<td>-98.075409</td>
-<td>19</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">6</td>
-<td>26.180355</td>
-<td>-97.367737</td>
-<td>19</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">7</td>
-<td>26.254963</td>
-<td>-98.078491</td>
-<td>19</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">8</td>
-<td>26.272160</td>
-<td>-98.098694</td>
-<td>19</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">9</td>
-<td>26.272625</td>
-<td>-98.078979</td>
-<td>19</td>
-</tr>
-</tbody>
-</table>
-
-</div>
-</div>
-</div></div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [8]:</pre></div><div id="cell-12" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>wind_centers <span class="op">=</span> wind_kmeans.cluster_centers_</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>wind_labels <span class="op">=</span> wind_kmeans.predict(wind_X[wind_X.columns[<span class="dv">0</span>:<span class="dv">2</span>]])</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>solar_centers <span class="op">=</span> solar_kmeans.cluster_centers_</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>solar_labels <span class="op">=</span> solar_kmeans.predict(solar_X[solar_X.columns[<span class="dv">0</span>:<span class="dv">2</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div></div>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>wind_X.plot.scatter(x <span class="op">=</span> <span class="st">'long'</span>, y <span class="op">=</span> <span class="st">'lat'</span>, c<span class="op">=</span>wind_labels, s<span class="op">=</span><span class="dv">50</span>, cmap<span class="op">=</span><span class="st">'viridis'</span>)</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>plt.scatter(wind_centers[:, <span class="dv">1</span>], wind_centers[:, <span class="dv">0</span>], c<span class="op">=</span><span class="st">'black'</span>, s<span class="op">=</span><span class="dv">200</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Wind"</span>)</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>solar_X.plot.scatter(x <span class="op">=</span> <span class="st">'long'</span>, y <span class="op">=</span> <span class="st">'lat'</span>, c<span class="op">=</span>solar_labels, s<span class="op">=</span><span class="dv">50</span>, cmap<span class="op">=</span><span class="st">'viridis'</span>)</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>plt.scatter(solar_centers[:, <span class="dv">1</span>], solar_centers[:, <span class="dv">0</span>], c<span class="op">=</span><span class="st">'black'</span>, s<span class="op">=</span><span class="dv">200</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Solar"</span>)</span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="fig-clustered-data" class="quarto-layout-panel">
+<div class="cell-container"><div class="cell-decorator"><pre>In [7]:</pre></div><div id="cell-fig-clustered-data" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>centers <span class="op">=</span> kmeans.cluster_centers_</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> kmeans.predict(X[X.columns[<span class="dv">0</span>:<span class="dv">2</span>]])</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>X.plot.scatter(x <span class="op">=</span> <span class="st">'long'</span>, y <span class="op">=</span> <span class="st">'lat'</span>, c<span class="op">=</span>labels, s<span class="op">=</span><span class="dv">50</span>, cmap<span class="op">=</span><span class="st">'viridis'</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>plt.scatter(centers[:, <span class="dv">1</span>], centers[:, <span class="dv">0</span>], c<span class="op">=</span><span class="st">'black'</span>, s<span class="op">=</span><span class="dv">200</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div id="fig-clustered-data" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-clustered-data-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="quarto-layout-row">
-<div class="cell-output cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-clustered-data" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div id="fig-clustered-data-1" class="quarto-figure quarto-figure-center quarto-float anchored">
-<figure class="quarto-float quarto-subfloat-fig figure">
-<div aria-describedby="fig-clustered-data-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="1-data-manipulation_files/figure-html/fig-clustered-data-output-1.png" id="fig-clustered-data-1" class="img-fluid figure-img" data-ref-parent="fig-clustered-data">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-clustered-data-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-(a)
-</figcaption>
-</figure>
-</div>
-</div>
-<div class="cell-output cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-clustered-data" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div id="fig-clustered-data-2" class="quarto-figure quarto-figure-center quarto-float anchored">
-<figure class="quarto-float quarto-subfloat-fig figure">
-<div aria-describedby="fig-clustered-data-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="1-data-manipulation_files/figure-html/fig-clustered-data-output-2.png" id="fig-clustered-data-2" class="img-fluid figure-img" data-ref-parent="fig-clustered-data">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-clustered-data-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-(b)
-</figcaption>
-</figure>
-</div>
-</div>
-</div>
+<div aria-describedby="fig-clustered-data-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="">
+<img src="8-data-clustering_files/figure-html/fig-clustered-data-output-1.png" id="fig-clustered-data" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-clustered-data-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;2
 </figcaption>
 </figure>
 </div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [22]:</pre></div><div id="cell-14" class="cell" data-execution_count="22">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>wind_df.drop(<span class="st">'lat'</span>, axis<span class="op">=</span><span class="dv">1</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>solar_df.drop(<span class="st">'lat'</span>, axis<span class="op">=</span><span class="dv">1</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>wind_df.<span class="bu">long</span> <span class="op">=</span> wind_X.cluster_label</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>solar_df.<span class="bu">long</span> <span class="op">=</span> solar_X.cluster_label</span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>wind_df.rename(columns<span class="op">=</span>{<span class="st">"long"</span>:<span class="st">"cluster_id"</span>}, inplace<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>solar_df.rename(columns<span class="op">=</span>{<span class="st">"long"</span>:<span class="st">"cluster_id"</span>}, inplace<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>wind_df.to_csv(<span class="st">'../data/wind_clustered.csv'</span>, index<span class="op">=</span><span class="va">None</span>, header<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>solar_df.to_csv(<span class="st">'../data/solar_clustered.csv'</span>, index<span class="op">=</span><span class="va">None</span>, header<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </div></div>
 
 

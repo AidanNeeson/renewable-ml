@@ -9,11 +9,11 @@ website:
         text: Home
       - href: data.qmd
         text: Data
-      - href: 3-rf.ipynb
+      - href: 2-rf.ipynb
         text: Random Forest
-      - href: 4-svm.ipynb
+      - href: 3-svm.ipynb
         text: SVM
-      - href: 5-ann.ipynb
+      - href: 4-ann.ipynb
         text: ANN
 
 format:

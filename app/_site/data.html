@@ -20,40 +20,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
@@ -104,6 +70,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -134,20 +129,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="menu-text">Data</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./3-rf.html"> 
+    <a class="nav-link" href="./2-rf.html"> 
 <span class="menu-text">Random Forest</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./4-svm.html"> 
+    <a class="nav-link" href="./3-svm.html"> 
 <span class="menu-text">SVM</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./5-ann.html"> 
+    <a class="nav-link" href="./4-ann.html"> 
 <span class="menu-text">ANN</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="./about.html"> 
-<span class="menu-text">About</span></a>
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
@@ -165,21 +156,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#data-approaches" id="toc-data-approaches" class="nav-link active" data-scroll-target="#data-approaches">Data Approaches</a>
+  <li><a href="#approaches" id="toc-approaches" class="nav-link active" data-scroll-target="#approaches">Approaches</a>
   <ul class="collapse">
-  <li><a href="#raw-data" id="toc-raw-data" class="nav-link" data-scroll-target="#raw-data">Raw Data</a>
+  <li><a href="#the-old-data" id="toc-the-old-data" class="nav-link" data-scroll-target="#the-old-data">The Old Data</a>
+  <ul class="collapse">
+  <li><a href="#structure-and-make-up" id="toc-structure-and-make-up" class="nav-link" data-scroll-target="#structure-and-make-up">Structure and Make-up</a></li>
+  <li><a href="#clustering" id="toc-clustering" class="nav-link" data-scroll-target="#clustering">Clustering</a></li>
+  </ul></li>
+  <li><a href="#the-new-data" id="toc-the-new-data" class="nav-link" data-scroll-target="#the-new-data">The New Data</a>
   <ul class="collapse">
   <li><a href="#wind" id="toc-wind" class="nav-link" data-scroll-target="#wind">Wind</a></li>
   <li><a href="#solar" id="toc-solar" class="nav-link" data-scroll-target="#solar">Solar</a></li>
   </ul></li>
-  <li><a href="#clustered-data" id="toc-clustered-data" class="nav-link" data-scroll-target="#clustered-data">Clustered Data</a>
-  <ul class="collapse">
-  <li><a href="#finding-the-optimal-number-of-clusters" id="toc-finding-the-optimal-number-of-clusters" class="nav-link" data-scroll-target="#finding-the-optimal-number-of-clusters">Finding the Optimal Number of Clusters</a></li>
-  <li><a href="#clustering" id="toc-clustering" class="nav-link" data-scroll-target="#clustering">Clustering</a></li>
-  </ul></li>
   </ul></li>
   </ul>
-<div class="quarto-alternate-notebooks"><h2>Notebooks</h2><ul><li><a href="1-data-manipulation-preview.html"><i class="bi bi-journal-code"></i>Data Showcase and Manipulation</a></li></ul></div></nav>
+<div class="quarto-alternate-notebooks"><h2>Notebooks</h2><ul><li><a href="1-datasets-preview.html"><i class="bi bi-journal-code"></i>Data Preview</a></li><li><a href="5-rf-old-preview.html"><i class="bi bi-journal-code"></i>Old Random Forest Model</a></li><li><a href="8-data-clustering-preview.html"><i class="bi bi-journal-code"></i>Data Clustering</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -203,30 +194,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="data-approaches" class="level1">
-<h1>Data Approaches</h1>
-<p>For this research project, the data is entirely geospatial. More specifically, it is all defined by coordinates in the form of latitude and longitude pairs. All of the machine learning algorithms used are able to handle the data in this form, however, some algorithms would prefer the location encoded as a single value, leading to less input parameters. To give each algorithm the opportunity to perform its best, the data was used in two ways:</p>
-<ol type="1">
-<li>Raw
+<section id="approaches" class="level1">
+<h1>Approaches</h1>
+<p>Data are a crucial piece of this research project. As such, much of the effort and consideration went into selecting, crafting, and refactoring the datasets to suit the need as best as possible. Throughout this process, many things were tried and tossed away. These include the form of the data, and even methods for processing the data to make it easier for certain machine learning models to use them. In the end, an effective appraoch was discovered. Each of these snapshots will be covered below.</p>
+<section id="the-old-data" class="level2">
+<h2 class="anchored" data-anchor-id="the-old-data">The Old Data</h2>
+<p>Both the <a href="https://data.nrel.gov/submissions/54">wind</a> and <a href="https://nsrdb.nrel.gov/">solar</a> data used in this project orginally come from The National Renewable Energy Laboratory (NREL). The data comes with many attributes that are crucial to the analysis this project seeks to conduct, however, there are still pieces missing to truly acheive the full picture. Regardless, compared to other publically available datasets, these were the best suited for the job, and offered a good starting point.</p>
+<section id="structure-and-make-up" class="level3">
+<h3 class="anchored" data-anchor-id="structure-and-make-up">Structure and Make-up</h3>
+<p>The original datasets came with some basic attributes:</p>
 <ul>
-<li>The raw data was taken from the CSV file, preprocessed, and passed into the models for training.</li>
-</ul></li>
-<li>Clustered
-<ul>
-<li>The raw data was first clustered, encoding the longitude and latitude pairs into a single cluster ID. This new data set was then preprocessed and passed into the models for training.</li>
-</ul></li>
-</ol>
-<p>Below, all of the data sets, raw and clustered, are outlined. Their origins are linked, their form is shown, and the tranformations made to create the datasets are showcased.</p>
-<section id="raw-data" class="level2">
-<h2 class="anchored" data-anchor-id="raw-data">Raw Data</h2>
-<section id="wind" class="level3">
-<h3 class="anchored" data-anchor-id="wind">Wind</h3>
-<p>Data originally comes from <a href="https://data.nrel.gov/submissions/54">NREL’s WIND Toolkit Power Data Site Index.</a></p>
-<p>Data used for training and testing is located in <a href="https://drive.google.com/file/d/1nXTvuvTOhB4v5SY9LxBlRAjIigRQtXXM/view">this drive.</a></p>
-<p>The raw data has the following form:</p>
+<li>longitude</li>
+<li>latitude</li>
+<li>wind speed</li>
+<li>solar irradiance</li>
+<li>capacity</li>
+<li>capacity factor</li>
+</ul>
+<p>This, at first, is not enough data to begin predicting for energy generation and cost. For this, actual data on energy generation and cost is needed. With what was provided, these could be calculated. To start, a few simple calculations were used to find the energy and cost values desired. The attribute <code>capacity</code> denotes how much energy a certain technology can produce under ideal conditions. <code>Capacity factor</code> denotes what fraction of the technology’s <code>capacity</code> is produced. With this, a simple estimate for energy generation can be calculated by multiplying both values together. For cost, many estimates exist that outline how much a technology costs per watt of installed capacity. Using these estimates, and multiplying by capacity, a value for cost can be aquired. This produced two datasets that took this shape:</p>
+<section id="old-wind-data" class="level4">
+<h4 class="anchored" data-anchor-id="old-wind-data">Old Wind Data</h4>
 <div class="quarto-embed-nb-cell">
-<div id="cell-wind-raw-dataset-preview" class="cell" data-execution_count="3">
-<div id="wind-raw-dataset-preview" class="cell-output cell-output-display" data-execution_count="3">
+<div id="cell-wind-old-dataset-preview" class="cell" data-execution_count="4">
+<div id="wind-old-dataset-preview" class="cell-output cell-output-display" data-execution_count="4">
 <div>
 
 
@@ -306,82 +296,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>52700.16</td>
 <td>20800000</td>
 </tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">5</td>
-<td>5</td>
-<td>25.070091</td>
-<td>-97.424377</td>
-<td>8.19</td>
-<td>offshore</td>
-<td>16</td>
-<td>0.375</td>
-<td>52560.00</td>
-<td>20800000</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">6</td>
-<td>6</td>
-<td>25.070404</td>
-<td>-97.404999</td>
-<td>8.19</td>
-<td>offshore</td>
-<td>16</td>
-<td>0.375</td>
-<td>52560.00</td>
-<td>20800000</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">7</td>
-<td>7</td>
-<td>25.086678</td>
-<td>-97.482849</td>
-<td>8.18</td>
-<td>offshore</td>
-<td>16</td>
-<td>0.375</td>
-<td>52560.00</td>
-<td>20800000</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">8</td>
-<td>8</td>
-<td>25.087006</td>
-<td>-97.463470</td>
-<td>8.19</td>
-<td>offshore</td>
-<td>16</td>
-<td>0.376</td>
-<td>52700.16</td>
-<td>20800000</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">9</td>
-<td>9</td>
-<td>25.087318</td>
-<td>-97.444092</td>
-<td>8.19</td>
-<td>offshore</td>
-<td>16</td>
-<td>0.376</td>
-<td>52700.16</td>
-<td>20800000</td>
-</tr>
 </tbody>
 </table>
 
 </div>
 </div>
 </div>
-<a class="quarto-notebook-link" id="nblink-1" href="1-data-manipulation-preview.html#cell-wind-raw-dataset-preview">Source: Data Showcase and Manipulation</a></div>
+<a class="quarto-notebook-link" id="nblink-1" href="1-datasets-preview.html#cell-wind-old-dataset-preview">Source: Data Preview</a></div>
 </section>
-<section id="solar" class="level3">
-<h3 class="anchored" data-anchor-id="solar">Solar</h3>
-<p>Data originally comes from <a href="https://nsrdb.nrel.gov/">NREL’s National Solar Radiation Database.</a></p>
-<p>Data used for training and testing is located in <a href="https://drive.google.com/file/d/1mfjhqBOprS6HEkCe3Sudl770v1NTVkM3/view">this drive.</a></p>
-<p>The raw data has the following form:</p>
+<section id="old-solar-data" class="level4">
+<h4 class="anchored" data-anchor-id="old-solar-data">Old Solar Data</h4>
 <div class="quarto-embed-nb-cell">
-<div id="cell-solar-raw-dataset-preview" class="cell" data-execution_count="6">
-<div id="solar-raw-dataset-preview" class="cell-output cell-output-display" data-execution_count="6">
+<div id="cell-solar-old-dataset-preview" class="cell" data-execution_count="5">
+<div id="solar-old-dataset-preview" class="cell-output cell-output-display" data-execution_count="5">
 <div>
 
 
@@ -408,9 +335,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>-97.460358</td>
 <td>5.634079</td>
 <td>large_community</td>
-<td>5.000</td>
+<td>5.00</td>
 <td>0.235</td>
-<td>1.028219e+04</td>
+<td>10282.193270</td>
 <td>13300000</td>
 </tr>
 <tr class="even">
@@ -420,9 +347,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>-97.738098</td>
 <td>5.616413</td>
 <td>small_utility</td>
-<td>5.000</td>
+<td>5.00</td>
 <td>0.234</td>
-<td>1.024995e+04</td>
+<td>10249.953070</td>
 <td>13300000</td>
 </tr>
 <tr class="odd">
@@ -432,9 +359,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>-97.208252</td>
 <td>5.746738</td>
 <td>small_community</td>
-<td>0.150</td>
+<td>0.15</td>
 <td>0.239</td>
-<td>3.146339e+02</td>
+<td>314.633929</td>
 <td>399000</td>
 </tr>
 <tr class="even">
@@ -444,9 +371,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>-98.073364</td>
 <td>5.742196</td>
 <td>small_utility</td>
-<td>5.000</td>
+<td>5.00</td>
 <td>0.239</td>
-<td>1.047951e+04</td>
+<td>10479.506980</td>
 <td>13300000</td>
 </tr>
 <tr class="odd">
@@ -456,70 +383,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>-98.311340</td>
 <td>5.817187</td>
 <td>small_utility</td>
-<td>5.000</td>
+<td>5.00</td>
 <td>0.242</td>
-<td>1.061637e+04</td>
+<td>10616.365970</td>
 <td>13300000</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">5</td>
-<td>5</td>
-<td>26.149040</td>
-<td>-98.075409</td>
-<td>5.701752</td>
-<td>large_community</td>
-<td>5.000</td>
-<td>0.238</td>
-<td>1.040570e+04</td>
-<td>13300000</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">6</td>
-<td>6</td>
-<td>26.180355</td>
-<td>-97.367737</td>
-<td>5.720004</td>
-<td>medium_utility</td>
-<td>500.000</td>
-<td>0.238</td>
-<td>1.043901e+06</td>
-<td>1330000000</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">7</td>
-<td>7</td>
-<td>26.254963</td>
-<td>-98.078491</td>
-<td>5.730308</td>
-<td>small_residential</td>
-<td>0.005</td>
-<td>0.239</td>
-<td>1.045781e+01</td>
-<td>13300</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">8</td>
-<td>8</td>
-<td>26.272160</td>
-<td>-98.098694</td>
-<td>5.734213</td>
-<td>large_utility</td>
-<td>2000.000</td>
-<td>0.239</td>
-<td>4.185975e+06</td>
-<td>5320000000</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">9</td>
-<td>9</td>
-<td>26.272625</td>
-<td>-98.078979</td>
-<td>5.755140</td>
-<td>small_community</td>
-<td>0.150</td>
-<td>0.240</td>
-<td>3.150939e+02</td>
-<td>399000</td>
 </tr>
 </tbody>
 </table>
@@ -527,477 +394,70 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<a class="quarto-notebook-link" id="nblink-2" href="1-data-manipulation-preview.html#cell-solar-raw-dataset-preview">Source: Data Showcase and Manipulation</a></div>
-</section>
-</section>
-<section id="clustered-data" class="level2">
-<h2 class="anchored" data-anchor-id="clustered-data">Clustered Data</h2>
-<section id="finding-the-optimal-number-of-clusters" class="level3">
-<h3 class="anchored" data-anchor-id="finding-the-optimal-number-of-clusters">Finding the Optimal Number of Clusters</h3>
-<p>The more clusters, the more accurate a mapping will be. But this brings with it diminishing returns, so to reduce computation times, multiple clustering models can be scored to determine the point at where the benefits of more clusters tapers off. Below are plots that indicate the optimal number of clusters for both the wind data and solar data.</p>
+<a class="quarto-notebook-link" id="nblink-2" href="1-datasets-preview.html#cell-solar-old-dataset-preview">Source: Data Preview</a></div>
+<p>The rough and simplistic nature of these estimates are generally okay as the concern of this project is to determine how well machine learning algorithms predict values, and not the correctness and integrity of the values themselves. Nonetheless, issues still appeared because of this. When training and testing the Random Forest Regressor, a feature importance graph was used to determine which attributes are the most important. This can also give insights into how the variables are used by other models as well. When running on the old wind data, the graph indicated one variable was dominating the dataset.</p>
 <div class="quarto-embed-nb-cell">
-<div id="fig-optimal-clusters" class="quarto-layout-panel">
+<div id="cell-fig-feature-importances-old-wind" class="cell" data-execution_count="3">
+<div class="cell-output cell-output-display">
+<div id="fig-feature-importances-old-wind" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-optimal-clusters-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="quarto-layout-row">
-<div class="cell-output cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-optimal-clusters" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div id="fig-optimal-clusters-1" class="quarto-figure quarto-figure-center quarto-float anchored">
-<figure class="quarto-float quarto-subfloat-fig figure">
-<div aria-describedby="fig-optimal-clusters-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="data_files/figure-html/1-data-manipulation-fig-optimal-clusters-output-1.png" id="fig-optimal-clusters-1" class="img-fluid figure-img" data-ref-parent="fig-optimal-clusters">
+<div aria-describedby="fig-feature-importances-old-wind-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="data_files/figure-html/5-rf-old-fig-feature-importances-old-wind-output-1.png" id="fig-feature-importances-old-wind" class="img-fluid figure-img">
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-optimal-clusters-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-(a)
-</figcaption>
-</figure>
-</div>
-</div>
-<div class="cell-output cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-optimal-clusters" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div id="fig-optimal-clusters-2" class="quarto-figure quarto-figure-center quarto-float anchored">
-<figure class="quarto-float quarto-subfloat-fig figure">
-<div aria-describedby="fig-optimal-clusters-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="data_files/figure-html/1-data-manipulation-fig-optimal-clusters-output-2.png" id="fig-optimal-clusters-2" class="img-fluid figure-img" data-ref-parent="fig-optimal-clusters">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-optimal-clusters-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-(b)
-</figcaption>
-</figure>
-</div>
-</div>
-</div>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-optimal-clusters-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-feature-importances-old-wind-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;1
 </figcaption>
 </figure>
 </div>
-<a class="quarto-notebook-link" id="nblink-3" href="1-data-manipulation-preview.html#cell-fig-optimal-clusters">Source: Data Showcase and Manipulation</a></div>
+</div>
+</div>
+<a class="quarto-notebook-link" id="nblink-3" href="5-rf-old-preview.html#cell-fig-feature-importances-old-wind">Source: Old Random Forest Model</a></div>
+<div class="quarto-embed-nb-cell">
+<div id="feature-importances-old-wind" class="cell" data-execution_count="2">
+<div class="cell-output cell-output-stdout">
+<pre><code>Feature Importances
+----------------------------
+lat: 1.7415146179729832e-09
+long: 4.556724073707158e-09
+wind_speed: 2.5874951940190983e-08
+capacity_factor: 0.0005676720796435423
+capacity: 99.99943229574717</code></pre>
+</div>
+</div>
+<a class="quarto-notebook-link" id="nblink-4" href="5-rf-old-preview.html#cell-feature-importances-old-wind">Source: Old Random Forest Model</a></div>
+<p>Out of all of the features, <code>capacity</code> was shown to have the highest importance. This makes sense as both calculations are made up of direct proportions that scale based on <code>capacity</code>. This then indicates that the issue is not Random Forest exclusive, as this bias is present in the dataset, and not in how the algorithm interprets the dataset. Changes had to be implemeneted to remove this bias, which included adding more features and using more in-depth calculations to derive the features to be predicted. These are covered in <a href="#the-new-data">The New Data</a>.</p>
+</section>
 </section>
 <section id="clustering" class="level3">
 <h3 class="anchored" data-anchor-id="clustering">Clustering</h3>
-<p>Now with the optimal number of clusters, models can be fitting for both the wind data and solar data. For this research, <code>scikit-learn's</code> <code>kmeans</code> model was used.</p>
+<p>The initial direction of this project was to look specifically into clustering techniques and cluster analysis. This process consists of grouping similar data into a specified number of clusters. When considering the geospatial data used for this project, clustering would be used to abstract coordinates in the form of longitude and latitude into a single value, a cluster ID. The cluster ID’s would then represent the other features of the data point, allowing for predictions of other features to be made based off of a given cluster ID or coordinate location. The main two steps for performing the clustering is breifly outlined below:</p>
+<ol type="1">
+<li>Determine the number of optimal clusters for the dataset.</li>
+</ol>
+<p>To do this, you just need to cluster the data with varying cluster numbers, score them, and graph the scores by the number of clusters and determine the point at which gains start to diminish.</p>
 <div class="quarto-embed-nb-cell">
-<div id="cell-clustered-model" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>wind_n_clusters <span class="op">=</span> <span class="dv">20</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>wind_kmeans <span class="op">=</span> KMeans(wind_n_clusters, init<span class="op">=</span><span class="st">'k-means++'</span>, n_init<span class="op">=</span><span class="st">'auto'</span>)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>wind_kmeans.fit(wind_X[wind_X.columns[<span class="dv">0</span>:<span class="dv">2</span>]])</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>solar_n_clusters <span class="op">=</span> <span class="dv">20</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>solar_kmeans <span class="op">=</span> KMeans(solar_n_clusters, init<span class="op">=</span><span class="st">'k-means++'</span>, n_init<span class="op">=</span><span class="st">'auto'</span>)</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>solar_kmeans.fit(solar_X[solar_X.columns[<span class="dv">0</span>:<span class="dv">2</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="clustered-model" class="cell-output cell-output-display" data-execution_count="5">
-<style>#sk-container-id-1 {
-  /* Definition of color scheme common for light and dark mode */
-  --sklearn-color-text: black;
-  --sklearn-color-line: gray;
-  /* Definition of color scheme for unfitted estimators */
-  --sklearn-color-unfitted-level-0: #fff5e6;
-  --sklearn-color-unfitted-level-1: #f6e4d2;
-  --sklearn-color-unfitted-level-2: #ffe0b3;
-  --sklearn-color-unfitted-level-3: chocolate;
-  /* Definition of color scheme for fitted estimators */
-  --sklearn-color-fitted-level-0: #f0f8ff;
-  --sklearn-color-fitted-level-1: #d4ebff;
-  --sklearn-color-fitted-level-2: #b3dbfd;
-  --sklearn-color-fitted-level-3: cornflowerblue;
-
-  /* Specific color for light theme */
-  --sklearn-color-text-on-default-background: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, black)));
-  --sklearn-color-background: var(--sg-background-color, var(--theme-background, var(--jp-layout-color0, white)));
-  --sklearn-color-border-box: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, black)));
-  --sklearn-color-icon: #696969;
-
-  @media (prefers-color-scheme: dark) {
-    /* Redefinition of color scheme for dark theme */
-    --sklearn-color-text-on-default-background: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, white)));
-    --sklearn-color-background: var(--sg-background-color, var(--theme-background, var(--jp-layout-color0, #111)));
-    --sklearn-color-border-box: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, white)));
-    --sklearn-color-icon: #878787;
-  }
-}
-
-#sk-container-id-1 {
-  color: var(--sklearn-color-text);
-}
-
-#sk-container-id-1 pre {
-  padding: 0;
-}
-
-#sk-container-id-1 input.sk-hidden--visually {
-  border: 0;
-  clip: rect(1px 1px 1px 1px);
-  clip: rect(1px, 1px, 1px, 1px);
-  height: 1px;
-  margin: -1px;
-  overflow: hidden;
-  padding: 0;
-  position: absolute;
-  width: 1px;
-}
-
-#sk-container-id-1 div.sk-dashed-wrapped {
-  border: 1px dashed var(--sklearn-color-line);
-  margin: 0 0.4em 0.5em 0.4em;
-  box-sizing: border-box;
-  padding-bottom: 0.4em;
-  background-color: var(--sklearn-color-background);
-}
-
-#sk-container-id-1 div.sk-container {
-  /* jupyter's `normalize.less` sets `[hidden] { display: none; }`
-     but bootstrap.min.css set `[hidden] { display: none !important; }`
-     so we also need the `!important` here to be able to override the
-     default hidden behavior on the sphinx rendered scikit-learn.org.
-     See: https://github.com/scikit-learn/scikit-learn/issues/21755 */
-  display: inline-block !important;
-  position: relative;
-}
-
-#sk-container-id-1 div.sk-text-repr-fallback {
-  display: none;
-}
-
-div.sk-parallel-item,
-div.sk-serial,
-div.sk-item {
-  /* draw centered vertical line to link estimators */
-  background-image: linear-gradient(var(--sklearn-color-text-on-default-background), var(--sklearn-color-text-on-default-background));
-  background-size: 2px 100%;
-  background-repeat: no-repeat;
-  background-position: center center;
-}
-
-/* Parallel-specific style estimator block */
-
-#sk-container-id-1 div.sk-parallel-item::after {
-  content: "";
-  width: 100%;
-  border-bottom: 2px solid var(--sklearn-color-text-on-default-background);
-  flex-grow: 1;
-}
-
-#sk-container-id-1 div.sk-parallel {
-  display: flex;
-  align-items: stretch;
-  justify-content: center;
-  background-color: var(--sklearn-color-background);
-  position: relative;
-}
-
-#sk-container-id-1 div.sk-parallel-item {
-  display: flex;
-  flex-direction: column;
-}
-
-#sk-container-id-1 div.sk-parallel-item:first-child::after {
-  align-self: flex-end;
-  width: 50%;
-}
-
-#sk-container-id-1 div.sk-parallel-item:last-child::after {
-  align-self: flex-start;
-  width: 50%;
-}
-
-#sk-container-id-1 div.sk-parallel-item:only-child::after {
-  width: 0;
-}
-
-/* Serial-specific style estimator block */
-
-#sk-container-id-1 div.sk-serial {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: var(--sklearn-color-background);
-  padding-right: 1em;
-  padding-left: 1em;
-}
-
-
-/* Toggleable style: style used for estimator/Pipeline/ColumnTransformer box that is
-clickable and can be expanded/collapsed.
-- Pipeline and ColumnTransformer use this feature and define the default style
-- Estimators will overwrite some part of the style using the `sk-estimator` class
-*/
-
-/* Pipeline and ColumnTransformer style (default) */
-
-#sk-container-id-1 div.sk-toggleable {
-  /* Default theme specific background. It is overwritten whether we have a
-  specific estimator or a Pipeline/ColumnTransformer */
-  background-color: var(--sklearn-color-background);
-}
-
-/* Toggleable label */
-#sk-container-id-1 label.sk-toggleable__label {
-  cursor: pointer;
-  display: block;
-  width: 100%;
-  margin-bottom: 0;
-  padding: 0.5em;
-  box-sizing: border-box;
-  text-align: center;
-}
-
-#sk-container-id-1 label.sk-toggleable__label-arrow:before {
-  /* Arrow on the left of the label */
-  content: "▸";
-  float: left;
-  margin-right: 0.25em;
-  color: var(--sklearn-color-icon);
-}
-
-#sk-container-id-1 label.sk-toggleable__label-arrow:hover:before {
-  color: var(--sklearn-color-text);
-}
-
-/* Toggleable content - dropdown */
-
-#sk-container-id-1 div.sk-toggleable__content {
-  max-height: 0;
-  max-width: 0;
-  overflow: hidden;
-  text-align: left;
-  /* unfitted */
-  background-color: var(--sklearn-color-unfitted-level-0);
-}
-
-#sk-container-id-1 div.sk-toggleable__content.fitted {
-  /* fitted */
-  background-color: var(--sklearn-color-fitted-level-0);
-}
-
-#sk-container-id-1 div.sk-toggleable__content pre {
-  margin: 0.2em;
-  border-radius: 0.25em;
-  color: var(--sklearn-color-text);
-  /* unfitted */
-  background-color: var(--sklearn-color-unfitted-level-0);
-}
-
-#sk-container-id-1 div.sk-toggleable__content.fitted pre {
-  /* unfitted */
-  background-color: var(--sklearn-color-fitted-level-0);
-}
-
-#sk-container-id-1 input.sk-toggleable__control:checked~div.sk-toggleable__content {
-  /* Expand drop-down */
-  max-height: 200px;
-  max-width: 100%;
-  overflow: auto;
-}
-
-#sk-container-id-1 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {
-  content: "▾";
-}
-
-/* Pipeline/ColumnTransformer-specific style */
-
-#sk-container-id-1 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {
-  color: var(--sklearn-color-text);
-  background-color: var(--sklearn-color-unfitted-level-2);
-}
-
-#sk-container-id-1 div.sk-label.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
-  background-color: var(--sklearn-color-fitted-level-2);
-}
-
-/* Estimator-specific style */
-
-/* Colorize estimator box */
-#sk-container-id-1 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {
-  /* unfitted */
-  background-color: var(--sklearn-color-unfitted-level-2);
-}
-
-#sk-container-id-1 div.sk-estimator.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
-  /* fitted */
-  background-color: var(--sklearn-color-fitted-level-2);
-}
-
-#sk-container-id-1 div.sk-label label.sk-toggleable__label,
-#sk-container-id-1 div.sk-label label {
-  /* The background is the default theme color */
-  color: var(--sklearn-color-text-on-default-background);
-}
-
-/* On hover, darken the color of the background */
-#sk-container-id-1 div.sk-label:hover label.sk-toggleable__label {
-  color: var(--sklearn-color-text);
-  background-color: var(--sklearn-color-unfitted-level-2);
-}
-
-/* Label box, darken color on hover, fitted */
-#sk-container-id-1 div.sk-label.fitted:hover label.sk-toggleable__label.fitted {
-  color: var(--sklearn-color-text);
-  background-color: var(--sklearn-color-fitted-level-2);
-}
-
-/* Estimator label */
-
-#sk-container-id-1 div.sk-label label {
-  font-family: monospace;
-  font-weight: bold;
-  display: inline-block;
-  line-height: 1.2em;
-}
-
-#sk-container-id-1 div.sk-label-container {
-  text-align: center;
-}
-
-/* Estimator-specific */
-#sk-container-id-1 div.sk-estimator {
-  font-family: monospace;
-  border: 1px dotted var(--sklearn-color-border-box);
-  border-radius: 0.25em;
-  box-sizing: border-box;
-  margin-bottom: 0.5em;
-  /* unfitted */
-  background-color: var(--sklearn-color-unfitted-level-0);
-}
-
-#sk-container-id-1 div.sk-estimator.fitted {
-  /* fitted */
-  background-color: var(--sklearn-color-fitted-level-0);
-}
-
-/* on hover */
-#sk-container-id-1 div.sk-estimator:hover {
-  /* unfitted */
-  background-color: var(--sklearn-color-unfitted-level-2);
-}
-
-#sk-container-id-1 div.sk-estimator.fitted:hover {
-  /* fitted */
-  background-color: var(--sklearn-color-fitted-level-2);
-}
-
-/* Specification for estimator info (e.g. "i" and "?") */
-
-/* Common style for "i" and "?" */
-
-.sk-estimator-doc-link,
-a:link.sk-estimator-doc-link,
-a:visited.sk-estimator-doc-link {
-  float: right;
-  font-size: smaller;
-  line-height: 1em;
-  font-family: monospace;
-  background-color: var(--sklearn-color-background);
-  border-radius: 1em;
-  height: 1em;
-  width: 1em;
-  text-decoration: none !important;
-  margin-left: 1ex;
-  /* unfitted */
-  border: var(--sklearn-color-unfitted-level-1) 1pt solid;
-  color: var(--sklearn-color-unfitted-level-1);
-}
-
-.sk-estimator-doc-link.fitted,
-a:link.sk-estimator-doc-link.fitted,
-a:visited.sk-estimator-doc-link.fitted {
-  /* fitted */
-  border: var(--sklearn-color-fitted-level-1) 1pt solid;
-  color: var(--sklearn-color-fitted-level-1);
-}
-
-/* On hover */
-div.sk-estimator:hover .sk-estimator-doc-link:hover,
-.sk-estimator-doc-link:hover,
-div.sk-label-container:hover .sk-estimator-doc-link:hover,
-.sk-estimator-doc-link:hover {
-  /* unfitted */
-  background-color: var(--sklearn-color-unfitted-level-3);
-  color: var(--sklearn-color-background);
-  text-decoration: none;
-}
-
-div.sk-estimator.fitted:hover .sk-estimator-doc-link.fitted:hover,
-.sk-estimator-doc-link.fitted:hover,
-div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
-.sk-estimator-doc-link.fitted:hover {
-  /* fitted */
-  background-color: var(--sklearn-color-fitted-level-3);
-  color: var(--sklearn-color-background);
-  text-decoration: none;
-}
-
-/* Span, style for the box shown on hovering the info icon */
-.sk-estimator-doc-link span {
-  display: none;
-  z-index: 9999;
-  position: relative;
-  font-weight: normal;
-  right: .2ex;
-  padding: .5ex;
-  margin: .5ex;
-  width: min-content;
-  min-width: 20ex;
-  max-width: 50ex;
-  color: var(--sklearn-color-text);
-  box-shadow: 2pt 2pt 4pt #999;
-  /* unfitted */
-  background: var(--sklearn-color-unfitted-level-0);
-  border: .5pt solid var(--sklearn-color-unfitted-level-3);
-}
-
-.sk-estimator-doc-link.fitted span {
-  /* fitted */
-  background: var(--sklearn-color-fitted-level-0);
-  border: var(--sklearn-color-fitted-level-3);
-}
-
-.sk-estimator-doc-link:hover span {
-  display: block;
-}
-
-/* "?"-specific style due to the `<a>` HTML tag */
-
-#sk-container-id-1 a.estimator_doc_link {
-  float: right;
-  font-size: 1rem;
-  line-height: 1em;
-  font-family: monospace;
-  background-color: var(--sklearn-color-background);
-  border-radius: 1rem;
-  height: 1rem;
-  width: 1rem;
-  text-decoration: none;
-  /* unfitted */
-  color: var(--sklearn-color-unfitted-level-1);
-  border: var(--sklearn-color-unfitted-level-1) 1pt solid;
-}
-
-#sk-container-id-1 a.estimator_doc_link.fitted {
-  /* fitted */
-  border: var(--sklearn-color-fitted-level-1) 1pt solid;
-  color: var(--sklearn-color-fitted-level-1);
-}
-
-/* On hover */
-#sk-container-id-1 a.estimator_doc_link:hover {
-  /* unfitted */
-  background-color: var(--sklearn-color-unfitted-level-3);
-  color: var(--sklearn-color-background);
-  text-decoration: none;
-}
-
-#sk-container-id-1 a.estimator_doc_link.fitted:hover {
-  /* fitted */
-  background-color: var(--sklearn-color-fitted-level-3);
-}
-</a></style><div id="sk-container-id-1" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>KMeans(n_clusters=20)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br>On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden=""><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-1" type="checkbox" checked=""><label for="sk-estimator-id-1" class="sk-toggleable__label fitted sk-toggleable__label-arrow fitted">&nbsp;&nbsp;KMeans<a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.4/modules/generated/sklearn.cluster.KMeans.html">?<span>Documentation for KMeans</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></label><div class="sk-toggleable__content fitted"><pre>KMeans(n_clusters=20)</pre></div> </div></div></div></div>
+<div id="cell-fig-optimal-clusters" class="cell" data-execution_count="4">
+<div class="cell-output cell-output-display">
+<div id="fig-optimal-clusters" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-optimal-clusters-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="data_files/figure-html/8-data-clustering-fig-optimal-clusters-output-1.png" id="fig-optimal-clusters" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-optimal-clusters-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2
+</figcaption>
+</figure>
 </div>
 </div>
-<a class="quarto-notebook-link" id="nblink-4" href="1-data-manipulation-preview.html#cell-clustered-model">Source: Data Showcase and Manipulation</a></div>
-<p>Labels can be assigned to each column:</p>
+</div>
+<a class="quarto-notebook-link" id="nblink-5" href="8-data-clustering-preview.html#cell-fig-optimal-clusters">Source: Data Clustering</a></div>
+<ol start="2" type="1">
+<li>Cluster the data and plot the results</li>
+</ol>
+<p>With the optimal number of clusters (or any desired number), the data can be clustered, with each data point given a cluster ID.</p>
 <div class="quarto-embed-nb-cell">
-<div id="cell-wind-clustered-data-preview" class="cell" data-execution_count="6">
-<div id="wind-clustered-data-preview" class="cell-output cell-output-display" data-execution_count="6">
+<div id="cell-clustered-data-preview" class="cell" data-execution_count="6">
+<div id="clustered-data-preview" class="cell-output cell-output-display" data-execution_count="6">
 <div>
 
 
@@ -1015,61 +475,31 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 <td data-quarto-table-cell-role="th">0</td>
 <td>23.510410</td>
 <td>-117.147260</td>
-<td>16</td>
+<td>7</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">1</td>
 <td>24.007446</td>
 <td>-93.946777</td>
-<td>8</td>
+<td>6</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">2</td>
 <td>25.069138</td>
 <td>-97.482483</td>
-<td>9</td>
+<td>6</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">3</td>
 <td>25.069443</td>
 <td>-97.463135</td>
-<td>9</td>
+<td>6</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">4</td>
 <td>25.069763</td>
 <td>-97.443756</td>
-<td>9</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">5</td>
-<td>25.070091</td>
-<td>-97.424377</td>
-<td>9</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">6</td>
-<td>25.070404</td>
-<td>-97.404999</td>
-<td>9</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">7</td>
-<td>25.086678</td>
-<td>-97.482849</td>
-<td>9</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">8</td>
-<td>25.087006</td>
-<td>-97.463470</td>
-<td>9</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">9</td>
-<td>25.087318</td>
-<td>-97.444092</td>
-<td>9</td>
+<td>6</td>
 </tr>
 </tbody>
 </table>
@@ -1077,10 +507,52 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 </div>
 </div>
 </div>
-<a class="quarto-notebook-link" id="nblink-5" href="1-data-manipulation-preview.html#cell-wind-clustered-data-preview">Source: Data Showcase and Manipulation</a></div>
+<a class="quarto-notebook-link" id="nblink-6" href="8-data-clustering-preview.html#cell-clustered-data-preview">Source: Data Clustering</a></div>
+<p>Now that clusters are generated, they can be plotted and visualized.</p>
 <div class="quarto-embed-nb-cell">
-<div id="cell-solar-clustered-data-preview" class="cell" data-execution_count="7">
-<div id="solar-clustered-data-preview" class="cell-output cell-output-display" data-execution_count="7">
+<div id="cell-fig-clustered-data" class="cell" data-execution_count="7">
+<div class="cell-output cell-output-display">
+<div id="fig-clustered-data" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-clustered-data-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="data_files/figure-html/8-data-clustering-fig-clustered-data-output-1.png" id="fig-clustered-data" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-clustered-data-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<a class="quarto-notebook-link" id="nblink-7" href="8-data-clustering-preview.html#cell-fig-clustered-data">Source: Data Clustering</a></div>
+<p>This not only shows the shape and dimensions of the data, but it also gives insights into how many clusters are suitable for the task. The scale of the data makes the number of optimal clusters here a bit ambiguous. Although around 20 seems to be the best, 20 clusters does not seem to represent the nuances of how geospatial data like wind speed and solar raditation changes throughout the country. This seems to indicate that this approach is a bit unreliable in that regard and could introduce more bias into the data and models.</p>
+<p>Additionally, the clustering could also help increase the performance of the algorithms by lowering the number of input parameters. Simplifying the inputs allows the models to interpret the data easier, leading to better predictions. The issues described in <a href="#structure-and-make-up">the structure and make-up section</a> further examplified this potential benefit. But for those same reasons, clustering ended up not being an ideal pathway forward. Not only would refactoring the data to remove the bias negate the benefits of clustering in the long run, but clustering also ends up become computationally expensive and tedious to implement and analyze given the nature of the data. For these reasons it was discarded as an aspect of the project.</p>
+</section>
+</section>
+<section id="the-new-data" class="level2">
+<h2 class="anchored" data-anchor-id="the-new-data">The New Data</h2>
+<p>To overcome the issues outlined above, the datasets were both refactored heavily to remove the bias present. This fixed structural issues, but also allowed for in-depth analysis of mahcine learning models without the time and efficiency overheads that would be present if clustering remained a crucial piece of the project. The process and results of refactoring both of the datasets are outlined below:</p>
+<section id="wind" class="level3">
+<h3 class="anchored" data-anchor-id="wind">Wind</h3>
+<p>To reduce the bias in the wind dataset, new features were added and a new equation was used that incorporated more features than just <code>capacity</code> to ensure a wider range of importance across the board. Two new features were added:</p>
+<ol type="1">
+<li>State - the state that the latitude and longitude coordinates are within.</li>
+<li>Levelized Cost of Energy (LCOE) - the average net cost of electricity generation for a generator over its lifetime.</li>
+</ol>
+<p>Both of these features gave way for more inclusive calculations to be used for both energy generation and cost. The updated method to find the energy generation, <span class="math inline">\(J\)</span>, for a given wind farm uses the following equation where <span class="math inline">\(c\)</span> is <code>capacity</code>, <span class="math inline">\(\rho\)</span> is the density of air, <span class="math inline">\(A\)</span> is the swept area of the wind turbine, <span class="math inline">\(v\)</span> is the <code>wind speed</code>, <span class="math inline">\(h\)</span> is the number of hours in a year, and <span class="math inline">\(c_f\)</span> is <code>capacity factor</code>:</p>
+<blockquote class="blockquote">
+<p><span class="math inline">\(J = \frac{c}{2}\left( \frac{1}{2}\rho Av^3\right)h c_f\)</span></p>
+<p>Some values here are assumed constants: <span class="math inline">\(\rho = 1.225 kg/m^3\)</span>, <span class="math inline">\(A = 7854 m^2\)</span>, <span class="math inline">\(h = 8760hrs\)</span></p>
+</blockquote>
+<p>Also, this equation was split at certain parts to increase the number of features, to aide the model in being able to track the relationships better. The splits added the features <code>available_wind_power</code> and <code>available_energy</code>.</p>
+<p>Calculating the cost using LCOE is very simple. A technology’s LCOE is measured in dollars per watt-hour of energy generated. The only other piece needed is the lifespan of the technology. For this project, a 20 year lifespan is assumed for all wind turbines. This results in this equation where <span class="math inline">\(J\)</span> is generated energy, <span class="math inline">\(l\)</span> is the LCOE of the technology in the state, and <span class="math inline">\(t\)</span> is the lifespan of the technology:</p>
+<blockquote class="blockquote">
+<p><span class="math inline">\(C = Jlt\)</span></p>
+</blockquote>
+<p>These equations incorporate crucial pieces of geospatial data that were not present in the previous calculation. It also adds other assumed constants, which add complexity to the calculation and obscure the relationships a bit, giving the model more agency to work out the connections. In the end, it results in a dataset that looks like this:</p>
+<div class="quarto-embed-nb-cell">
+<div id="cell-wind-dataset-preview" class="cell" data-execution_count="6">
+<div id="wind-dataset-preview" class="cell-output cell-output-display" data-execution_count="6">
 <div>
 
 
@@ -1088,71 +560,101 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">id</th>
 <th data-quarto-table-cell-role="th">lat</th>
 <th data-quarto-table-cell-role="th">long</th>
-<th data-quarto-table-cell-role="th">cluster_label</th>
+<th data-quarto-table-cell-role="th">state</th>
+<th data-quarto-table-cell-role="th">farm_type</th>
+<th data-quarto-table-cell-role="th">wind_speed</th>
+<th data-quarto-table-cell-role="th">lcoe</th>
+<th data-quarto-table-cell-role="th">capacity</th>
+<th data-quarto-table-cell-role="th">capacity_factor</th>
+<th data-quarto-table-cell-role="th">available_wind_power</th>
+<th data-quarto-table-cell-role="th">available_energy</th>
+<th data-quarto-table-cell-role="th">generated_energy</th>
+<th data-quarto-table-cell-role="th">cost</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">0</td>
+<td>0</td>
 <td>25.896492</td>
 <td>-97.460358</td>
-<td>19</td>
+<td>Texas</td>
+<td>onshore</td>
+<td>7.46</td>
+<td>31</td>
+<td>2</td>
+<td>0.433</td>
+<td>1.997163</td>
+<td>17495.14630</td>
+<td>7575.398348</td>
+<td>4.696747e+06</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">1</td>
+<td>1</td>
 <td>26.032654</td>
 <td>-97.738098</td>
-<td>19</td>
+<td>Texas</td>
+<td>onshore</td>
+<td>7.45</td>
+<td>31</td>
+<td>10</td>
+<td>0.414</td>
+<td>9.945710</td>
+<td>87124.42376</td>
+<td>36069.511440</td>
+<td>2.236310e+07</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">2</td>
+<td>2</td>
 <td>26.059063</td>
 <td>-97.208252</td>
-<td>19</td>
+<td>Texas</td>
+<td>onshore</td>
+<td>8.18</td>
+<td>31</td>
+<td>2</td>
+<td>0.506</td>
+<td>2.633037</td>
+<td>23065.40088</td>
+<td>11671.092850</td>
+<td>7.236078e+06</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">3</td>
+<td>3</td>
 <td>26.078449</td>
 <td>-98.073364</td>
-<td>19</td>
+<td>Texas</td>
+<td>onshore</td>
+<td>7.17</td>
+<td>31</td>
+<td>16</td>
+<td>0.363</td>
+<td>14.185493</td>
+<td>124264.92160</td>
+<td>45108.166540</td>
+<td>2.796706e+07</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">4</td>
+<td>4</td>
 <td>26.143227</td>
 <td>-98.311340</td>
-<td>19</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">5</td>
-<td>26.149040</td>
-<td>-98.075409</td>
-<td>19</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">6</td>
-<td>26.180355</td>
-<td>-97.367737</td>
-<td>19</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">7</td>
-<td>26.254963</td>
-<td>-98.078491</td>
-<td>19</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">8</td>
-<td>26.272160</td>
-<td>-98.098694</td>
-<td>19</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">9</td>
-<td>26.272625</td>
-<td>-98.078979</td>
-<td>19</td>
+<td>Texas</td>
+<td>onshore</td>
+<td>7.06</td>
+<td>31</td>
+<td>16</td>
+<td>0.358</td>
+<td>13.542570</td>
+<td>118632.91080</td>
+<td>42470.582050</td>
+<td>2.633176e+07</td>
 </tr>
 </tbody>
 </table>
@@ -1160,46 +662,149 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 </div>
 </div>
 </div>
-<a class="quarto-notebook-link" id="nblink-6" href="1-data-manipulation-preview.html#cell-solar-clustered-data-preview">Source: Data Showcase and Manipulation</a></div>
-<p>The clustered data can be plotted now:</p>
+<a class="quarto-notebook-link" id="nblink-8" href="1-datasets-preview.html#cell-wind-dataset-preview">Source: Data Preview</a></div>
+<p>This dataset can be accessed and downloaded from <a href="https://drive.google.com/file/d/1DfA-SBMgd4lOy1eMd10OHLN7Poe5PR2F/view?usp=sharing">here</a>.</p>
+</section>
+<section id="solar" class="level3">
+<h3 class="anchored" data-anchor-id="solar">Solar</h3>
+<p>Similar to the wind dataset, bias was reduced by adding more features and using a new equation which incorporated more features. Like the wind data, to make these adjustments, <code>state</code> and <code>lcoe</code> needed to be added as features. On top of these, two other features were dervied as part of the calculation to determine the generated energy. These are as follows:</p>
+<ol type="1">
+<li>Array Area, where <span class="math inline">\(c\)</span> is <code>capacity</code>, <span class="math inline">\(I\)</span> is the <code>solar irradiance</code> and <span class="math inline">\(c_f\)</span> is the <code>capacity factor</code>.</li>
+</ol>
+<blockquote class="blockquote">
+<p><span class="math inline">\(A = \frac{24c}{Ic_f}\)</span></p>
+<p>We multiply by 24 because <span class="math inline">\(I\)</span> is in units of <span class="math inline">\(kWh/m^2/day\)</span> and we want it in units of <span class="math inline">\(kWh/m^2\)</span> to ensure we end up with an area as the result.</p>
+</blockquote>
+<ol start="2" type="1">
+<li>Available Solar Resource, where <span class="math inline">\(I\)</span> is the <code>solar irradiance</code> and <span class="math inline">\(A\)</span> is the <code>array area</code>.</li>
+</ol>
+<blockquote class="blockquote">
+<p><span class="math inline">\(P = \frac{IA}{24*1000}\)</span></p>
+<p>The 24 serves the same purpose as before, but the 1000 here changes the units from <span class="math inline">\(kWh\)</span> to <span class="math inline">\(MWh\)</span> to stay consistent all results.</p>
+</blockquote>
+<p>With these, an equation for generated energy, <span class="math inline">\(J\)</span> can be derived, where <span class="math inline">\(P\)</span> is the <code>available solar resource</code>, <span class="math inline">\(h\)</span> is the number of hours in a year, <span class="math inline">\(c_f\)</span> is the <code>capacity factor</code>, and <span class="math inline">\(q\)</span> is the system losses, which is assumed to be 14%:</p>
+<blockquote class="blockquote">
+<p><span class="math inline">\(J = P h  c_f  q\)</span></p>
+</blockquote>
+<p>Same as the wind data, calculating the cost using the LCOE is very simple. A lifespan of 20 years is used again for consistency:</p>
+<blockquote class="blockquote">
+<p><span class="math inline">\(C = Jlt\)</span></p>
+</blockquote>
+<p>The chain of calculations incorporate more of the geospatial data, which exemplifies the purpose of the research project much more than what the old data had, even with clustering. Again, it allows the model to do its best at finding the relationship, compared to just recognizing a direct proportion like before. The resulting solar dataset looks like this:</p>
 <div class="quarto-embed-nb-cell">
-<div id="fig-clustered-data" class="quarto-layout-panel">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-clustered-data-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="quarto-layout-row">
-<div class="cell-output cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-clustered-data" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div id="fig-clustered-data-1" class="quarto-figure quarto-figure-center quarto-float anchored">
-<figure class="quarto-float quarto-subfloat-fig figure">
-<div aria-describedby="fig-clustered-data-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="data_files/figure-html/1-data-manipulation-fig-clustered-data-output-1.png" id="fig-clustered-data-1" class="img-fluid figure-img" data-ref-parent="fig-clustered-data">
+<div id="cell-solar-dataset-preview" class="cell" data-execution_count="7">
+<div id="solar-dataset-preview" class="cell-output cell-output-display" data-execution_count="7">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">id</th>
+<th data-quarto-table-cell-role="th">lat</th>
+<th data-quarto-table-cell-role="th">long</th>
+<th data-quarto-table-cell-role="th">state</th>
+<th data-quarto-table-cell-role="th">farm_type</th>
+<th data-quarto-table-cell-role="th">irradiance</th>
+<th data-quarto-table-cell-role="th">lcoe</th>
+<th data-quarto-table-cell-role="th">capacity</th>
+<th data-quarto-table-cell-role="th">capacity_factor</th>
+<th data-quarto-table-cell-role="th">array_area</th>
+<th data-quarto-table-cell-role="th">available_solar_resource</th>
+<th data-quarto-table-cell-role="th">generated_energy</th>
+<th data-quarto-table-cell-role="th">cost</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>0</td>
+<td>25.896492</td>
+<td>-97.460358</td>
+<td>Texas</td>
+<td>large_community</td>
+<td>5.634079</td>
+<td>39</td>
+<td>5.00</td>
+<td>0.235</td>
+<td>90633.862770</td>
+<td>21.276596</td>
+<td>6132.00</td>
+<td>4782960.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>1</td>
+<td>26.032654</td>
+<td>-97.738098</td>
+<td>Texas</td>
+<td>small_utility</td>
+<td>5.616413</td>
+<td>39</td>
+<td>5.00</td>
+<td>0.234</td>
+<td>91307.484990</td>
+<td>21.367521</td>
+<td>6132.00</td>
+<td>4782960.0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>2</td>
+<td>26.059063</td>
+<td>-97.208252</td>
+<td>Texas</td>
+<td>small_community</td>
+<td>5.746738</td>
+<td>39</td>
+<td>0.15</td>
+<td>0.239</td>
+<td>2621.097459</td>
+<td>0.627615</td>
+<td>183.96</td>
+<td>143488.8</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>3</td>
+<td>26.078449</td>
+<td>-98.073364</td>
+<td>Texas</td>
+<td>small_utility</td>
+<td>5.742196</td>
+<td>39</td>
+<td>5.00</td>
+<td>0.239</td>
+<td>87439.036330</td>
+<td>20.920502</td>
+<td>6132.00</td>
+<td>4782960.0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>4</td>
+<td>26.143227</td>
+<td>-98.311340</td>
+<td>Texas</td>
+<td>small_utility</td>
+<td>5.817187</td>
+<td>39</td>
+<td>5.00</td>
+<td>0.242</td>
+<td>85241.850210</td>
+<td>20.661157</td>
+<td>6132.00</td>
+<td>4782960.0</td>
+</tr>
+</tbody>
+</table>
+
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-clustered-data-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-(a)
-</figcaption>
-</figure>
 </div>
 </div>
-<div class="cell-output cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-clustered-data" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div id="fig-clustered-data-2" class="quarto-figure quarto-figure-center quarto-float anchored">
-<figure class="quarto-float quarto-subfloat-fig figure">
-<div aria-describedby="fig-clustered-data-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="data_files/figure-html/1-data-manipulation-fig-clustered-data-output-2.png" id="fig-clustered-data-2" class="img-fluid figure-img" data-ref-parent="fig-clustered-data">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-clustered-data-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-(b)
-</figcaption>
-</figure>
-</div>
-</div>
-</div>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-clustered-data-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2
-</figcaption>
-</figure>
-</div>
-<a class="quarto-notebook-link" id="nblink-7" href="1-data-manipulation-preview.html#cell-fig-clustered-data">Source: Data Showcase and Manipulation</a></div>
-<p>The clusters still retain the information that the longitude and latitude pairs brought with them, but now it is all stored in one value.</p>
+<a class="quarto-notebook-link" id="nblink-9" href="1-datasets-preview.html#cell-solar-dataset-preview">Source: Data Preview</a></div>
+<p>This dataset is also available to be accessed and downloaded <a href="https://drive.google.com/file/d/1l-USz-TNYyco7rYOaHT3BY_fcnBXI92e/view?usp=sharing">here</a>.</p>
 
 
 </section>

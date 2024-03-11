@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Aidan Neeson - CMPSC 610 Artifact - Cluster Analysis</title>
+<title>Aidan Neeson - CMPSC 610 Artifact - Data Preview</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -57,7 +57,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="site_libs/quarto-nav/headroom.min.js"></script>
 <script src="site_libs/clipboard/clipboard.min.js"></script>
 <script src="site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -100,6 +100,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
 <link rel="stylesheet" href="styles.css">
@@ -127,28 +130,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./1-eda.html"> 
+    <a class="nav-link" href="./data.html"> 
 <span class="menu-text">Data</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="./2-ca.html" aria-current="page"> 
-<span class="menu-text">Clustering</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="./3-rf.html"> 
+    <a class="nav-link" href="./2-rf.html"> 
 <span class="menu-text">Random Forest</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./4-svm.html"> 
+    <a class="nav-link" href="./3-svm.html"> 
 <span class="menu-text">SVM</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./5-ann.html"> 
+    <a class="nav-link" href="./4-ann.html"> 
 <span class="menu-text">ANN</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="./about.html"> 
-<span class="menu-text">About</span></a>
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
@@ -162,24 +157,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#cluster-analysis-using-k-means-clustering" id="toc-cluster-analysis-using-k-means-clustering" class="nav-link active" data-scroll-target="#cluster-analysis-using-k-means-clustering">Cluster Analysis Using K-Means Clustering</a>
-  <ul class="collapse">
-  <li><a href="#import-libraries" id="toc-import-libraries" class="nav-link" data-scroll-target="#import-libraries">Import Libraries</a></li>
-  <li><a href="#prepping-the-data" id="toc-prepping-the-data" class="nav-link" data-scroll-target="#prepping-the-data">Prepping the Data</a></li>
-  </ul></li>
-  </ul>
-</nav>
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Cluster Analysis</h1>
+<h1 class="title">Data Preview</h1>
 </div>
 
 
@@ -196,30 +181,417 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="cluster-analysis-using-k-means-clustering" class="level1">
-<h1>Cluster Analysis Using K-Means Clustering</h1>
-<section id="import-libraries" class="level2">
-<h2 class="anchored" data-anchor-id="import-libraries">Import Libraries</h2>
-<div id="cell-2" class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.cluster <span class="im">import</span> KMeans</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-1" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section>
-<section id="prepping-the-data" class="level2">
-<h2 class="anchored" data-anchor-id="prepping-the-data">Prepping the Data</h2>
-<div id="cell-4" class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>wind_df <span class="op">=</span> pd.read_csv(<span class="st">'../data/wind.csv'</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>solar_df <span class="op">=</span> pd.read_csv(<span class="st">'../data/solar.csv'</span>)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(wind_df.head(<span class="dv">10</span>))</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"_________________________________"</span>)</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(solar_df.head(<span class="dv">10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-2" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>wind_old_df <span class="op">=</span> pd.read_csv(<span class="st">'../data/wind_old.csv'</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>solar_old_df <span class="op">=</span> pd.read_csv(<span class="st">'../data/solar_old.csv'</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>wind_df <span class="op">=</span> pd.read_csv(<span class="st">'../data/wind.csv'</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>solar_df <span class="op">=</span> pd.read_csv(<span class="st">'../data/solar.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-wind-old-dataset-preview" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>wind_old_df.head(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="wind-old-dataset-preview" class="cell-output cell-output-display" data-execution_count="4">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">id</th>
+<th data-quarto-table-cell-role="th">lat</th>
+<th data-quarto-table-cell-role="th">long</th>
+<th data-quarto-table-cell-role="th">wind_speed</th>
+<th data-quarto-table-cell-role="th">farm_type</th>
+<th data-quarto-table-cell-role="th">capacity</th>
+<th data-quarto-table-cell-role="th">capacity_factor</th>
+<th data-quarto-table-cell-role="th">power_generation</th>
+<th data-quarto-table-cell-role="th">estimated_cost</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>0</td>
+<td>23.510410</td>
+<td>-117.147260</td>
+<td>6.07</td>
+<td>offshore</td>
+<td>16</td>
+<td>0.169</td>
+<td>23687.04</td>
+<td>20800000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>1</td>
+<td>24.007446</td>
+<td>-93.946777</td>
+<td>7.43</td>
+<td>offshore</td>
+<td>16</td>
+<td>0.302</td>
+<td>42328.32</td>
+<td>20800000</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>2</td>
+<td>25.069138</td>
+<td>-97.482483</td>
+<td>8.19</td>
+<td>offshore</td>
+<td>16</td>
+<td>0.375</td>
+<td>52560.00</td>
+<td>20800000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>3</td>
+<td>25.069443</td>
+<td>-97.463135</td>
+<td>8.19</td>
+<td>offshore</td>
+<td>16</td>
+<td>0.375</td>
+<td>52560.00</td>
+<td>20800000</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>4</td>
+<td>25.069763</td>
+<td>-97.443756</td>
+<td>8.19</td>
+<td>offshore</td>
+<td>16</td>
+<td>0.376</td>
+<td>52700.16</td>
+<td>20800000</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div id="cell-solar-old-dataset-preview" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>solar_old_df.head(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="solar-old-dataset-preview" class="cell-output cell-output-display" data-execution_count="5">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">id</th>
+<th data-quarto-table-cell-role="th">lat</th>
+<th data-quarto-table-cell-role="th">long</th>
+<th data-quarto-table-cell-role="th">irradiance</th>
+<th data-quarto-table-cell-role="th">farm_type</th>
+<th data-quarto-table-cell-role="th">capacity</th>
+<th data-quarto-table-cell-role="th">capacity_factor</th>
+<th data-quarto-table-cell-role="th">power_generation</th>
+<th data-quarto-table-cell-role="th">estimated_cost</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>0</td>
+<td>25.896492</td>
+<td>-97.460358</td>
+<td>5.634079</td>
+<td>large_community</td>
+<td>5.00</td>
+<td>0.235</td>
+<td>10282.193270</td>
+<td>13300000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>1</td>
+<td>26.032654</td>
+<td>-97.738098</td>
+<td>5.616413</td>
+<td>small_utility</td>
+<td>5.00</td>
+<td>0.234</td>
+<td>10249.953070</td>
+<td>13300000</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>2</td>
+<td>26.059063</td>
+<td>-97.208252</td>
+<td>5.746738</td>
+<td>small_community</td>
+<td>0.15</td>
+<td>0.239</td>
+<td>314.633929</td>
+<td>399000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>3</td>
+<td>26.078449</td>
+<td>-98.073364</td>
+<td>5.742196</td>
+<td>small_utility</td>
+<td>5.00</td>
+<td>0.239</td>
+<td>10479.506980</td>
+<td>13300000</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>4</td>
+<td>26.143227</td>
+<td>-98.311340</td>
+<td>5.817187</td>
+<td>small_utility</td>
+<td>5.00</td>
+<td>0.242</td>
+<td>10616.365970</td>
+<td>13300000</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div id="cell-wind-dataset-preview" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>wind_df.head(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="wind-dataset-preview" class="cell-output cell-output-display" data-execution_count="6">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">id</th>
+<th data-quarto-table-cell-role="th">lat</th>
+<th data-quarto-table-cell-role="th">long</th>
+<th data-quarto-table-cell-role="th">state</th>
+<th data-quarto-table-cell-role="th">farm_type</th>
+<th data-quarto-table-cell-role="th">wind_speed</th>
+<th data-quarto-table-cell-role="th">lcoe</th>
+<th data-quarto-table-cell-role="th">capacity</th>
+<th data-quarto-table-cell-role="th">capacity_factor</th>
+<th data-quarto-table-cell-role="th">available_wind_power</th>
+<th data-quarto-table-cell-role="th">available_energy</th>
+<th data-quarto-table-cell-role="th">generated_energy</th>
+<th data-quarto-table-cell-role="th">cost</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>0</td>
+<td>25.896492</td>
+<td>-97.460358</td>
+<td>Texas</td>
+<td>onshore</td>
+<td>7.46</td>
+<td>31</td>
+<td>2</td>
+<td>0.433</td>
+<td>1.997163</td>
+<td>17495.14630</td>
+<td>7575.398348</td>
+<td>4.696747e+06</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>1</td>
+<td>26.032654</td>
+<td>-97.738098</td>
+<td>Texas</td>
+<td>onshore</td>
+<td>7.45</td>
+<td>31</td>
+<td>10</td>
+<td>0.414</td>
+<td>9.945710</td>
+<td>87124.42376</td>
+<td>36069.511440</td>
+<td>2.236310e+07</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>2</td>
+<td>26.059063</td>
+<td>-97.208252</td>
+<td>Texas</td>
+<td>onshore</td>
+<td>8.18</td>
+<td>31</td>
+<td>2</td>
+<td>0.506</td>
+<td>2.633037</td>
+<td>23065.40088</td>
+<td>11671.092850</td>
+<td>7.236078e+06</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>3</td>
+<td>26.078449</td>
+<td>-98.073364</td>
+<td>Texas</td>
+<td>onshore</td>
+<td>7.17</td>
+<td>31</td>
+<td>16</td>
+<td>0.363</td>
+<td>14.185493</td>
+<td>124264.92160</td>
+<td>45108.166540</td>
+<td>2.796706e+07</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>4</td>
+<td>26.143227</td>
+<td>-98.311340</td>
+<td>Texas</td>
+<td>onshore</td>
+<td>7.06</td>
+<td>31</td>
+<td>16</td>
+<td>0.358</td>
+<td>13.542570</td>
+<td>118632.91080</td>
+<td>42470.582050</td>
+<td>2.633176e+07</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div id="cell-solar-dataset-preview" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>solar_df.head(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="solar-dataset-preview" class="cell-output cell-output-display" data-execution_count="7">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">id</th>
+<th data-quarto-table-cell-role="th">lat</th>
+<th data-quarto-table-cell-role="th">long</th>
+<th data-quarto-table-cell-role="th">state</th>
+<th data-quarto-table-cell-role="th">farm_type</th>
+<th data-quarto-table-cell-role="th">irradiance</th>
+<th data-quarto-table-cell-role="th">lcoe</th>
+<th data-quarto-table-cell-role="th">capacity</th>
+<th data-quarto-table-cell-role="th">capacity_factor</th>
+<th data-quarto-table-cell-role="th">array_area</th>
+<th data-quarto-table-cell-role="th">available_solar_resource</th>
+<th data-quarto-table-cell-role="th">generated_energy</th>
+<th data-quarto-table-cell-role="th">cost</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>0</td>
+<td>25.896492</td>
+<td>-97.460358</td>
+<td>Texas</td>
+<td>large_community</td>
+<td>5.634079</td>
+<td>39</td>
+<td>5.00</td>
+<td>0.235</td>
+<td>90633.862770</td>
+<td>21.276596</td>
+<td>6132.00</td>
+<td>4782960.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>1</td>
+<td>26.032654</td>
+<td>-97.738098</td>
+<td>Texas</td>
+<td>small_utility</td>
+<td>5.616413</td>
+<td>39</td>
+<td>5.00</td>
+<td>0.234</td>
+<td>91307.484990</td>
+<td>21.367521</td>
+<td>6132.00</td>
+<td>4782960.0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>2</td>
+<td>26.059063</td>
+<td>-97.208252</td>
+<td>Texas</td>
+<td>small_community</td>
+<td>5.746738</td>
+<td>39</td>
+<td>0.15</td>
+<td>0.239</td>
+<td>2621.097459</td>
+<td>0.627615</td>
+<td>183.96</td>
+<td>143488.8</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>3</td>
+<td>26.078449</td>
+<td>-98.073364</td>
+<td>Texas</td>
+<td>small_utility</td>
+<td>5.742196</td>
+<td>39</td>
+<td>5.00</td>
+<td>0.239</td>
+<td>87439.036330</td>
+<td>20.920502</td>
+<td>6132.00</td>
+<td>4782960.0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>4</td>
+<td>26.143227</td>
+<td>-98.311340</td>
+<td>Texas</td>
+<td>small_utility</td>
+<td>5.817187</td>
+<td>39</td>
+<td>5.00</td>
+<td>0.242</td>
+<td>85241.850210</td>
+<td>20.661157</td>
+<td>6132.00</td>
+<td>4782960.0</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
 </div>
 
 
-</section>
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

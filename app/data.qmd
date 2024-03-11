@@ -1,9 +1,5 @@
 ---
 title: "A Look at the Data"
-notebook-view:
-  - notebook: 1-datasets.ipynb
-    title: "Data Showcase"
-    url: https://colab.research.google.com/drive/1JHqernGZ5oXJ4FFCs0i1GkDQs56aWwRY?authuser=4#scrollTo=oWqeiw3pilBq
 ---
 
 # Approaches
@@ -37,7 +33,7 @@ This, at first, is not enough data to begin predicting for energy generation and
 
 The rough and simplistic nature of these estimates are generally okay as the concern of this project is to determine how well machine learning algorithms predict values, and not the correctness and integrity of the values themselves. Nonetheless, issues still appeared because of this. When training and testing the Random Forest Regressor, a feature importance graph was used to determine which attributes are the most important. This can also give insights into how the variables are used by other models as well. When running on the old wind data, the graph indicated one variable was dominating the dataset.
 
-{{< embed 5-rf-old.ipynb#feature-importance-graph-old-wind >}}
+{{< embed 5-rf-old.ipynb#fig-feature-importances-old-wind >}}
 
 {{< embed 5-rf-old.ipynb#feature-importances-old-wind >}}
 
@@ -69,8 +65,59 @@ Additionally, the clustering could also help increase the performance of the alg
 
 ## The New Data
 
-To overcome the issues outlined above, the datasets were both refactored heavily to remove the bias present. This fixed structural issues, but also allowed for in-depth analysis of mahcine learning models without the time and efficiency overheads that would be present if clustering remained a crucial piece of the project.
+To overcome the issues outlined above, the datasets were both refactored heavily to remove the bias present. This fixed structural issues, but also allowed for in-depth analysis of mahcine learning models without the time and efficiency overheads that would be present if clustering remained a crucial piece of the project. The process and results of refactoring both of the datasets are outlined below:
 
 ### Wind
 
+To reduce the bias in the wind dataset, new features were added and a new equation was used that incorporated more features than just `capacity` to ensure a wider range of importance across the board.  Two new features were added:
+
+1. State - the state that the latitude and longitude coordinates are within.
+2. Levelized Cost of Energy (LCOE) - the average net cost of electricity generation for a generator over its lifetime.
+
+Both of these features gave way for more inclusive calculations to be used for both energy generation and cost. The updated method to find the energy generation, $J$, for a given wind farm uses the following equation where $c$ is `capacity`, $\rho$ is the density of air, $A$ is the swept area of the wind turbine, $v$ is the `wind speed`, $h$ is the number of hours in a year, and $c_f$ is `capacity factor`:
+
+> $J = \frac{c}{2}\left( \frac{1}{2}\rho Av^3\right)h c_f$
+>
+> Some values here are assumed constants: $\rho = 1.225 kg/m^3$, $A = 7854 m^2$, $h = 8760hrs$
+
+Also, this equation was split at certain parts to increase the number of features, to aide the model in being able to track the relationships better. The splits added the features `available_wind_power` and `available_energy`.
+
+Calculating the cost using LCOE is very simple. A technology's LCOE is measured in dollars per watt-hour of energy generated. The only other piece needed is the lifespan of the technology. For this project, a 20 year lifespan is assumed for all wind turbines. This results in this equation where $J$ is generated energy, $l$ is the LCOE of the technology in the state, and $t$ is the lifespan of the technology:
+
+> $C = Jlt$
+
+These equations incorporate crucial pieces of geospatial data that were not present in the previous calculation. It also adds other assumed constants, which add complexity to the calculation and obscure the relationships a bit, giving the model more agency to work out the connections. In the end, it results in a dataset that looks like this:
+
+{{< embed 1-datasets.ipynb#wind-dataset-preview >}}
+
+This dataset can be accessed and downloaded from [here](https://drive.google.com/file/d/1DfA-SBMgd4lOy1eMd10OHLN7Poe5PR2F/view?usp=sharing).
+
 ### Solar
+
+Similar to the wind dataset, bias was reduced by adding more features and using a new equation which incorporated more features. Like the wind data, to make these adjustments, `state` and `lcoe` needed to be added as features. On top of these, two other features were dervied as part of the calculation to determine the generated energy. These are as follows:
+
+1. Array Area, where $c$ is `capacity`, $I$ is the `solar irradiance` and $c_f$ is the `capacity factor`.
+
+> $A = \frac{24c}{Ic_f}$
+>
+> We multiply by 24 because $I$ is in units of $kWh/m^2/day$ and we want it in units of $kWh/m^2$ to ensure we end up with an area as the result.
+
+2. Available Solar Resource, where $I$ is the `solar irradiance` and $A$ is the `array area`.
+
+> $P = \frac{IA}{24*1000}$
+>
+> The 24 serves the same purpose as before, but the 1000 here changes the units from $kWh$ to $MWh$ to stay consistent all results.
+
+With these, an equation for generated energy, $J$ can be derived, where $P$ is the `available solar resource`, $h$ is the number of hours in a year, $c_f$ is the `capacity factor`, and $q$ is the system losses, which is assumed to be 14%:
+
+> $J = P h  c_f  q$
+
+Same as the wind data, calculating the cost using the LCOE is very simple. A lifespan of 20 years is used again for consistency:
+
+> $C = Jlt$
+
+The chain of calculations incorporate more of the geospatial data, which exemplifies the purpose of the research project much more than what the old data had, even with clustering. Again, it allows the model to do its best at finding the relationship, compared to just recognizing a direct proportion like before. The resulting solar dataset looks like this:
+
+{{< embed 1-datasets.ipynb#solar-dataset-preview >}}
+
+This dataset is also available to be accessed and downloaded [here](https://drive.google.com/file/d/1l-USz-TNYyco7rYOaHT3BY_fcnBXI92e/view?usp=sharing).
