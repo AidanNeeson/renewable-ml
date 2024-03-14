@@ -1,0 +1,105 @@
+---
+title: "Random Forest Regression on Geospatial Data"
+---
+
+# The Random Forest Regressor
+
+The Random Forest model is an simple, easy to use model that offers good results on a consistent basis for a wide range of applications. One of the areas that it is known to perform quite well in, is geospatial applications. Because of this, there is no doubt it was one of the algorithms chosen for this projects' analysis. The "regressor" in Random Forest Regressor, stems from the use of strictly numeric data points in the project, which is analyzed most effectively through regressions. Below, the steps to use the `Random Forest Regressor` model from `sklearn` on the datasets in breifly outlined. To fill in those blanks, the relative notebooks are linked on the side.
+
+## Getting a Trained Model
+
+### Data and Preprocessing
+
+The first step when performing any kind of machine learning problem or analysis is to read in the data, make alterations to it, and select features for training and testing. For this showcase, we will look at the [wind](https://data.nrel.gov/submissions/54) data:
+
+{{< embed 1-datasets.ipynb#wind-dataset-preview >}}
+
+The dataset as it is, potentially hsa a lot of bias due to its structure and ordering. Although a human may not be able to see a pattern in the order the way the data as been recorded, a machine learning model is very sensitive to nuances like this. To reduce this being a factor, the dataset must be shuffled. A method from the Python package `pandas` can do this very easily, that method being `sample()`. Once it is used, the dataset ends up looking like this:
+
+{{< embed 2-rf-wind.ipynb#shuffled-dataset-preview >}}
+
+With the data shuffled, we can now ensure that the training and testing splits have as little bias as possible, from an ordering perspective. Two different arrays must be made for each split, those being `X`, the inputs, and `y`, the outputs, or features to be predicted. For this project, we are interested in determining if a machine learning model is effective when only given locational data, and as little extra information as possible. So for our `X` variables, we chose `lat`, `long`, and `capacity`. For the `y`, `generated_energy` and `cost` were used, since these are the values we want to predict. The idea is that a hypothetical user should only need to input their location, and how big they want the wind turbine/farm to be, if they want predictions.
+
+```python
+X = df.loc[:, ['lat','long','capacity']]
+y = df.loc[:, ['generated_energy','cost']]
+
+X_train = X[:100000]
+X_test = X[100000:]
+y_train = y[:100000]
+y_test = y[100000:]
+```
+
+> Notice that we are using two targets, this is because we are taking advantage of multioutput regression functionality. This saves on time and computational costs by creating one model that can predict two targets with one set of features.
+
+With shuffled traiing and testing splits, some changes must be made to the data to ensure it is easier for the model to process. Many machine learning models prefer having smaller numbers, ideally numbers between [1,-1]. From the dataset above, this is clearly not the case. To get close to this ideal, a `scaler` is used. A `scaler` will take the entire dataset, and apply a transformation to every feature, making the numbers smaller, and easier for a model to work with, without losing the meaning the original data had. For this project, `sklearn`'s `StandardScaler` was used. 
+**Note**: The `scaler` is only used on the inputs, not on the outputs. It would not change the results, but it would supply an illusion that the model is performing better.
+
+{{< embed 2-rf-wind.ipynb#scaled-data >}}
+
+Now, the data is ready to be used to train a Random Forest Regressor model.
+
+### Training a Random Forest Regressor
+
+This research is interested in determining if _simple_ machine learning models can effectively predict renewable energy array parameters. To exaggerate this point, the models were used in the most out-of-the-box way possible, keeping things very simple. To train the model, the training data is passed into the `Random Forest Regressor`:
+
+```python
+reg = RandomForestRegressor()
+reg.fit(X_train, y_train)
+```
+
+This ends up creating a large amount of individual decision trees, making up a forest. Each tree uses the input features as decision making points, splitting nodes in the tree based on how well a feature is contributing towards making better predictions. Because of the scale of the data, the trees are very large, but the general structure of the first few nodes looks like this:
+
+{{< embed 2-rf-wind.ipynb#fig-decision-tree >}}
+
+With a trained model, predictions can be made using the `predict()` method. Below are some predicted values compared to the true values.
+
+{{< embed 2-rf-wind.ipynb#prediction-comparisons >}}
+
+The values are fairly close, especially when considering how little information the model is using to make the predictions. This indicates that there is some potential that general location-based information is enough to estimate the energy generation and cost of a wind turbine/farm.
+
+## Analyzing and Assesing the Random Forest
+
+There are many ways to evaluate the performace of a model. Some of these are model dependent, like feature importance for a Random Forest. Others can be done to any model, like reporting metrics, or performing k-fold cross validation. Outlined below, are the strategies used to evaluate the performance of the `Random Forest Regressor` used in this project.
+
+### Metrics Reporting
+
+To evaluate the machine learning models, three metrics, available through `sklearn`, were chosen. 
+
+1. R2-score (R2) - a goodness-of-fit metric that indicates how well a plotted curve represents the data.
+2. Root Mean Squared Error (RMSE) - an error metric that explicitly states the average distance between a predicted value and its true counterpart.
+3. Mean Absolute Percentage Error (MAPE) - a goodness-of-fit metric that indicates the average percent error a prediction has relative to the true values.
+
+R2 and MAPE were chosen because they are very scale-independent, meaning the difference in size of the data's features and outliers have less of an effect on the score. The data has many outliers, and the features values range drastically in size, sometimes by many orders of magnitude. Scale-independent metrics help to isolate these edge cases and provide scoring that is relative to the majority of the dataset.
+
+RMSE was chosen because, unlike R2 and MAPE, it is very scale-dependent. Utilizing both types of metrics ensures that the full picture is uncovered, giving a better overall summary of performance. Even though the scale of the data and the outliers may abstract the meaning of the score somewhat, the scale can be used to help explain why the metric appears the way it does. In the end, it still provides valuable insights into the performance that could indicate pathways for improvement in the future.
+
+A single report of metrics for an isolated training and testing session looks like this:
+
+{{< embed 2-rf-wind.ipynb#metrics >}}
+
+> The metrics are separated for each target variable, the values on the left are for `generated_energy` predictions and the values on the right are for `cost` predictions.
+
+R2 values around .90 indicate desireable results. This means that 90% of the variance in the dataset can be explained by the model, meaning it is fitting the data well. The MAPE values rienforce this idea too. While MAPE values below 10% would be the most ideal, a MAPE of 13% indicates predictions are on average 13% off of what they should be. This is generally considered "good".
+
+The RMSE is where things get tricky. Individually, they are not too awful. Although they look large, they are inflated due to the scale of the data. When considering that the majority of the data for generated energy is in the tens of thousands, and for cost it is in the tens of millions, the ratio of the RMSE to this "median" value can be roughly approximated to around .30, or 30% for both targets. For a metric that is not best suited for a dataset of this type, 30% also can indicate promising results. Even though it is more than twice the MAPE, this is to be expected because of the scale issues mentioned prior. In the end, it highlights the issue posed by the dataset, but also can somewhat reinforce the idea that the model is performing well, if examined deep enough.
+
+### Feature Importance
+
+In a Random Forest, the input features end up being "ranked" by importance. This means that some features are used to determine how the tree splits more than others. A higher importance indicates that a feature is being used more often, while a lower importance indicates the opposite. When assessing a Random Forest, it is nice to see an even split of importance across all features. This would indicate that all of the features are being used equally to get to predictions. This not only ensures the model is functioning properly, but it also ensures that the dataset is not skewed towards a single feature.
+
+A plot of the feature importances, and their respective values are shown below:
+
+{{< embed 2-rf-wind.ipynb#fig-feature-importances >}}
+
+{{< embed 2-rf-wind.ipynb#feature-importances >}}
+
+While it is not an even split, each feature has an importance that is significant when regarding the creation of the model. This indicates that the model is functioning fairly well with how it is using the data, and it even goes so far as to reinforce that the dataset is construced in a meaningful and unbiased way. All of this points to the model being effective at making trustworthy predictions.
+
+### K-Fold Cross Validation
+
+The last piece of assessment comes from k-fold cross validation. K-fold cross validation consists of splitting up the dataset into k folds, and using those folds for training and testing. Each fold produces a trained model that then has metrics taken from it, in this case it is the same metrics listed above. The end goal being to obtain averages for all of the desired metrics over the _entire_ dataset. Even though we shuffled the dataset, some of the data is not being used for training. K-fold cross validation ensures that all of the data is being used for both training and testing at some point, resulting in more accurate reporting of metrics.
+
+For this project, 10 folds were used. The results of running k-fold cross validation on the wind dataset is shown below.
+
+{{< embed 2-rf-wind.ipynb#k-fold-cross-validation-table >}}
