@@ -8,7 +8,7 @@ from sklearn.preprocessing import StandardScaler
 
 scaler = StandardScaler()
 
-df = pd.read_csv("../data/wind_refactored.csv")
+df = pd.read_csv("../data/wind.csv")
 df = df.sample(frac=1)
 
 #| OLD DATA
@@ -22,8 +22,8 @@ df = df.sample(frac=1)
 # X = df.loc[:, [False, False, False, False, True, True, False, True, True, True, True, False]]
 # y = df['cost($)'].values
 
-X = df.loc[:, [False, False, False, False, True, True, True, True, True, True, False, False]]
-y = df.loc[:, [False, False, False, False, False, False, False, False, False, False, True, True]]
+X = df.loc[:, ['lat','long','capacity']]
+y = df.loc[:, ['generated_energy','cost']]
 
 X_train = X[:100000]
 X_test = X[100000:]
@@ -34,25 +34,24 @@ scaler.fit(X_train)
 X_train = scaler.transform(X_train)
 X_test = scaler.transform(X_test)
 
-reg = MLPRegressor(solver='lbfgs', hidden_layer_sizes=(3,2), random_state=0, max_iter=10000000)
+reg = MLPRegressor(solver='lbfgs', hidden_layer_sizes=(4,), random_state=0, max_iter=10000000)
 reg.fit(X_train,y_train)
 preds = reg.predict(X_test)
 print(preds)
 print()
 
 #| METRICS GATHERING
-r2 = metrics.r2_score(y_test, preds)
-mse = metrics.mean_squared_error(y_test, preds)
-rmse = metrics.root_mean_squared_error(y_test, preds)
-mae = metrics.mean_absolute_error(y_test, preds)
+
+r2 = metrics.r2_score(y_test, preds,multioutput="raw_values")
+rmse = metrics.root_mean_squared_error(y_test, preds,multioutput="raw_values")
+mape = metrics.mean_absolute_percentage_error(y_test, preds,multioutput="raw_values")
 
 print()
 print("Metric\tScore")
 print("-----------------------")
-print(f"r2\t{r2}\nmse\t{mse}\nrmse\t{rmse}\nmae\t{mae}")
+print(f"r2\t{r2}\nrmse\t{rmse}\nmape\t{mape}")
 print("-----------------------")
 print()
-
 #| K-FOLD CROSS VALIDATION
 # kf = KFold(n_splits=10, random_state=0, shuffle=True)
 # kf_cv_score = cross_val_score(reg, X, y, cv=kf)

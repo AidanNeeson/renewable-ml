@@ -14,7 +14,7 @@ The first step when performing any kind of machine learning problem or analysis 
 
 {{< embed 1-datasets.ipynb#wind-dataset-preview >}}
 
-The dataset as it is, potentially hsa a lot of bias due to its structure and ordering. Although a human may not be able to see a pattern in the order the way the data as been recorded, a machine learning model is very sensitive to nuances like this. To reduce this being a factor, the dataset must be shuffled. A method from the Python package `pandas` can do this very easily, that method being `sample()`. Once it is used, the dataset ends up looking like this:
+The dataset as it is, potentially has a lot of bias due to its structure and ordering. Although a human may not be able to see a pattern in the order the way the data as been recorded, a machine learning model is very sensitive to nuances like this. To reduce this being a factor, the dataset must be shuffled. A method from the Python package `pandas` can do this very easily, that method being `sample()`. Once it is used, the dataset ends up looking like this:
 
 {{< embed 2-rf-wind.ipynb#shuffled-dataset-preview >}}
 
@@ -103,3 +103,13 @@ The last piece of assessment comes from k-fold cross validation. K-fold cross va
 For this project, 10 folds were used. The results of running k-fold cross validation on the wind dataset is shown below.
 
 {{< embed 2-rf-wind.ipynb#k-fold-cross-validation-table >}}
+
+K-fold cross validation through `sklearn` does not support multioutput. Because of this, the metrics for both targets are averaged together, resulting in one metric that defines the model's overall performance. This is okay for R2 and MAPE, as they are similar enough and scale-independent, so little information is lost or abstracted. RMSE, however, becomes slightly less meaningfull when averaged due to the difference in scale between `generated_energy` and `cost`. Averaging the separate RMSE's from a single report results in an average RMSE of 3,137,778.11. Comparing this to the average RMSE from cross validation, they are fairly similar. It can then be assumed that the individual RMSE's would be around the same, indicating that the averages for then entire dataset are still within reasonable bounds. A similar conclusion can be drawn regarding R2 and MAPE. These values are within the same bounds of acceptance as they were in the [metrics section](#metrics-reporting), indicating good results.
+
+## A Note About the Solar Data
+
+The solar data is not, and will, not be covered in detail like the wind data was above. It was concluded that the solar data is insufficient for the project's goals. The metrics that come from a model trained on solar data indicate more than just poor results. It is omitted to reduce confusion and bring to light the more impactful results of this experiment.
+
+{{< embed 2-rf-solar.ipynb#metrics >}}
+
+Numbers that look like this are intrinsic of bad models or bad data. In this case, it is bad data. The issue stems from what data was available publically and feasible to work with. Many gaps needed to be filled in, and not enough data was available to fill these gaps in, in a way that did not comprimise the dataset in the end. The notebook is still available to view for purposes of experiment replication and validation.

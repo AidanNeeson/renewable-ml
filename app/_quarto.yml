@@ -9,7 +9,7 @@ website:
         text: Home
       - href: data.qmd
         text: Data
-      - href: 2-rf.ipynb
+      - href: rf.qmd
         text: Random Forest
       - href: 3-svm.ipynb
         text: SVM
