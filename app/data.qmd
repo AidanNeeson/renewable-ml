@@ -47,17 +47,17 @@ The initial direction of this project was to look specifically into clustering t
 
 To do this, you just need to cluster the data with varying cluster numbers, score them, and graph the scores by the number of clusters and determine the point at which gains start to diminish.
 
-{{< embed 8-data-clustering.ipynb#fig-optimal-clusters >}}
+{{< embed 6-data-clustering.ipynb#fig-optimal-clusters >}}
 
 2. Cluster the data and plot the results
 
 With the optimal number of clusters (or any desired number), the data can be clustered, with each data point given a cluster ID.
 
-{{< embed 8-data-clustering.ipynb#clustered-data-preview >}}
+{{< embed 6-data-clustering.ipynb#clustered-data-preview >}}
 
 Now that clusters are generated, they can be plotted and visualized.
 
-{{< embed 8-data-clustering.ipynb#fig-clustered-data >}}
+{{< embed 6-data-clustering.ipynb#fig-clustered-data >}}
 
 This not only shows the shape and dimensions of the data, but it also gives insights into how many clusters are suitable for the task. The scale of the data makes the number of optimal clusters here a bit ambiguous. Although around 20 seems to be the best, 20 clusters does not seem to represent the nuances of how geospatial data like wind speed and solar raditation changes throughout the country. This seems to indicate that this approach is a bit unreliable in that regard and could introduce more bias into the data and models.
 

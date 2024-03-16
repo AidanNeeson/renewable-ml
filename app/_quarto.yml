@@ -11,9 +11,9 @@ website:
         text: Data
       - href: rf.qmd
         text: Random Forest
-      - href: 3-svm.ipynb
+      - href: svm.qmd
         text: SVM
-      - href: 4-ann.ipynb
+      - href: ann.qmd
         text: ANN
 
 format:

@@ -1,0 +1,93 @@
+---
+title: "Support Vector Regression on Geospatial Data"
+---
+
+# The Support Vector Regressor
+
+A Support Vector Machine Regression, or Support Vector Regression (SVR), is a machine learning algorithm that uses supervised learning to find a hyperplane that fits the data points in continuous space. What this means, is that the model tries to fit a curve that passes through as many data points as possible within a certain area, called a margin. This approach can lend itself to reducing prediction error and creating good representations of the data, even in non-linear formats. It has also has seen its usefullness in geospatial applications for both classification and regression purposes. Because of this, it has potential to be a good model for this application. However, the method an SVR takes can also lend itself to be unreliable in many scenarios depending on how the data represents itself, which will be seen later.
+
+## Getting a Trained Model
+
+For a more detailed description of getting to a trained model, navigate to the Random Forest page. There, most of the important high level concepts are discussed. On this page, only the important pieces relating directly to an SVR will be covered for the sake of reducing unecessary repetition.
+
+### Data and Preprocessing
+
+We will be using the [wind](https://data.nrel.gov/submissions/54) data again for the SVR, and to reduce bias we start by shuffling it:
+
+{{< embed 3-svm-wind.ipynb#shuffled-dataset-preview >}}
+
+An SVR does to support multioutput, so each target must have a model that corresponds to it. Because of this, array generation and feature selection looks a bit different. The `X` array is the same as before, but things change with the `y` array. Instead of one, two need to be made, those being `y_energy` and `y_cost`, each for the two desired targets. All three of these arrays are then split into training and testing sets.
+
+```python
+X = df.loc[:, ['lat','long','capacity']]
+y_energy = df['generated_energy'].values
+y_cost = df['cost'].values
+
+X_train = X[:100000]
+X_test = X[100000:]
+y_energy_train = y_energy[:100000]
+y_energy_test = y_energy[100000:]
+y_cost_train = y_cost[:100000]
+y_cost_test = y_cost[100000:]
+```
+
+The data is then scaled down using `sklearn`'s `StandardScaler`, making the data easier to be parsed and handled by the algorithm. Now the SVRs can be trained.
+
+### Training a Support Vector Regressor
+
+Keeping things as simple as possible, the SVRs, coming from `sklearn`, are used out-of-the box. Some tuning was done to attempt to get better results, but nothing substantial was gained, so we will stick with basic models.
+
+```python
+energy_reg = svm.SVR()
+cost_reg = svm.SVR()
+energy_reg.fit(X_train, y_energy_train)
+cost_reg.fit(X_train, y_cost_train)
+```
+
+Now predictions can be made using both models:
+
+{{< embed 3-svm-wind.ipynb#prediction-comparisons >}}
+
+The predictions do not seem to vary much, and do not match up with the actual outputs either. From this point, a conclusion could already be drawn that the model is not performing up to standards, but to be sure, we have to analyze it more in-depth.
+
+## Analyzing and Assessing the Support Vector Regressor
+
+Apart from any model-specific evaluation techniques, the evaluation process remains the same as the other models. The models are graphed, metrics are gathered, and k-fold corss validation is used.
+
+### Model Visualizations
+
+{{< embed 3-svm-wind.ipynb#fig-generated-energy-vs-input-features >}}
+
+{{< embed 3-svm-wind.ipynb#fig-cost-vs-input-features >}}
+
+These plots even further indicate the poor performance of the SVR. The predictions fit nearly a straight line for both targets, no matter the input feature. This can most likely be attributed to the technique used by an SVR to make predictions in combination with the data. Although it is hard to see, the density of the datapoints near the bottom of the graph is a lot higher than in other parts (keep in mind there are about 120,000 data points). The SVR is trying to hit as many as possible within a certain area around the curve. Some features distribute these points in different ways, which can make it difficult for the SVR find the best fit. In the end it results in curves that do not look ideal, but to ensure this is the case, the metrics must be examined.
+
+### Metrics Reporting
+
+The metrics used are the same as the other two models: R2-score (R2), Root Mean Squared Error (RMSE), and Mean Absolute Percentage Error (MAPE).
+
+{{< embed 3-svm-wind.ipynb#metrics >}}
+
+The metrics also indicate that the model does not perform well. The scale independent-metrics, R2 and MAPE, indicate very poor fits for both targets. RMSE is also too high to reasonably be explained away, especially when considering the averages for each target. The RMSE relative to target averages would indicate predictions are off by about 60% and above. Overall this is very poor performance, but this is only one representation of the data, which could be biased. The entire dataset must be used to ensure the analysis is as unbiased as possible.
+
+### K-Fold Cross Validation
+
+To ensure the entire dataset it being used and tested, k-fold cross validation is used. Like with the other models, 10 folds will be used, and the metrics from above are recorded for evaluation purposes. The results for both energy and cost are below:
+
+Energy:
+
+{{< embed 3-svm-wind.ipynb#k-fold-cross-validation-table-energy >}}
+
+Cost:
+
+{{< embed 3-svm-wind.ipynb#k-fold-cross-validation-table-cost >}}
+
+The results from k-fold cross validation reinforce the assumptions from before: the model does not perform well. In fact, it performs even worse overall than what could be gathered originally. It seems that although SVR can be a useful tool when modeling geospatial data, for this specific application, using it out-of-the-box is not effective. Fine tuning the model could give better results, but compared to the other models, SVR does not seem useful.
+
+## A Note About the Solar Data
+
+The solar data is not, and will, not be covered in detail like the wind data was above. It was concluded that the solar data is insufficient for the project's goals. The metrics that come from a model trained on solar data indicate more than just poor results. It is omitted to reduce confusion and bring to light the more impactful results of this experiment.
+
+{{< embed 3-svm-solar.ipynb#metrics >}}
+
+Numbers that look like this are intrinsic of bad models or bad data. In this case, it is bad data. The issue stems from what data was available publically and feasible to work with. Many gaps needed to be filled in, and not enough data was available to fill these gaps in in a way that did not comprimise the dataset in the end. The notebook is still available to view for purposes of experiment replication and validation.

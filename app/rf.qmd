@@ -8,6 +8,8 @@ The Random Forest model is an simple, easy to use model that offers good results
 
 ## Getting a Trained Model
 
+The process for getting to trained model is flushed out in detail below. The other algorithms covered will not be covered in as great as detail for the sake of reducing repetition. Any differences that stand out between the models will be covered on their respective page. Otherwise, the process remains generally the same, if not exactly the same, at a high level.
+
 ### Data and Preprocessing
 
 The first step when performing any kind of machine learning problem or analysis is to read in the data, make alterations to it, and select features for training and testing. For this showcase, we will look at the [wind](https://data.nrel.gov/submissions/54) data:
@@ -18,7 +20,7 @@ The dataset as it is, potentially has a lot of bias due to its structure and ord
 
 {{< embed 2-rf-wind.ipynb#shuffled-dataset-preview >}}
 
-With the data shuffled, we can now ensure that the training and testing splits have as little bias as possible, from an ordering perspective. Two different arrays must be made for each split, those being `X`, the inputs, and `y`, the outputs, or features to be predicted. For this project, we are interested in determining if a machine learning model is effective when only given locational data, and as little extra information as possible. So for our `X` variables, we chose `lat`, `long`, and `capacity`. For the `y`, `generated_energy` and `cost` were used, since these are the values we want to predict. The idea is that a hypothetical user should only need to input their location, and how big they want the wind turbine/farm to be, if they want predictions.
+With the data shuffled, we can now ensure that the training and testing splits have as little bias as possible, from an ordering perspective. Two different arrays must be made for each split, those being `X`, the inputs, and `y`, the outputs, or features to be predicted. For this project, we are interested in determining if a machine learning model is effective when only given locational data, and as little extra information as possible. So for our `X` variables, we chose `lat`, `long`, and `capacity`. For the `y`, `generated_energy` and `cost` were used, since these are the values we want to predict. The idea is that a hypothetical user should only need to input their location, and how big they want the wind turbine/farm to be, if they want predictions. For the splits, we reserve about 80% of the data for training, and 20% for testing.
 
 ```python
 X = df.loc[:, ['lat','long','capacity']]
@@ -32,7 +34,7 @@ y_test = y[100000:]
 
 > Notice that we are using two targets, this is because we are taking advantage of multioutput regression functionality. This saves on time and computational costs by creating one model that can predict two targets with one set of features.
 
-With shuffled traiing and testing splits, some changes must be made to the data to ensure it is easier for the model to process. Many machine learning models prefer having smaller numbers, ideally numbers between [1,-1]. From the dataset above, this is clearly not the case. To get close to this ideal, a `scaler` is used. A `scaler` will take the entire dataset, and apply a transformation to every feature, making the numbers smaller, and easier for a model to work with, without losing the meaning the original data had. For this project, `sklearn`'s `StandardScaler` was used. 
+With shuffled training and testing splits, some changes must be made to the data to ensure it is easier for the model to process. Many machine learning models prefer having smaller numbers, ideally numbers between [1,-1]. From the dataset above, this is clearly not the case. To get close to this ideal, a `scaler` is used. A `scaler` will take the entire dataset, and apply a transformation to every feature, making the numbers smaller, and easier for a model to work with, without losing the meaning the original data had. For this project, `sklearn`'s `StandardScaler` was used. 
 **Note**: The `scaler` is only used on the inputs, not on the outputs. It would not change the results, but it would supply an illusion that the model is performing better.
 
 {{< embed 2-rf-wind.ipynb#scaled-data >}}
@@ -61,6 +63,18 @@ The values are fairly close, especially when considering how little information 
 ## Analyzing and Assesing the Random Forest
 
 There are many ways to evaluate the performace of a model. Some of these are model dependent, like feature importance for a Random Forest. Others can be done to any model, like reporting metrics, or performing k-fold cross validation. Outlined below, are the strategies used to evaluate the performance of the `Random Forest Regressor` used in this project.
+
+### Model Visualizations
+
+A helpful way to assess a machine learning model is to plot the model against the data being used. This allows for one to see the how the predictive model is fitting to the data. Below are the graphs for each feature, for each target:
+
+{{< embed 2-rf-wind.ipynb#fig-generated-energy-vs-input-features >}}
+
+{{< embed 2-rf-wind.ipynb#fig-cost-vs-input-features >}}
+
+The curves are not as smooth as one might hope, but they seem to represent the data in a fair way, although it is hard to fully capture due to how many data points there really are. While being able to visualize the models in the context of the data, more information is needed to truly be able to evaluate how well the model is performing. For that, we use metrics.
+
+> It is important to note that these are the predictive models for each feature, and not the overall curve for the entire model.
 
 ### Metrics Reporting
 
@@ -112,4 +126,4 @@ The solar data is not, and will, not be covered in detail like the wind data was
 
 {{< embed 2-rf-solar.ipynb#metrics >}}
 
-Numbers that look like this are intrinsic of bad models or bad data. In this case, it is bad data. The issue stems from what data was available publically and feasible to work with. Many gaps needed to be filled in, and not enough data was available to fill these gaps in, in a way that did not comprimise the dataset in the end. The notebook is still available to view for purposes of experiment replication and validation.
+Numbers that look like this are intrinsic of bad models or bad data. In this case, it is bad data. The issue stems from what data was available publically and feasible to work with. Many gaps needed to be filled in, and not enough data was available to fill these gaps in in a way that did not comprimise the dataset in the end. The notebook is still available to view for purposes of experiment replication and validation.

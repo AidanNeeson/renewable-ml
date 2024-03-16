@@ -133,11 +133,11 @@ window.Quarto = {
 <span class="menu-text">Random Forest</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./3-svm.ipynb"> 
+    <a class="nav-link" href="./svm.html"> 
 <span class="menu-text">SVM</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./4-ann.ipynb"> 
+    <a class="nav-link" href="./ann.html"> 
 <span class="menu-text">ANN</span></a>
   </li>  
 </ul>
@@ -170,7 +170,7 @@ window.Quarto = {
   </ul></li>
   </ul></li>
   </ul>
-<div class="quarto-alternate-notebooks"><h2>Notebooks</h2><ul><li><a href="1-datasets-preview.html"><i class="bi bi-journal-code"></i>Data Preview</a></li><li><a href="5-rf-old-preview.html"><i class="bi bi-journal-code"></i>Old Random Forest Model</a></li><li><a href="8-data-clustering-preview.html"><i class="bi bi-journal-code"></i>Data Clustering</a></li></ul></div></nav>
+<div class="quarto-alternate-notebooks"><h2>Notebooks</h2><ul><li><a href="1-datasets-preview.html"><i class="bi bi-journal-code"></i>Data Preview</a></li><li><a href="5-rf-old-preview.html"><i class="bi bi-journal-code"></i>Old Random Forest Model</a></li><li><a href="6-data-clustering-preview.html"><i class="bi bi-journal-code"></i>Data Clustering</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -441,7 +441,7 @@ capacity: 99.99943229574717</code></pre>
 <div id="fig-optimal-clusters" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-optimal-clusters-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="data_files/figure-html/8-data-clustering-fig-optimal-clusters-output-1.png" id="fig-optimal-clusters" class="img-fluid figure-img">
+<img src="data_files/figure-html/6-data-clustering-fig-optimal-clusters-output-1.png" id="fig-optimal-clusters" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-optimal-clusters-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;2
@@ -450,7 +450,7 @@ Figure&nbsp;2
 </div>
 </div>
 </div>
-<a class="quarto-notebook-link" id="nblink-5" href="8-data-clustering-preview.html#cell-fig-optimal-clusters">Source: Data Clustering</a></div>
+<a class="quarto-notebook-link" id="nblink-5" href="6-data-clustering-preview.html#cell-fig-optimal-clusters">Source: Data Clustering</a></div>
 <ol start="2" type="1">
 <li>Cluster the data and plot the results</li>
 </ol>
@@ -507,7 +507,7 @@ Figure&nbsp;2
 </div>
 </div>
 </div>
-<a class="quarto-notebook-link" id="nblink-6" href="8-data-clustering-preview.html#cell-clustered-data-preview">Source: Data Clustering</a></div>
+<a class="quarto-notebook-link" id="nblink-6" href="6-data-clustering-preview.html#cell-clustered-data-preview">Source: Data Clustering</a></div>
 <p>Now that clusters are generated, they can be plotted and visualized.</p>
 <div class="quarto-embed-nb-cell">
 <div id="cell-fig-clustered-data" class="cell" data-execution_count="7">
@@ -515,7 +515,7 @@ Figure&nbsp;2
 <div id="fig-clustered-data" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-clustered-data-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="data_files/figure-html/8-data-clustering-fig-clustered-data-output-1.png" id="fig-clustered-data" class="img-fluid figure-img">
+<img src="data_files/figure-html/6-data-clustering-fig-clustered-data-output-1.png" id="fig-clustered-data" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-clustered-data-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;3
@@ -524,7 +524,7 @@ Figure&nbsp;3
 </div>
 </div>
 </div>
-<a class="quarto-notebook-link" id="nblink-7" href="8-data-clustering-preview.html#cell-fig-clustered-data">Source: Data Clustering</a></div>
+<a class="quarto-notebook-link" id="nblink-7" href="6-data-clustering-preview.html#cell-fig-clustered-data">Source: Data Clustering</a></div>
 <p>This not only shows the shape and dimensions of the data, but it also gives insights into how many clusters are suitable for the task. The scale of the data makes the number of optimal clusters here a bit ambiguous. Although around 20 seems to be the best, 20 clusters does not seem to represent the nuances of how geospatial data like wind speed and solar raditation changes throughout the country. This seems to indicate that this approach is a bit unreliable in that regard and could introduce more bias into the data and models.</p>
 <p>Additionally, the clustering could also help increase the performance of the algorithms by lowering the number of input parameters. Simplifying the inputs allows the models to interpret the data easier, leading to better predictions. The issues described in <a href="#structure-and-make-up">the structure and make-up section</a> further examplified this potential benefit. But for those same reasons, clustering ended up not being an ideal pathway forward. Not only would refactoring the data to remove the bias negate the benefits of clustering in the long run, but clustering also ends up become computationally expensive and tedious to implement and analyze given the nature of the data. For these reasons it was discarded as an aspect of the project.</p>
 </section>

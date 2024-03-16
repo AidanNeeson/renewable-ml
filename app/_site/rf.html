@@ -138,11 +138,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="menu-text">Random Forest</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./3-svm.ipynb"> 
+    <a class="nav-link" href="./svm.html"> 
 <span class="menu-text">SVM</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./4-ann.ipynb"> 
+    <a class="nav-link" href="./ann.html"> 
 <span class="menu-text">ANN</span></a>
   </li>  
 </ul>
@@ -170,6 +170,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#analyzing-and-assesing-the-random-forest" id="toc-analyzing-and-assesing-the-random-forest" class="nav-link" data-scroll-target="#analyzing-and-assesing-the-random-forest">Analyzing and Assesing the Random Forest</a>
   <ul class="collapse">
+  <li><a href="#model-visualizations" id="toc-model-visualizations" class="nav-link" data-scroll-target="#model-visualizations">Model Visualizations</a></li>
   <li><a href="#metrics-reporting" id="toc-metrics-reporting" class="nav-link" data-scroll-target="#metrics-reporting">Metrics Reporting</a></li>
   <li><a href="#feature-importance" id="toc-feature-importance" class="nav-link" data-scroll-target="#feature-importance">Feature Importance</a></li>
   <li><a href="#k-fold-cross-validation" id="toc-k-fold-cross-validation" class="nav-link" data-scroll-target="#k-fold-cross-validation">K-Fold Cross Validation</a></li>
@@ -177,7 +178,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#a-note-about-the-solar-data" id="toc-a-note-about-the-solar-data" class="nav-link" data-scroll-target="#a-note-about-the-solar-data">A Note About the Solar Data</a></li>
   </ul></li>
   </ul>
-<div class="quarto-alternate-notebooks"><h2>Notebooks</h2><ul><li><a href="1-datasets-preview.html"><i class="bi bi-journal-code"></i>Data Preview</a></li><li><a href="2-rf-wind-preview.html"><i class="bi bi-journal-code"></i>Random Forest Regression Process and Analysis for Wind Data</a></li><li><a href="2-rf-solar-preview.html"><i class="bi bi-journal-code"></i>Random Forest Regression Process and Analysis for Solar Data</a></li></ul></div></nav>
+<div class="quarto-alternate-notebooks"><h2>Notebooks</h2><ul><li><a href="1-datasets-preview.html"><i class="bi bi-journal-code"></i>Data Preview</a></li><li><a href="2-rf-wind-preview.html"><i class="bi bi-journal-code"></i>Random Forest Regression Process and Analysis for Wind Data</a></li><li><a href="2-rf-solar-preview.html"><i class="bi bi-journal-code"></i>Random Forest Regression Process and Analysis for Wind Data</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -206,6 +207,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>The Random Forest model is an simple, easy to use model that offers good results on a consistent basis for a wide range of applications. One of the areas that it is known to perform quite well in, is geospatial applications. Because of this, there is no doubt it was one of the algorithms chosen for this projects’ analysis. The “regressor” in Random Forest Regressor, stems from the use of strictly numeric data points in the project, which is analyzed most effectively through regressions. Below, the steps to use the <code>Random Forest Regressor</code> model from <code>sklearn</code> on the datasets in breifly outlined. To fill in those blanks, the relative notebooks are linked on the side.</p>
 <section id="getting-a-trained-model" class="level2">
 <h2 class="anchored" data-anchor-id="getting-a-trained-model">Getting a Trained Model</h2>
+<p>The process for getting to trained model is flushed out in detail below. The other algorithms covered will not be covered in as great as detail for the sake of reducing repetition. Any differences that stand out between the models will be covered on their respective page. Otherwise, the process remains generally the same, if not exactly the same, at a high level.</p>
 <section id="data-and-preprocessing" class="level3">
 <h3 class="anchored" data-anchor-id="data-and-preprocessing">Data and Preprocessing</h3>
 <p>The first step when performing any kind of machine learning problem or analysis is to read in the data, make alterations to it, and select features for training and testing. For this showcase, we will look at the <a href="https://data.nrel.gov/submissions/54">wind</a> data:</p>
@@ -350,84 +352,84 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">79590</td>
-<td>79590</td>
-<td>41.837624</td>
-<td>-117.217148</td>
-<td>Nevada</td>
+<td data-quarto-table-cell-role="th">104321</td>
+<td>104321</td>
+<td>47.115517</td>
+<td>-106.994720</td>
+<td>Montana</td>
 <td>onshore</td>
-<td>6.79</td>
-<td>52</td>
+<td>8.08</td>
+<td>31</td>
 <td>16</td>
-<td>0.309</td>
-<td>12.047482</td>
-<td>105535.9457</td>
-<td>32610.60721</td>
-<td>33915031.49</td>
+<td>0.439</td>
+<td>20.301170</td>
+<td>177838.24560</td>
+<td>78070.98984</td>
+<td>48404013.70</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">63264</td>
-<td>63264</td>
-<td>39.696823</td>
-<td>-120.172119</td>
+<td data-quarto-table-cell-role="th">44108</td>
+<td>44108</td>
+<td>40.504593</td>
+<td>-87.896454</td>
+<td>Illinois</td>
+<td>onshore</td>
+<td>7.16</td>
+<td>36</td>
+<td>16</td>
+<td>0.374</td>
+<td>14.126223</td>
+<td>123745.70950</td>
+<td>46280.89535</td>
+<td>33322244.65</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">19515</td>
+<td>19515</td>
+<td>36.364742</td>
+<td>-88.897675</td>
+<td>Tennessee</td>
+<td>onshore</td>
+<td>6.74</td>
+<td>45</td>
+<td>16</td>
+<td>0.387</td>
+<td>11.783293</td>
+<td>103221.64420</td>
+<td>39946.77632</td>
+<td>35952098.69</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">4940</td>
+<td>4940</td>
+<td>32.670708</td>
+<td>-102.887939</td>
+<td>Texas</td>
+<td>onshore</td>
+<td>7.34</td>
+<td>31</td>
+<td>16</td>
+<td>0.411</td>
+<td>15.218616</td>
+<td>133315.07550</td>
+<td>54792.49602</td>
+<td>33971347.53</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">70776</td>
+<td>70776</td>
+<td>39.942379</td>
+<td>-122.230392</td>
 <td>California</td>
 <td>onshore</td>
-<td>6.93</td>
+<td>6.11</td>
 <td>47</td>
 <td>16</td>
-<td>0.349</td>
-<td>12.808158</td>
-<td>112199.4652</td>
-<td>39157.61336</td>
-<td>36808156.56</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">67794</td>
-<td>67794</td>
-<td>42.508434</td>
-<td>-105.420929</td>
-<td>Wyoming</td>
-<td>onshore</td>
-<td>7.09</td>
-<td>30</td>
-<td>16</td>
-<td>0.326</td>
-<td>13.715943</td>
-<td>120151.6637</td>
-<td>39169.44236</td>
-<td>23501665.42</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">76743</td>
-<td>76743</td>
-<td>43.585987</td>
-<td>-92.464874</td>
-<td>Minnesota</td>
-<td>onshore</td>
-<td>7.76</td>
-<td>32</td>
-<td>16</td>
-<td>0.489</td>
-<td>17.983414</td>
-<td>157534.7060</td>
-<td>77034.47126</td>
-<td>49302061.60</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">80060</td>
-<td>80060</td>
-<td>43.905441</td>
-<td>-92.548767</td>
-<td>Minnesota</td>
-<td>onshore</td>
-<td>7.64</td>
-<td>32</td>
-<td>14</td>
-<td>0.432</td>
-<td>15.016721</td>
-<td>131546.4741</td>
-<td>56828.07680</td>
-<td>36369969.15</td>
+<td>0.338</td>
+<td>8.778304</td>
+<td>76897.94144</td>
+<td>25991.50421</td>
+<td>24432013.95</td>
 </tr>
 </tbody>
 </table>
@@ -436,7 +438,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <a class="quarto-notebook-link" id="nblink-2" href="2-rf-wind-preview.html#cell-shuffled-dataset-preview">Source: Random Forest Regression Process and Analysis for Wind Data</a></div>
-<p>With the data shuffled, we can now ensure that the training and testing splits have as little bias as possible, from an ordering perspective. Two different arrays must be made for each split, those being <code>X</code>, the inputs, and <code>y</code>, the outputs, or features to be predicted. For this project, we are interested in determining if a machine learning model is effective when only given locational data, and as little extra information as possible. So for our <code>X</code> variables, we chose <code>lat</code>, <code>long</code>, and <code>capacity</code>. For the <code>y</code>, <code>generated_energy</code> and <code>cost</code> were used, since these are the values we want to predict. The idea is that a hypothetical user should only need to input their location, and how big they want the wind turbine/farm to be, if they want predictions.</p>
+<p>With the data shuffled, we can now ensure that the training and testing splits have as little bias as possible, from an ordering perspective. Two different arrays must be made for each split, those being <code>X</code>, the inputs, and <code>y</code>, the outputs, or features to be predicted. For this project, we are interested in determining if a machine learning model is effective when only given locational data, and as little extra information as possible. So for our <code>X</code> variables, we chose <code>lat</code>, <code>long</code>, and <code>capacity</code>. For the <code>y</code>, <code>generated_energy</code> and <code>cost</code> were used, since these are the values we want to predict. The idea is that a hypothetical user should only need to input their location, and how big they want the wind turbine/farm to be, if they want predictions. For the splits, we reserve about 80% of the data for training, and 20% for testing.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> df.loc[:, [<span class="st">'lat'</span>,<span class="st">'long'</span>,<span class="st">'capacity'</span>]]</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> df.loc[:, [<span class="st">'generated_energy'</span>,<span class="st">'cost'</span>]]</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -447,17 +449,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <blockquote class="blockquote">
 <p>Notice that we are using two targets, this is because we are taking advantage of multioutput regression functionality. This saves on time and computational costs by creating one model that can predict two targets with one set of features.</p>
 </blockquote>
-<p>With shuffled traiing and testing splits, some changes must be made to the data to ensure it is easier for the model to process. Many machine learning models prefer having smaller numbers, ideally numbers between [1,-1]. From the dataset above, this is clearly not the case. To get close to this ideal, a <code>scaler</code> is used. A <code>scaler</code> will take the entire dataset, and apply a transformation to every feature, making the numbers smaller, and easier for a model to work with, without losing the meaning the original data had. For this project, <code>sklearn</code>’s <code>StandardScaler</code> was used. <strong>Note</strong>: The <code>scaler</code> is only used on the inputs, not on the outputs. It would not change the results, but it would supply an illusion that the model is performing better.</p>
+<p>With shuffled training and testing splits, some changes must be made to the data to ensure it is easier for the model to process. Many machine learning models prefer having smaller numbers, ideally numbers between [1,-1]. From the dataset above, this is clearly not the case. To get close to this ideal, a <code>scaler</code> is used. A <code>scaler</code> will take the entire dataset, and apply a transformation to every feature, making the numbers smaller, and easier for a model to work with, without losing the meaning the original data had. For this project, <code>sklearn</code>’s <code>StandardScaler</code> was used. <strong>Note</strong>: The <code>scaler</code> is only used on the inputs, not on the outputs. It would not change the results, but it would supply an illusion that the model is performing better.</p>
 <div class="quarto-embed-nb-cell">
 <div id="cell-scaled-data" class="cell" data-execution_count="6">
 <div id="scaled-data" class="cell-output cell-output-display" data-execution_count="6">
-<pre><code>array([[ 0.29976876, -1.55213354,  0.51397118],
-       [-0.19081527, -1.80102981,  0.51397118],
-       [ 0.45349097, -0.55854175,  0.51397118],
+<pre><code>array([[ 1.50475958, -0.69192413,  0.51463162],
+       [-0.00765112,  0.91790859,  0.51463162],
+       [-0.95474337,  0.83351358,  0.51463162],
        ...,
-       [-0.98926974, -0.04632361,  0.51397118],
-       [ 1.01246158,  2.31043674, -0.67408559],
-       [-0.93654137,  1.82255592,  0.51397118]])</code></pre>
+       [ 0.20099693, -0.87590282, -0.07786604],
+       [-0.09467121, -0.45629192,  0.51463162],
+       [ 1.00200959,  0.73976282,  0.51463162]])</code></pre>
 </div>
 </div>
 <a class="quarto-notebook-link" id="nblink-3" href="2-rf-wind-preview.html#cell-scaled-data">Source: Random Forest Regression Process and Analysis for Wind Data</a></div>
@@ -491,9 +493,9 @@ Figure&nbsp;1
 <div class="cell-output cell-output-stdout">
 <pre><code>Predictions
 ----------------------
-predicted energy: 83754.58  actual energy: 83847.86 predicted cost: 53602934.30 actual cost: 53662631.64
-predicted energy: 71218.08  actual energy: 72733.57 predicted cost: 45579569.00 actual cost: 46549485.59
-predicted energy: 12278.47  actual energy: 12532.50 predicted cost: 7367082.12  actual cost: 7519499.96</code></pre>
+predicted energy: 39496.22  actual energy: 40307.25 predicted cost: 23697732.20 actual cost: 24184348.66
+predicted energy: 102419.64 actual energy: 101556.00    predicted cost: 61451784.90 actual cost: 60933600.27
+predicted energy: 49848.14  actual energy: 128958.46    predicted cost: 32899772.22 actual cost: 85112586.37</code></pre>
 </div>
 </div>
 <a class="quarto-notebook-link" id="nblink-5" href="2-rf-wind-preview.html#cell-prediction-comparisons">Source: Random Forest Regression Process and Analysis for Wind Data</a></div>
@@ -503,6 +505,46 @@ predicted energy: 12278.47  actual energy: 12532.50 predicted cost: 7367082.12  
 <section id="analyzing-and-assesing-the-random-forest" class="level2">
 <h2 class="anchored" data-anchor-id="analyzing-and-assesing-the-random-forest">Analyzing and Assesing the Random Forest</h2>
 <p>There are many ways to evaluate the performace of a model. Some of these are model dependent, like feature importance for a Random Forest. Others can be done to any model, like reporting metrics, or performing k-fold cross validation. Outlined below, are the strategies used to evaluate the performance of the <code>Random Forest Regressor</code> used in this project.</p>
+<section id="model-visualizations" class="level3">
+<h3 class="anchored" data-anchor-id="model-visualizations">Model Visualizations</h3>
+<p>A helpful way to assess a machine learning model is to plot the model against the data being used. This allows for one to see the how the predictive model is fitting to the data. Below are the graphs for each feature, for each target:</p>
+<div class="quarto-embed-nb-cell">
+<div id="cell-fig-generated-energy-vs-input-features" class="cell" data-execution_count="14">
+<div class="cell-output cell-output-display">
+<div id="fig-generated-energy-vs-input-features" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-generated-energy-vs-input-features-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="rf_files/figure-html/2-rf-wind-fig-generated-energy-vs-input-features-output-1.png" id="fig-generated-energy-vs-input-features" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-generated-energy-vs-input-features-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<a class="quarto-notebook-link" id="nblink-6" href="2-rf-wind-preview.html#cell-fig-generated-energy-vs-input-features">Source: Random Forest Regression Process and Analysis for Wind Data</a></div>
+<div class="quarto-embed-nb-cell">
+<div id="cell-fig-cost-vs-input-features" class="cell" data-execution_count="15">
+<div class="cell-output cell-output-display">
+<div id="fig-cost-vs-input-features" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-cost-vs-input-features-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="rf_files/figure-html/2-rf-wind-fig-cost-vs-input-features-output-1.png" id="fig-cost-vs-input-features" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-cost-vs-input-features-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<a class="quarto-notebook-link" id="nblink-7" href="2-rf-wind-preview.html#cell-fig-cost-vs-input-features">Source: Random Forest Regression Process and Analysis for Wind Data</a></div>
+<p>The curves are not as smooth as one might hope, but they seem to represent the data in a fair way, although it is hard to fully capture due to how many data points there really are. While being able to visualize the models in the context of the data, more information is needed to truly be able to evaluate how well the model is performing. For that, we use metrics.</p>
+<blockquote class="blockquote">
+<p>It is important to note that these are the predictive models for each feature, and not the overall curve for the entire model.</p>
+</blockquote>
+</section>
 <section id="metrics-reporting" class="level3">
 <h3 class="anchored" data-anchor-id="metrics-reporting">Metrics Reporting</h3>
 <p>To evaluate the machine learning models, three metrics, available through <code>sklearn</code>, were chosen.</p>
@@ -519,12 +561,12 @@ predicted energy: 12278.47  actual energy: 12532.50 predicted cost: 7367082.12  
 <div class="cell-output cell-output-stdout">
 <pre><code>Metric  Score
 -----------------------
-r2  [0.91837919 0.886822  ]
-rmse    [   9016.1235774  6597654.69852586]
-mape    [0.12685824 0.12691037]</code></pre>
+r2  [0.9223821  0.89367722]
+rmse    [   8843.51723011 6421746.41274378]
+mape    [0.12902421 0.1288721 ]</code></pre>
 </div>
 </div>
-<a class="quarto-notebook-link" id="nblink-6" href="2-rf-wind-preview.html#cell-metrics">Source: Random Forest Regression Process and Analysis for Wind Data</a></div>
+<a class="quarto-notebook-link" id="nblink-8" href="2-rf-wind-preview.html#cell-metrics">Source: Random Forest Regression Process and Analysis for Wind Data</a></div>
 <blockquote class="blockquote">
 <p>The metrics are separated for each target variable, the values on the left are for <code>generated_energy</code> predictions and the values on the right are for <code>cost</code> predictions.</p>
 </blockquote>
@@ -536,7 +578,7 @@ mape    [0.12685824 0.12691037]</code></pre>
 <p>In a Random Forest, the input features end up being “ranked” by importance. This means that some features are used to determine how the tree splits more than others. A higher importance indicates that a feature is being used more often, while a lower importance indicates the opposite. When assessing a Random Forest, it is nice to see an even split of importance across all features. This would indicate that all of the features are being used equally to get to predictions. This not only ensures the model is functioning properly, but it also ensures that the dataset is not skewed towards a single feature.</p>
 <p>A plot of the feature importances, and their respective values are shown below:</p>
 <div class="quarto-embed-nb-cell">
-<div id="cell-fig-feature-importances" class="cell" data-execution_count="14">
+<div id="cell-fig-feature-importances" class="cell" data-execution_count="13">
 <div class="cell-output cell-output-display">
 <div id="fig-feature-importances" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -544,24 +586,24 @@ mape    [0.12685824 0.12691037]</code></pre>
 <img src="rf_files/figure-html/2-rf-wind-fig-feature-importances-output-1.png" id="fig-feature-importances" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-feature-importances-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2
+Figure&nbsp;4
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
-<a class="quarto-notebook-link" id="nblink-7" href="2-rf-wind-preview.html#cell-fig-feature-importances">Source: Random Forest Regression Process and Analysis for Wind Data</a></div>
+<a class="quarto-notebook-link" id="nblink-9" href="2-rf-wind-preview.html#cell-fig-feature-importances">Source: Random Forest Regression Process and Analysis for Wind Data</a></div>
 <div class="quarto-embed-nb-cell">
 <div id="feature-importances" class="cell" data-execution_count="10">
 <div class="cell-output cell-output-stdout">
 <pre><code>Importances
 ----------------------
-capacity: 20.135246241505772
-lat: 35.00933261524246
-long: 44.855421143251775</code></pre>
+capacity: 20.230960634451716
+lat: 35.095811124953094
+long: 44.67322824059519</code></pre>
 </div>
 </div>
-<a class="quarto-notebook-link" id="nblink-8" href="2-rf-wind-preview.html#cell-feature-importances">Source: Random Forest Regression Process and Analysis for Wind Data</a></div>
+<a class="quarto-notebook-link" id="nblink-10" href="2-rf-wind-preview.html#cell-feature-importances">Source: Random Forest Regression Process and Analysis for Wind Data</a></div>
 <p>While it is not an even split, each feature has an importance that is significant when regarding the creation of the model. This indicates that the model is functioning fairly well with how it is using the data, and it even goes so far as to reinforce that the dataset is construced in a meaningful and unbiased way. All of this points to the model being effective at making trustworthy predictions.</p>
 </section>
 <section id="k-fold-cross-validation" class="level3">
@@ -679,7 +721,7 @@ MAPE Average: 0.13390596472645255</code></pre>
 </div>
 </div>
 </div>
-<a class="quarto-notebook-link" id="nblink-9" href="2-rf-wind-preview.html#cell-k-fold-cross-validation-table">Source: Random Forest Regression Process and Analysis for Wind Data</a></div>
+<a class="quarto-notebook-link" id="nblink-11" href="2-rf-wind-preview.html#cell-k-fold-cross-validation-table">Source: Random Forest Regression Process and Analysis for Wind Data</a></div>
 <p>K-fold cross validation through <code>sklearn</code> does not support multioutput. Because of this, the metrics for both targets are averaged together, resulting in one metric that defines the model’s overall performance. This is okay for R2 and MAPE, as they are similar enough and scale-independent, so little information is lost or abstracted. RMSE, however, becomes slightly less meaningfull when averaged due to the difference in scale between <code>generated_energy</code> and <code>cost</code>. Averaging the separate RMSE’s from a single report results in an average RMSE of 3,137,778.11. Comparing this to the average RMSE from cross validation, they are fairly similar. It can then be assumed that the individual RMSE’s would be around the same, indicating that the averages for then entire dataset are still within reasonable bounds. A similar conclusion can be drawn regarding R2 and MAPE. These values are within the same bounds of acceptance as they were in the <a href="#metrics-reporting">metrics section</a>, indicating good results.</p>
 </section>
 </section>
@@ -691,13 +733,13 @@ MAPE Average: 0.13390596472645255</code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>Metric  Score
 -----------------------
-r2  [1.         0.99973199]
-rmse    [1.84203151e-12 1.00424139e+07]
-mape    [9.85642916e-16 4.44841521e-03]</code></pre>
+r2  [1.         0.99947801]
+rmse    [1.89379452e-12 1.36960035e+07]
+mape    [9.69285180e-16 4.32843758e-03]</code></pre>
 </div>
 </div>
-<a class="quarto-notebook-link" id="nblink-10" href="2-rf-solar-preview.html#cell-metrics">Source: Random Forest Regression Process and Analysis for Solar Data</a></div>
-<p>Numbers that look like this are intrinsic of bad models or bad data. In this case, it is bad data. The issue stems from what data was available publically and feasible to work with. Many gaps needed to be filled in, and not enough data was available to fill these gaps in, in a way that did not comprimise the dataset in the end. The notebook is still available to view for purposes of experiment replication and validation.</p>
+<a class="quarto-notebook-link" id="nblink-12" href="2-rf-solar-preview.html#cell-metrics">Source: Random Forest Regression Process and Analysis for Wind Data</a></div>
+<p>Numbers that look like this are intrinsic of bad models or bad data. In this case, it is bad data. The issue stems from what data was available publically and feasible to work with. Many gaps needed to be filled in, and not enough data was available to fill these gaps in in a way that did not comprimise the dataset in the end. The notebook is still available to view for purposes of experiment replication and validation.</p>
 
 
 </section>

@@ -1,0 +1,80 @@
+---
+title: "Artifical Neural Network Trained on Geospatial Data"
+---
+
+# The Artificial Neural Network
+
+An Arificial Neural Network (ANN) is a machine learning model that attempts to make decisions in a way that is cimilar to the human brain. It does this by mimicking the way neurons work together to identify patterns and draw conclusions. Each network consists of layers, an inputs layer, hidden layers, and an output layer. The first and last are defined by the input features and the output targets. The hidden layers are dynamic and change depending on the scenario. Overall, it is a powerful model that has proved its effectiveness in geospatial applications. While they are typically more complex and require a lot of tuning to really begin to sense the power they have, it was still seen to be useful to explore the possibility of an ANN at its most basic form ebing useful in this application.
+
+## Getting a Trained Model
+
+For a more detailed description of getting to a trained model, navigate to the Random Forest page. There, most of the important high level concepts are discussed. On this page, only the important pieces relating directly to an ANN will be covered for the sake of reducing unecessary repetition.
+
+### Data and Preprocessing
+
+The data and preprocessing is the same as the Random Forest, since the ANN does support multioutput. [Wind](https://data.nrel.gov/submissions/54) data will be used again. A preview of it after being shuffled is below, as well as the steps to select features and split into training and testing sets:
+
+{{< embed 4-ann-wind.ipynb#shuffled-dataset-preview >}}
+
+```python
+X = df.loc[:, ['lat','long','capacity']]
+y = df.loc[:, ['generated_energy','cost']]
+
+X_train = X[:100000]
+X_test = X[100000:]
+y_train = y[:100000]
+y_test = y[100000:]
+```
+
+Now the ANN can be trained.
+
+### Training an Artificial Neural Network
+
+For this project, the `MLPRegressor` from `sklearn` was used as the ANN. ANN's typically require a lot of tuning to work effectively. Because of this, it was hard to use it in an out-of-the-box fashion like the other models. Some minimal changes needed to be made to ensure the ANN could function properly and converge most of the time. To achieve this, the `solver` used was `lbfgs`, as the other solvers would never converge. The number of epochs, defined by `max_iter` was set to 100 billion, as the ANN had issues converging when the number of epochs were lower. Hidden layer selection was done through a general rule of thumb when starting out using an ANN: the number of hidden layers should equal one, the number of neurons in the hidden layer should not be greater than twice the input layer, and the number of nuerons in each hidden layer, down to the output layer should decrease, ideally following some geometric sequence. Using this as a guide, `hidden_layer_sizes` was set to `(4,)`. This specifies one hidden layer with four neurons.
+
+```python
+reg = MLPRegressor(solver='lbfgs', hidden_layer_sizes=(4,), max_iter=100000000000)
+reg.fit(X_train, y_train)
+```
+
+This creates an ANN that looks like this:
+
+{{< embed 4-ann-wind.ipynb#fig-ann-diagram >}}
+
+This satisfies each condition of the general rule of thumb, creating an ideal starting point for an ANN.
+
+## Analyzing and Assessing the Network
+
+Apart from any model-specific evaluation techniques, the evaluation process remains the same as the other models. The models are graphed, metrics are gathered, and k-fold corss validation is used.
+
+### Model Visualizations
+
+{{< embed 4-ann-wind.ipynb#fig-generated-energy-vs-input-features >}}
+
+{{< embed 4-ann-wind.ipynb#fig-cost-vs-input-features >}}
+
+The curves are not very smooth, but they seem to represent the data pretty fair for most input features. The curve for `capacity` is less ideal that what one would like to see, as it does not fit clear upward trend as heavily as it should. Other than this, the curves fit generally well and indicate that the model may be doing an alright job at making predictions. More needs to be done to confirm this, however.
+
+### Metrics
+
+A place to start would be a single report of metrics on one split of the data.
+
+{{< embed 4-ann-wind.ipynb#metrics >}}
+
+These scores indicate that the model is performing poor. But, it also indicates that it does manage to represent some meaningful portion of the data well. Even though it leaves about 80% of the data unaccounted for, for a simple and under-tuned ANN, this performance is not relatively that bad. This is just one split of the data, it is best to ensure this is the case across the entire dataset.
+
+### K-Fold Cross Validation
+
+Similar to the other models, 10 folds are used for this k-fold cross validation. The same metrics from above are also used to score the model with each split. The reported scores are below:
+
+{{< embed 4-ann-wind.ipynb#k-fold-cross-validation-table >}}
+
+This shows that, on average, it performs slightly worse than initially thought. The difference is not that significant, so a similar conclusion can still be drawn. Overall, for an implementation of an ANN that was as simple as possible to obtain reliable results, these scores are nothing to scoff at, and can even go so far as to indicate that an ANN can be very promising if utilized to its maximum capacity in the future. Compared to the other models, it is not the best, but it also is not the worst. It has suited itself as a middle-of-the-road option until more research is done to unveil its treu strengths or weaknesses.
+
+## A Note About the Solar Data
+
+The solar data is not, and will, not be covered in detail like the wind data was above. It was concluded that the solar data is insufficient for the project's goals. The metrics that come from a model trained on solar data indicate more than just poor results. It is omitted to reduce confusion and bring to light the more impactful results of this experiment.
+
+{{< embed 3-svm-solar.ipynb#metrics >}}
+
+Numbers that look like this are intrinsic of bad models or bad data. In this case, it is bad data. The issue stems from what data was available publically and feasible to work with. Many gaps needed to be filled in, and not enough data was available to fill these gaps in in a way that did not comprimise the dataset in the end. The notebook is still available to view for purposes of experiment replication and validation.
