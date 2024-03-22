@@ -71,6 +71,9 @@ Be sure to have cloned/forked the repo and that Python 3.11.X and poetry are ins
 One also has the option boot up the Renewable ML website locally just by using
 `quarto preview app` in the repository's root in the CLI.
 
+There is now a website that hosts the note books!
+You can find it [here](https://aidanneeson610artifact.netlify.app/)
+
 ## Some Related Works
 
 Some similar work has been done in the past. The largest one, NREL's PVWatts,
