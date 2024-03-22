@@ -23,7 +23,7 @@ through the power of machine learning.
 
 ### Accessing the Website
 
-The website can be found at this link: https://aidanneeson610artifact.netlify.app/
+The website can be found at this [link](https://aidanneeson610artifact.netlify.app/)
 
 ### Running the Notebooks Manually
 
@@ -58,7 +58,8 @@ Be sure to have cloned/forked the repo and that Python 3.11.X and poetry are ins
 
 - First, install the [Quarto CLI](https://quarto.org/docs/get-started/)
 - Then get the Quarto extension from the **Extensions** tab in VS Code.
-- Now click on the search bar up at the top of VS Code and type `>Quarto: Create Project`
+- Now click on the search bar up at the top of VS Code and type
+    `>Quarto: Create Project`
 - Select that command and click on `Website Project`
 - Choose a directory or make a new one to house the website project.
 - Navigate to this new directory in the CLI
