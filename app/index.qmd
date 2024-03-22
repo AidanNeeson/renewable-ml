@@ -1,5 +1,29 @@
 ---
-title: "Assessing the Viability and Accuracy of Low-level Machine Learning Models At Predicting Renewable Array Parameters"
+title: "Renewable ML"
 ---
 
-This website serves as the artifact for the Allegheny College CMPSC 610 senior comprehensive project. It documents the computational work done to complete the analysis of the machine learning algorithms.
+## Assessing the Viability and Accuracy of Machine Learning Models At Predicting Renewable Energy Array Parameters
+
+### What is the website?
+
+This website documents the computational , experimental, and analytical processes of training, testing, and evaluating three machine learning algorithms:
+
+- [Random Forest](rf.qmd)
+- [Support Vector Mahcine](svm.qmd)
+- [Artificial Neural Network](ann.qmd)
+
+Each of these algorithms were chosen because of their simplicity and presence in the acedemic literature. The goal of the project is to investigate if machine learning algorithms can produce accurate predictions of renewable energy array parameter, like `generated energy` and `cost`, when trained on locational data.
+
+### Content of the website
+
+The [Data](data.qmd) page provides an in-depth walkthrough of the process of getting data for a machine learning project and ensuring it fits the necessary requirements. Each subsequent model page explains the workflow for each machine learning algorithm used and covers, in detail, the evaluation of each model.
+
+### Results summary and thesis
+
+Ultimately, the experiments yielded promising results, with the random forest having the capability to make accurate predictions a majority of the time. The other models, however, gave bad results and lacked the ability to make even remotely accurate predictions. In the end, this still contributes to the goal of the project by supplying evidence that machine learning models are able to interpret locational data effectively to arrive at valid predictions of array parameters.
+
+For a detailed description of the project, methodologies, experiments, and results, view the thesis found [here](https://github.com/ReadyResearchers-2023-24/cis-600-f2023-610-s2024-senior-thesis-AidanNeeson).
+
+#### Thesis Abstract
+
+The world we all live in is a valuable thing, but we are not treating it with the respect it deserves. As industry expands and citizens become careless, global temperatures increase and sea levels rise. A dangerous future is ahead of us if we do not make a change. The most prominent and fastest growing solution to these problems we face is renewable energy, but barriers in society prevent the ease of development that would be desired to see. The ability to gain insights into the potential for renewables would serve as an effective way to promote the installation of low-carbon technologies. Many tools that exist in the world that attempt to fulfill this role, but they suffer due to being too narrowly scoped and complex. The need for quick and accurate predictions is dire. Machine learning has seated itself as a powerful tool in the computer science field for making predictions, but also in the energy sector for the purposes of forecasting. For these reasons it is seen as the perfect opportunity to apply its expertise. Using locational data like latitude and longitude, as well as a scaling quantity like capacity, three machine learning models are trained and their performance is evaluated. Using industry standard practices and metrics like k-fold cross-validation, R-squared, RMSE, and MAPE, the random forest was shown to be an accurate and effective predictor of renewable energy generation and cost for wind farms. Other models and data was proven to be insufficient due to these same metrics. Overall, machine learning has shown immense promise in applications like these.

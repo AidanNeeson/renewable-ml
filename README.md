@@ -1,7 +1,8 @@
-# Green Energy Cost and Production Predictor
+# Renewable ML
 
-A tool that predicts the cost and energy output of a wind farm or solar array
-in the United States based on locational inputs like longitude and latitude.
+A [Quarto](https://quarto.org/) website that documents the computational ,
+experimental, and analytical processes of training, testing, and evaluating
+of machine learning algorithms.
 
 ## Introduction and Motivation
 
@@ -13,22 +14,28 @@ energy technology like wind turbines or solar panels. In the United States,
 there are a wide range of biomes and ecosystems that each experience
 varying conditions like wind speed and solar irradiance. This makes it
 somewhat difficult to make use of green energy technologies just anywhere.
-This tool seeks to alleviate this difficulty by allowing for the quick access
+This work seeks to alleviate this difficulty by allowing for the quick access
 to accurate predictions of energy output and cost of a potential wind farm or
-solar array of a certain size in a certain location in the United States.
+solar array of a certain size in a certain location in the United States,
+through the power of machine learning.
 
 ## Running the Artifact
 
-The notebooks, and their outputs are available to be examined in the
-[src directory](/src/) at anytime, although the outputs could be outdated,
-nonexistent, or other inconsistencies could arise, so it is best to run them
-yourself. Below are some simple steps to get up and running with this project.
+### Accessing the Website
 
-This artifact assumes [Python 3.11.X](https://www.python.org/downloads/)
+The website can be found at this link: https://aidanneeson610artifact.netlify.app/
+
+### Running the Notebooks Manually
+
+If it is desired to run the notebooks manually and/or interact with the
+datasets, `Jupyter` makes this possible through the use of a few simple
+commands.
+
+Renewable ML assumes [Python 3.11.X](https://www.python.org/downloads/)
 and [Poetry](https://python-poetry.org/docs/) are installed prior to
 any of the steps below.
 
-To use this prototype, follow the steps below:
+To run the notebooks, follow the steps below:
 
 - Clone or fork the repository
 - In the base of the repository, type `poetry shell` to create an isolated
@@ -36,12 +43,33 @@ To use this prototype, follow the steps below:
 - Type `poetry install` to get all of the dependencies
 - Type `jupyter notebook` to boot up a Jupyter server on your localhost
 
-Now, you are free to explore the data by sleuthing through the directories and
-by running the notebooks in this server. However, if a guided experience is
-desired, it is suggested to start with `eda.ipynb` to get a grasp of what all
-of this data means. From there, the notebooks will guide you through each
-cell and through each notebook, giving you the all-inclusive green energy
-prediction experience!
+The notebooks are located in the `\app` directory. Once navigated there,
+each notebook can be accessed and ran individually. More can also be made
+and the data is free to be interacted with.
+
+### Some Information on Quarto Commands
+
+Renewable ML uses [Quarto](https://quarto.org/) for the creation of the
+website. Detailed steps can always be found at [their documentation](https://quarto.org/docs/get-started/).
+for how to get started with Quarto. The process of creating
+the website for this repository was a followed (assuming VS Code is being used):
+
+Be sure to have cloned/forked the repo and that Python 3.11.X and poetry are installed.
+
+- First, install the [Quarto CLI](https://quarto.org/docs/get-started/)
+- Then get the Quarto extension from the **Extensions** tab in VS Code.
+- Now click on the search bar up at the top of VS Code and type `>Quarto: Create Project`
+- Select that command and click on `Website Project`
+- Choose a directory or make a new one to house the website project.
+- Navigate to this new directory in the CLI
+- Type `poetry shell` and then `poetry install`
+- Now commands like `quarto preview` and `quarto render` can be used
+    to update a local version of the website and track changes.
+- The command `quarto publish netlify` was used for this project to host the website
+    on [Netlify](https://www.netlify.com/)
+
+One also has the option boot up the Renewable ML website locally just by using
+`quarto preview app` in the repository's root in the CLI.
 
 ## Some Related Works
 
@@ -70,32 +98,33 @@ work, and articles are listed below:
 To perform these predictions, a sufficient swath of data had to be collected,
 as machine learning techniques would be used to analyze data and make
 predictions. This data can be found in the `data` directory, and consists
-of two data sets: `wind.csv` and `solar.csv`. These two data sets
-each consist of 9 attributes, with each attribute having either approximately
+of two main data sets: `wind.csv` and `solar.csv`. These two data sets
+each consist of 13 attributes, with each attribute having either approximately
 125000 or 11500 observations depending on the data set being examined. Full
-diagnostic reports regarding these data sets can be found in the
-[exploratory data analysis Jupyter Notebook](src/eda.ipynb).
+diagnostic reports regarding these data sets can be found on the
+[website](https://aidanneeson610artifact.netlify.app/data.html).
 
 These data sets are the heart of this artifact, in that they are what drives
 the predictions to be made. Making use of Python Jupyter Notebooks, the data
 are read in as Pandas data frames and passed into various Scikit-Learn
-machine learning tools. These include linear regressions, k-means clustering,
-and bisecting k-means clustering. These tools, along with Matplotlib,
+machine learning tools. These include random forest, support vector machine,
+and artificial nerual network. These tools, along with Matplotlib,
 allow for drawing connections between the data through graphical
 representations.
 
 ## Future Plans
 
-Moving forward, this artifact prototype would be expanded in various ways. One
-way would be to gather more useful data if necessary. This could allow for more
-analysis, and potentially for stronger correlations to be drawn, which could
-prove this work even more useful. The largest avenue for expansion, however,
-would include more in-depth analysis of clustering algorithms, or any other
-useful machine learning models provided in the Scikit-Learn Python package.
-The most important aspect of this would be measuring the accuracy of
-predictions through cluster evaluation metrics, like Dunn's Index, as well as
-cophenetic correlation coefficient. These will help to evaluate how the
-clusters being created are performing in multiple aspects. The final piece
-of future work laid out as of now, is to host this analysis on a website,
-and give that website the ability to have tweakable attributes so users can
-see the results in relative real-time.
+Some future plans include expanding this work into a user study.
+An idea that was brought up early in development consisted of using the
+models generated through this process to create a tool that users can
+interface with that allows for them to make predictions regarding
+renewable energy array simply by inputting the location of the array,
+as well as the desired size of the array. Their opinions of the process
+would then be extracted and compared to their experience using similar,
+more complex tools like [PVsyst](https://www.pvsyst.com/). The hope would
+be to track that users have an easier time and gain better insights
+relative to time spent on the tool when interacting the tool produced
+from this work.
+
+Other avenues for future work include better data collection, model
+fine-tuning, and using a larger selection of models.
