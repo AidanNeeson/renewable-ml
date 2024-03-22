@@ -8,13 +8,16 @@ from sklearn.preprocessing import StandardScaler
 
 scaler = StandardScaler()
 
-df = pd.read_csv("../data/wind_refactored.csv")
+df = pd.read_csv("../data/path-to-data-file.csv")
 df = df.sample(frac=1)
 
-# X = df.loc[:, [False, False, False, False, False, False, True, False, False, True, False, False]]
+#| Energy values
+# X = df.loc[:, ['lat','long','capacity']]
 # y = df['energy_generated(mwh)'].values
-X = df.loc[:, [False, False, False, False, True, True, False, True, True, True, True, False]]
-y = df['cost($)'].values
+
+#| Cost values
+# X = df.loc[:, ['lat','long','capacity']]
+# y = df['cost($)'].values
 
 
 X_train = X[:100000]
@@ -46,8 +49,8 @@ print("-----------------------")
 print()
 
 #| K-FOLD CROSS VALIDATION
-# kf = KFold(n_splits=10, random_state=0, shuffle=True)
-# kf_cv_score = cross_val_score(reg, X, y, cv=kf)
-# print("10-Fold Cross Validation Score")
-# print("-----------------")
-# print(kf_cv_score)
+kf = KFold(n_splits=10, random_state=0, shuffle=True)
+kf_cv_score = cross_val_score(reg, X, y, cv=kf)
+print("10-Fold Cross Validation Score")
+print("-----------------")
+print(kf_cv_score)

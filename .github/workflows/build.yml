@@ -39,4 +39,4 @@ jobs:
         - name: Run Ruff Linter
           if: always()
           run: |
-            poetry run ruff check src
+            poetry run ruff check app

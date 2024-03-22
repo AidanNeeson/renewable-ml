@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-    <title>Aidan Neeson - CMPSC 610 Artifact - Random Forest Regression Process and Analysis for Wind Data</title>
+    <title>Aidan Neeson - CMPSC 610 Artifact - Support Vector Regression Process and Analysis for Wind Data</title>
     <style>
       code{white-space: pre-wrap;}
       span.smallcaps{font-variant: small-caps;}
@@ -197,9 +197,9 @@
     <div id="quarto-embed-header" class="headroom fixed-top bg-primary">
       
       <a onclick="window.quartoBackToArticle(); return false;" class="btn btn-primary quarto-back-link"><i class="bi bi-caret-left"></i> Back to Article</a>
-      <h6><i class="bi bi-journal-code"></i> Random Forest Regression Process and Analysis for Wind Data</h6>
+      <h6><i class="bi bi-journal-code"></i> Support Vector Regression Process and Analysis for Wind Data</h6>
 
-            <a href="./2-rf-solar.ipynb" class="btn btn-primary quarto-download-embed" download="2-rf-solar.ipynb">Download Notebook</a>
+            <a href="./3-svm-solar.ipynb" class="btn btn-primary quarto-download-embed" download="3-svm-solar.ipynb">Download Notebook</a>
           </div>
 
      <div id="quarto-search-results"></div>
@@ -268,7 +268,7 @@
 <!-- main -->
 <main class="content" id="quarto-document-content">      <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Random Forest Regression Process and Analysis for Wind Data</h1>
+<h1 class="title">Support Vector Regression Process and Analysis for Wind Data</h1>
 </div>
 
 
@@ -294,9 +294,8 @@
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib.legend_handler <span class="im">import</span> HandlerLine2D</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sklearn.metrics <span class="im">as</span> metrics</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> cross_validate, KFold</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> RandomForestRegressor</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn <span class="im">import</span> tree</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn <span class="im">import</span> svm</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div>
 <div id="cell-3" class="cell markdown">
 <section id="data-preprocessing" class="level2">
@@ -448,84 +447,84 @@
 </thead>
 <tbody>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">6903</td>
-<td>6903</td>
-<td>35.340389</td>
-<td>-102.449249</td>
-<td>Texas</td>
-<td>medium_utility</td>
-<td>6.323517</td>
-<td>39</td>
-<td>500.000</td>
-<td>0.263</td>
-<td>7.215506e+06</td>
-<td>1901.140684</td>
-<td>613200.000</td>
-<td>4.782960e+08</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">5455</td>
-<td>5455</td>
-<td>34.969135</td>
-<td>-104.838562</td>
-<td>New Mexico</td>
-<td>large_community</td>
-<td>6.552958</td>
-<td>34</td>
-<td>5.000</td>
-<td>0.273</td>
-<td>6.707818e+04</td>
-<td>18.315018</td>
-<td>6132.000</td>
-<td>4.169760e+06</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">5800</td>
-<td>5800</td>
-<td>35.222565</td>
-<td>-101.987335</td>
-<td>Texas</td>
+<td data-quarto-table-cell-role="th">10549</td>
+<td>10549</td>
+<td>43.146587</td>
+<td>-93.410431</td>
+<td>Iowa</td>
 <td>small_residential</td>
-<td>6.259271</td>
-<td>39</td>
+<td>4.739488</td>
+<td>45</td>
 <td>0.005</td>
-<td>0.261</td>
-<td>7.345426e+01</td>
-<td>0.019157</td>
+<td>0.197</td>
+<td>128.523807</td>
+<td>0.025381</td>
 <td>6.132</td>
-<td>4.782960e+03</td>
+<td>5518.80</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">2889</td>
-<td>2889</td>
-<td>34.300049</td>
-<td>-101.105133</td>
-<td>Texas</td>
-<td>medium_community</td>
-<td>6.184820</td>
-<td>39</td>
-<td>2.000</td>
-<td>0.258</td>
-<td>3.008115e+04</td>
-<td>7.751938</td>
-<td>2452.800</td>
-<td>1.913184e+06</td>
+<td data-quarto-table-cell-role="th">4229</td>
+<td>4229</td>
+<td>32.752232</td>
+<td>-116.028137</td>
+<td>California</td>
+<td>small_utility</td>
+<td>6.851059</td>
+<td>41</td>
+<td>5.000</td>
+<td>0.285</td>
+<td>61458.036490</td>
+<td>17.543860</td>
+<td>6132.000</td>
+<td>5028240.00</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">9752</td>
-<td>9752</td>
-<td>37.012718</td>
-<td>-80.288757</td>
-<td>Virginia</td>
-<td>small_community</td>
-<td>5.146555</td>
-<td>46</td>
-<td>0.150</td>
-<td>0.214</td>
-<td>3.268677e+03</td>
-<td>0.700935</td>
-<td>183.960</td>
-<td>1.692432e+05</td>
+<td data-quarto-table-cell-role="th">4414</td>
+<td>4414</td>
+<td>35.003220</td>
+<td>-101.967285</td>
+<td>Texas</td>
+<td>large_community</td>
+<td>6.262835</td>
+<td>39</td>
+<td>5.000</td>
+<td>0.261</td>
+<td>73412.458260</td>
+<td>19.157088</td>
+<td>6132.000</td>
+<td>4782960.00</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">10478</td>
+<td>10478</td>
+<td>42.722588</td>
+<td>-101.106384</td>
+<td>Nebraska</td>
+<td>large_community</td>
+<td>5.437910</td>
+<td>43</td>
+<td>5.000</td>
+<td>0.227</td>
+<td>97212.780910</td>
+<td>22.026432</td>
+<td>6132.000</td>
+<td>5273520.00</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">8767</td>
+<td>8767</td>
+<td>35.880466</td>
+<td>-99.368011</td>
+<td>Oklahoma</td>
+<td>medium_residential</td>
+<td>5.918760</td>
+<td>41</td>
+<td>0.010</td>
+<td>0.247</td>
+<td>164.166121</td>
+<td>0.040486</td>
+<td>12.264</td>
+<td>10056.48</td>
 </tr>
 </tbody>
 </table>
@@ -536,37 +535,40 @@
 <div id="cell-7" class="cell markdown">
 <p>Looking at each dataset, we can identify which variables we want to use for our models.</p>
 </div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [4]:</pre></div><div id="cell-8" class="cell" data-execution_count="4">
+<div class="cell-container"><div class="cell-decorator"><pre>In [5]:</pre></div><div id="cell-8" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> df.loc[:, [<span class="st">'lat'</span>,<span class="st">'long'</span>,<span class="st">'capacity'</span>]]</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> df.loc[:, [<span class="st">'generated_energy'</span>,<span class="st">'cost'</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>y_energy <span class="op">=</span> df[<span class="st">'generated_energy'</span>].values</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>y_cost <span class="op">=</span> df[<span class="st">'cost'</span>].values</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div>
 <div id="cell-9" class="cell markdown">
 <p>Now we split into training and testing sets, reserving about 80% for training and 20% for testing.</p>
 </div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [5]:</pre></div><div id="cell-10" class="cell" data-execution_count="5">
+<div class="cell-container"><div class="cell-decorator"><pre>In [6]:</pre></div><div id="cell-10" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>X_train <span class="op">=</span> X[:<span class="dv">9500</span>]</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>X_test <span class="op">=</span> X[<span class="dv">9500</span>:]</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>y_train <span class="op">=</span> y[:<span class="dv">9500</span>]</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>y_test <span class="op">=</span> y[<span class="dv">9500</span>:]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>y_energy_train <span class="op">=</span> y_energy[:<span class="dv">9500</span>]</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>y_energy_test <span class="op">=</span> y_energy[<span class="dv">9500</span>:]</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>y_cost_train <span class="op">=</span> y_cost[:<span class="dv">9500</span>]</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>y_cost_test <span class="op">=</span> y_cost[<span class="dv">9500</span>:]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div>
 <div id="cell-11" class="cell markdown">
 <p>Models typically perform better when input values are within a certain range, like [-1, 1] for example. We scale the data points appropriately.</p>
 </div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [6]:</pre></div><div id="cell-scaled-data" class="cell" data-execution_count="6">
+<div class="cell-container"><div class="cell-decorator"><pre>In [7]:</pre></div><div id="cell-scaled-data" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>scaler <span class="op">=</span> StandardScaler()</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>scaler.fit(X_train)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>X_train <span class="op">=</span> scaler.transform(X_train)</span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>X_test <span class="op">=</span> scaler.transform(X_test)</span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>X_train</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="scaled-data" class="cell-output cell-output-display" data-execution_count="6">
-<pre><code>array([[ 0.05942354, -0.22478554,  0.35692648],
-       [-0.03505453, -0.53086542, -0.43588483],
-       [ 0.02943926, -0.16561264, -0.44388501],
+<div id="scaled-data" class="cell-output cell-output-display" data-execution_count="7">
+<pre><code>array([[ 2.03229033,  0.92873139, -0.43905719],
+       [-0.5962383 , -1.96682005, -0.43098755],
+       [-0.02700756, -0.16672944, -0.43098755],
        ...,
-       [-1.65987101,  0.4749176 ,  0.35692648],
-       [-0.40675385, -0.96669284, -0.43588483],
-       [ 0.11236886,  0.3340536 , -0.44388501]])</code></pre>
+       [-0.12947216, -0.24196866, -0.43905719],
+       [ 2.41359832,  0.38433555, -0.43904104],
+       [-0.0831422 ,  0.65286873, -0.43098755]])</code></pre>
 </div>
 </div></div>
 <div id="cell-13" class="cell markdown">
@@ -575,10 +577,12 @@
 <p>Now that the data is pre-processed accordingly, the models can be trained and fit.</p>
 </section>
 </div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [7]:</pre></div><div id="cell-14" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>reg <span class="op">=</span> RandomForestRegressor()</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>reg.fit(X_train, y_train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="7">
+<div class="cell-container"><div class="cell-decorator"><pre>In [8]:</pre></div><div id="cell-14" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>energy_reg <span class="op">=</span> svm.SVR()</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>cost_reg <span class="op">=</span> svm.SVR()</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>energy_reg.fit(X_train, y_energy_train)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>cost_reg.fit(X_train, y_cost_train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="8">
 <style>#sk-container-id-1 {
   /* Definition of color scheme common for light and dark mode */
   --sklearn-color-text: black;
@@ -983,25 +987,27 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
   /* fitted */
   background-color: var(--sklearn-color-fitted-level-3);
 }
-</a></style><div id="sk-container-id-1" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>RandomForestRegressor()</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br>On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden=""><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-1" type="checkbox" checked=""><label for="sk-estimator-id-1" class="sk-toggleable__label fitted sk-toggleable__label-arrow">&nbsp;&nbsp;RandomForestRegressor<a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.4/modules/generated/sklearn.ensemble.RandomForestRegressor.html">?<span>Documentation for RandomForestRegressor</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></label><div class="sk-toggleable__content fitted"><pre>RandomForestRegressor()</pre></div> </div></div></div></div>
+</a></style><div id="sk-container-id-1" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>SVR()</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br>On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden=""><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-1" type="checkbox" checked=""><label for="sk-estimator-id-1" class="sk-toggleable__label fitted sk-toggleable__label-arrow">&nbsp;&nbsp;SVR<a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.4/modules/generated/sklearn.svm.SVR.html">?<span>Documentation for SVR</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></label><div class="sk-toggleable__content fitted"><pre>SVR()</pre></div> </div></div></div></div>
 </div>
 </div></div>
 <div id="cell-15" class="cell markdown">
 <p>With a trained model, predictions can now be made.</p>
 </div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [8]:</pre></div><div id="prediction-comparisons" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>display <span class="op">=</span> y_test.reset_index()</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>preds <span class="op">=</span> reg.predict(X_test)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Predictions"</span>)</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"----------------------"</span>)</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">3</span>):</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"predicted energy: </span><span class="sc">{</span>preds[i][<span class="dv">0</span>]<span class="sc">:.2f}</span><span class="ch">\t</span><span class="ss">actual energy: </span><span class="sc">{</span>display<span class="sc">.</span>at[i, <span class="st">'generated_energy'</span>]<span class="sc">:.2f}</span><span class="ch">\t</span><span class="ss">predicted cost: </span><span class="sc">{</span>preds[i][<span class="dv">1</span>]<span class="sc">:.2f}</span><span class="ch">\t</span><span class="ss">actual cost: </span><span class="sc">{</span>display<span class="sc">.</span>at[i, <span class="st">'cost'</span>]<span class="sc">:.2f}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [10]:</pre></div><div id="prediction-comparisons" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>energy_display <span class="op">=</span> y_energy_test</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>cost_display <span class="op">=</span> y_cost_test</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>energy_preds <span class="op">=</span> energy_reg.predict(X_test)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>cost_preds <span class="op">=</span> cost_reg.predict(X_test)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Predictions"</span>)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"----------------------"</span>)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">3</span>):</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"predicted energy: </span><span class="sc">{</span>energy_preds[i]<span class="sc">:.2f}</span><span class="ch">\t</span><span class="ss">actual energy: </span><span class="sc">{</span>energy_display[i]<span class="sc">:.2f}</span><span class="ch">\t</span><span class="ss">predicted cost: </span><span class="sc">{</span>cost_preds[i]<span class="sc">:.2f}</span><span class="ch">\t</span><span class="ss">actual cost: </span><span class="sc">{</span>cost_display[i]<span class="sc">:.2f}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Predictions
 ----------------------
-predicted energy: 6132.00   actual energy: 6132.00  predicted cost: 5028240.00  actual cost: 5028240.00
-predicted energy: 613200.00 actual energy: 613200.00    predicted cost: 416976000.00    actual cost: 416976000.00
-predicted energy: 6132.00   actual energy: 6132.00  predicted cost: 5028240.00  actual cost: 5028240.00</code></pre>
+predicted energy: 2494.27   actual energy: 6.13 predicted cost: 1913464.63  actual cost: 4905.60
+predicted energy: 2438.26   actual energy: 2452.80  predicted cost: 1913207.65  actual cost: 1913184.00
+predicted energy: 2753.60   actual energy: 183.96   predicted cost: 1913890.42  actual cost: 172922.40</code></pre>
 </div>
 </div></div>
 <div id="cell-17" class="cell markdown">
@@ -1023,73 +1029,56 @@ predicted energy: 6132.00   actual energy: 6132.00  predicted cost: 5028240.00  
 <p>The score being recored are the R2 score, Root Mean Squared Error (RMSE), and Mean Absolute Percentage Error (MAPE).</p>
 </section>
 </div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [9]:</pre></div><div id="metrics" class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>r2 <span class="op">=</span> metrics.r2_score(y_test, preds, multioutput<span class="op">=</span><span class="st">"raw_values"</span>)</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>rmse <span class="op">=</span> metrics.root_mean_squared_error(y_test, preds, multioutput<span class="op">=</span><span class="st">"raw_values"</span>)</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>mape <span class="op">=</span> metrics.mean_absolute_percentage_error(y_test, preds, multioutput<span class="op">=</span><span class="st">"raw_values"</span>)</span>
+<div class="cell-container"><div class="cell-decorator"><pre>In [11]:</pre></div><div id="metrics" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>energy_r2 <span class="op">=</span> metrics.r2_score(y_energy_test, energy_preds, multioutput<span class="op">=</span><span class="st">"raw_values"</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>energy_rmse <span class="op">=</span> metrics.root_mean_squared_error(y_energy_test, energy_preds, multioutput<span class="op">=</span><span class="st">"raw_values"</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>energy_mape <span class="op">=</span> metrics.mean_absolute_percentage_error(y_energy_test, energy_preds, multioutput<span class="op">=</span><span class="st">"raw_values"</span>)</span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Metric</span><span class="ch">\t</span><span class="st">Score"</span>)</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"-----------------------"</span>)</span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"r2</span><span class="ch">\t</span><span class="sc">{</span>r2<span class="sc">}</span><span class="ch">\n</span><span class="ss">rmse</span><span class="ch">\t</span><span class="sc">{</span>rmse<span class="sc">}</span><span class="ch">\n</span><span class="ss">mape</span><span class="ch">\t</span><span class="sc">{</span>mape<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>cost_r2 <span class="op">=</span> metrics.r2_score(y_cost_test, cost_preds, multioutput<span class="op">=</span><span class="st">"raw_values"</span>)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>cost_rmse <span class="op">=</span> metrics.root_mean_squared_error(y_cost_test, cost_preds, multioutput<span class="op">=</span><span class="st">"raw_values"</span>)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>cost_mape <span class="op">=</span> metrics.mean_absolute_percentage_error(y_cost_test, cost_preds, multioutput<span class="op">=</span><span class="st">"raw_values"</span>)</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Metric</span><span class="ch">\t</span><span class="st">Score"</span>)</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"-----------------------"</span>)</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"energy_r2</span><span class="ch">\t</span><span class="sc">{</span>energy_r2<span class="sc">}</span><span class="ch">\n</span><span class="ss">cost_r2</span><span class="ch">\t</span><span class="sc">{</span>cost_r2<span class="sc">}</span><span class="ch">\n</span><span class="ss">energy_rmse</span><span class="ch">\t</span><span class="sc">{</span>energy_rmse<span class="sc">}</span><span class="ch">\n</span><span class="ss">cost_rmse</span><span class="ch">\t</span><span class="sc">{</span>cost_rmse<span class="sc">}</span><span class="ch">\n</span><span class="ss">energy_mape</span><span class="ch">\t</span><span class="sc">{</span>energy_mape<span class="sc">}</span><span class="ch">\n</span><span class="ss">cost_mape</span><span class="ch">\t</span><span class="sc">{</span>cost_mape<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Metric  Score
 -----------------------
-r2  [1.         0.99947801]
-rmse    [1.89379452e-12 1.36960035e+07]
-mape    [9.69285180e-16 4.32843758e-03]</code></pre>
+energy_r2   [-0.21012622]
+cost_r2 [-0.20850399]
+energy_rmse [880927.68663408]
+cost_rmse   [6.87646055e+08]
+energy_mape [81.95543371]
+cost_mape   [81.30935189]</code></pre>
 </div>
 </div></div>
 <div id="cell-22" class="cell markdown">
-<section id="feature-importances" class="level4">
-<h4 class="anchored" data-anchor-id="feature-importances">Feature Importances</h4>
-<p>Feature importances give insights into the features that each decision tree in the random forest use to split most often. Results are portrayed in percentages.</p>
-</section>
-</div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [10]:</pre></div><div id="feature-importances" class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>features <span class="op">=</span> [<span class="st">'lat'</span>,<span class="st">'long'</span>,<span class="st">'capacity'</span>,]</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>importances <span class="op">=</span> reg.feature_importances_</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>indices <span class="op">=</span> np.argsort(importances)</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Importances"</span>)</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'----------------------'</span>)</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> indices:</span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>features[i]<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>importances[i]<span class="op">*</span><span class="dv">100</span><span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Importances
-----------------------
-long: 0.49924958098045885
-lat: 0.7828307672340137
-capacity: 98.71791965178554</code></pre>
-</div>
-</div></div>
-<div id="cell-24" class="cell markdown">
 <section id="k-fold-cross-validation" class="level4">
 <h4 class="anchored" data-anchor-id="k-fold-cross-validation">K-Fold Cross Validation</h4>
 <p>This cross validation splits up the dataset into 10 unique folds, which are then used to test a model. The model is then scored using the same metrics outlined above: R2, RMSE, MAPE. This ensures the scoring is rigorous, and the <em>entire</em> dataset is used.</p>
 </section>
 </div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [11]:</pre></div><div id="cell-k-fold-cross-validation-table" class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>kf <span class="op">=</span> KFold(n_splits<span class="op">=</span><span class="dv">10</span>, random_state<span class="op">=</span><span class="dv">0</span>, shuffle<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>kf_cv_scores <span class="op">=</span> cross_validate(reg, X, y, cv<span class="op">=</span>kf, scoring<span class="op">=</span>{<span class="st">"r2"</span>:metrics.make_scorer(score_func<span class="op">=</span>metrics.r2_score),</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a> <span class="st">"rmse"</span>:metrics.make_scorer(score_func<span class="op">=</span>metrics.root_mean_squared_error),</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a> <span class="st">"mape"</span>:metrics.make_scorer(score_func<span class="op">=</span>metrics.mean_absolute_percentage_error)})</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>kf_cv_df <span class="op">=</span> pd.DataFrame.from_dict(kf_cv_scores)</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>means <span class="op">=</span> kf_cv_df.mean()</span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"10-Fold Cross Validation Scores"</span>)</span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"----------------------------------------------------"</span>)</span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"R2 Average: </span><span class="sc">{</span>means<span class="sc">.</span>iloc[<span class="dv">2</span>]<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"RMSE Average: </span><span class="sc">{</span>means<span class="sc">.</span>iloc[<span class="dv">3</span>]<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"MAPE Average: </span><span class="sc">{</span>means<span class="sc">.</span>iloc[<span class="dv">4</span>]<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>kf_cv_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [12]:</pre></div><div id="cell-k-fold-cross-validation-table-energy" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>kf <span class="op">=</span> KFold(n_splits<span class="op">=</span><span class="dv">10</span>, random_state<span class="op">=</span><span class="dv">0</span>, shuffle<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>kf_cv_scores <span class="op">=</span> cross_validate(energy_reg, X, y_energy, cv<span class="op">=</span>kf, scoring<span class="op">=</span>{<span class="st">"r2"</span>:metrics.make_scorer(score_func<span class="op">=</span>metrics.r2_score),</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a> <span class="st">"rmse"</span>:metrics.make_scorer(score_func<span class="op">=</span>metrics.root_mean_squared_error),</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a> <span class="st">"mape"</span>:metrics.make_scorer(score_func<span class="op">=</span>metrics.mean_absolute_percentage_error)})</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>kf_cv_df <span class="op">=</span> pd.DataFrame.from_dict(kf_cv_scores)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>means <span class="op">=</span> kf_cv_df.mean()</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"10-Fold Cross Validation Scores"</span>)</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"----------------------------------------------------"</span>)</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"R2 Average: </span><span class="sc">{</span>means<span class="sc">.</span>iloc[<span class="dv">2</span>]<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"RMSE Average: </span><span class="sc">{</span>means<span class="sc">.</span>iloc[<span class="dv">3</span>]<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"MAPE Average: </span><span class="sc">{</span>means<span class="sc">.</span>iloc[<span class="dv">4</span>]<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>kf_cv_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>10-Fold Cross Validation Scores
 ----------------------------------------------------
-R2 Average: 0.999750656025779
-RMSE Average: 6617044.390212841
-MAPE Average: 0.0019449076617190596</code></pre>
+R2 Average: -0.19080402178052483
+RMSE Average: 835719.6572480934
+MAPE Average: 83.11834411696152</code></pre>
 </div>
-<div id="k-fold-cross-validation-table" class="cell-output cell-output-display" data-execution_count="11">
+<div id="k-fold-cross-validation-table-energy" class="cell-output cell-output-display" data-execution_count="12">
 <div>
 
 
@@ -1107,83 +1096,83 @@ MAPE Average: 0.0019449076617190596</code></pre>
 <tbody>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">0</td>
-<td>1.632876</td>
-<td>0.015011</td>
-<td>0.999873</td>
-<td>4.897471e+06</td>
-<td>0.002525</td>
+<td>5.711730</td>
+<td>1.212786</td>
+<td>-0.209988</td>
+<td>858270.866365</td>
+<td>77.702522</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">1</td>
-<td>1.631738</td>
-<td>0.014999</td>
-<td>0.999823</td>
-<td>5.617429e+06</td>
-<td>0.002217</td>
+<td>3.275041</td>
+<td>1.064659</td>
+<td>-0.175722</td>
+<td>825723.536395</td>
+<td>84.581029</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">2</td>
-<td>1.622672</td>
-<td>0.015010</td>
-<td>0.999570</td>
-<td>8.502769e+06</td>
-<td>0.001829</td>
+<td>3.531009</td>
+<td>1.017413</td>
+<td>-0.196909</td>
+<td>829640.908412</td>
+<td>78.586396</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">3</td>
-<td>1.667683</td>
-<td>0.017003</td>
-<td>0.999713</td>
-<td>7.136015e+06</td>
-<td>0.002001</td>
+<td>3.094635</td>
+<td>0.965153</td>
+<td>-0.190046</td>
+<td>798942.604556</td>
+<td>84.428920</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">4</td>
-<td>1.637736</td>
-<td>0.015005</td>
-<td>0.999726</td>
-<td>7.230096e+06</td>
-<td>0.001571</td>
+<td>3.407629</td>
+<td>1.058627</td>
+<td>-0.200488</td>
+<td>874252.589933</td>
+<td>87.739410</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">5</td>
-<td>1.633425</td>
-<td>0.015007</td>
-<td>0.999664</td>
-<td>7.606358e+06</td>
-<td>0.001857</td>
+<td>3.160279</td>
+<td>0.958006</td>
+<td>-0.192127</td>
+<td>847512.024413</td>
+<td>81.573179</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">6</td>
-<td>1.658941</td>
-<td>0.016011</td>
-<td>0.999776</td>
-<td>6.570015e+06</td>
-<td>0.001679</td>
+<td>3.356327</td>
+<td>0.942312</td>
+<td>-0.196893</td>
+<td>867838.629564</td>
+<td>80.135358</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">7</td>
-<td>1.636302</td>
-<td>0.015014</td>
-<td>0.999762</td>
-<td>6.738053e+06</td>
-<td>0.001821</td>
+<td>3.356798</td>
+<td>0.907112</td>
+<td>-0.171115</td>
+<td>804687.181740</td>
+<td>87.416628</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">8</td>
-<td>1.638819</td>
-<td>0.015063</td>
-<td>0.999753</td>
-<td>6.439429e+06</td>
-<td>0.001767</td>
+<td>3.331655</td>
+<td>0.908973</td>
+<td>-0.201225</td>
+<td>850576.101493</td>
+<td>82.517218</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">9</td>
-<td>1.669811</td>
-<td>0.015005</td>
-<td>0.999846</td>
-<td>5.432810e+06</td>
-<td>0.002182</td>
+<td>3.200842</td>
+<td>0.976853</td>
+<td>-0.173528</td>
+<td>799752.129609</td>
+<td>86.502780</td>
 </tr>
 </tbody>
 </table>
@@ -1191,43 +1180,165 @@ MAPE Average: 0.0019449076617190596</code></pre>
 </div>
 </div>
 </div></div>
-<div id="cell-26" class="cell markdown">
+<div class="cell-container"><div class="cell-decorator"><pre>In [13]:</pre></div><div id="cell-k-fold-cross-validation-table-cost" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>kf <span class="op">=</span> KFold(n_splits<span class="op">=</span><span class="dv">10</span>, random_state<span class="op">=</span><span class="dv">0</span>, shuffle<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>kf_cv_scores <span class="op">=</span> cross_validate(cost_reg, X, y_cost, cv<span class="op">=</span>kf, scoring<span class="op">=</span>{<span class="st">"r2"</span>:metrics.make_scorer(score_func<span class="op">=</span>metrics.r2_score),</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a> <span class="st">"rmse"</span>:metrics.make_scorer(score_func<span class="op">=</span>metrics.root_mean_squared_error),</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a> <span class="st">"mape"</span>:metrics.make_scorer(score_func<span class="op">=</span>metrics.mean_absolute_percentage_error)})</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>kf_cv_df <span class="op">=</span> pd.DataFrame.from_dict(kf_cv_scores)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>means <span class="op">=</span> kf_cv_df.mean()</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"10-Fold Cross Validation Scores"</span>)</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"----------------------------------------------------"</span>)</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"R2 Average: </span><span class="sc">{</span>means<span class="sc">.</span>iloc[<span class="dv">2</span>]<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"RMSE Average: </span><span class="sc">{</span>means<span class="sc">.</span>iloc[<span class="dv">3</span>]<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"MAPE Average: </span><span class="sc">{</span>means<span class="sc">.</span>iloc[<span class="dv">4</span>]<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>kf_cv_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>10-Fold Cross Validation Scores
+----------------------------------------------------
+R2 Average: -0.19100059475135955
+RMSE Average: 657874231.9115219
+MAPE Average: 83.9877821694812</code></pre>
+</div>
+<div id="k-fold-cross-validation-table-cost" class="cell-output cell-output-display" data-execution_count="13">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">fit_time</th>
+<th data-quarto-table-cell-role="th">score_time</th>
+<th data-quarto-table-cell-role="th">test_r2</th>
+<th data-quarto-table-cell-role="th">test_rmse</th>
+<th data-quarto-table-cell-role="th">test_mape</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>3.926678</td>
+<td>0.935226</td>
+<td>-0.208953</td>
+<td>6.800997e+08</td>
+<td>78.355280</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>3.605959</td>
+<td>0.954635</td>
+<td>-0.176153</td>
+<td>6.491585e+08</td>
+<td>86.265737</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>3.739908</td>
+<td>1.006299</td>
+<td>-0.195172</td>
+<td>6.610066e+08</td>
+<td>78.606084</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>3.506410</td>
+<td>0.996119</td>
+<td>-0.190897</td>
+<td>6.284168e+08</td>
+<td>84.443426</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>3.706270</td>
+<td>0.962898</td>
+<td>-0.200360</td>
+<td>6.923436e+08</td>
+<td>88.103419</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>3.648341</td>
+<td>0.965594</td>
+<td>-0.192996</td>
+<td>6.650218e+08</td>
+<td>82.503671</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">6</td>
+<td>3.819171</td>
+<td>0.977612</td>
+<td>-0.196144</td>
+<td>6.854944e+08</td>
+<td>81.365376</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">7</td>
+<td>3.566598</td>
+<td>0.932271</td>
+<td>-0.172927</td>
+<td>6.276688e+08</td>
+<td>88.890206</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">8</td>
+<td>3.490718</td>
+<td>0.985235</td>
+<td>-0.200951</td>
+<td>6.666649e+08</td>
+<td>83.557596</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">9</td>
+<td>3.594051</td>
+<td>0.949818</td>
+<td>-0.175453</td>
+<td>6.228673e+08</td>
+<td>87.787026</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div></div>
+<div id="cell-25" class="cell markdown">
 <section id="graphs" class="level3">
 <h3 class="anchored" data-anchor-id="graphs">Graphs</h3>
 </section>
 </div>
-<div id="cell-27" class="cell markdown">
-<p>Graphs of the Random Forest model fits on each of the input features, for each target.</p>
+<div id="cell-26" class="cell markdown">
+<p>Graphs of the SVR model fits on each on the input features, for each target.</p>
 </div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [16]:</pre></div><div id="cell-fig-generated-energy-vs-input-features" class="cell" data-execution_count="16">
+<div class="cell-container"><div class="cell-decorator"><pre>In [18]:</pre></div><div id="cell-fig-generated-energy-vs-input-features" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>plot_lat_x <span class="op">=</span> X[<span class="dv">9500</span>:].loc[:,[<span class="st">'lat'</span>]].sort_values(by<span class="op">=</span>[<span class="st">'lat'</span>])</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>plot_long_x <span class="op">=</span> X[<span class="dv">9500</span>:].loc[:,[<span class="st">'long'</span>]].sort_values(by<span class="op">=</span>[<span class="st">'long'</span>])</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>plot_cap_x <span class="op">=</span> X[<span class="dv">9500</span>:].loc[:,[<span class="st">'capacity'</span>]].sort_values(by<span class="op">=</span>[<span class="st">'capacity'</span>])</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>plot_energy_y <span class="op">=</span> pd.DataFrame(preds).loc[:,[<span class="dv">0</span>]].sort_values(by<span class="op">=</span>[<span class="dv">0</span>])</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>plot_energy_y <span class="op">=</span> pd.DataFrame(energy_preds).loc[:,[<span class="dv">0</span>]].sort_values(by<span class="op">=</span>[<span class="dv">0</span>])</span>
 <span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>figure, axis <span class="op">=</span> plt.subplots(<span class="dv">3</span>)</span>
 <span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>figure.set_size_inches(<span class="dv">15</span>,<span class="dv">15</span>)</span>
 <span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>axis[<span class="dv">0</span>].scatter(X.loc[:,[<span class="st">"lat"</span>]], y.loc[:,[<span class="st">'generated_energy'</span>]], color<span class="op">=</span><span class="st">'blue'</span>, label<span class="op">=</span><span class="st">'Data'</span>, s<span class="op">=</span><span class="dv">5</span>)</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>axis[<span class="dv">0</span>].scatter(X.loc[:,[<span class="st">"lat"</span>]], y_energy, color<span class="op">=</span><span class="st">'blue'</span>, label<span class="op">=</span><span class="st">'Data'</span>, s<span class="op">=</span><span class="dv">5</span>)</span>
 <span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>axis[<span class="dv">0</span>].plot(plot_lat_x, plot_energy_y, color<span class="op">=</span><span class="st">'red'</span>,lw<span class="op">=</span><span class="dv">2</span>, label<span class="op">=</span><span class="st">"Generated Energy Model"</span>)</span>
 <span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>axis[<span class="dv">0</span>].set_xlabel(<span class="st">"Latitude"</span>)</span>
 <span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>axis[<span class="dv">0</span>].set_ylabel(<span class="st">"Generated Energy(MWh)"</span>)</span>
-<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>axis[<span class="dv">0</span>].set_title(<span class="st">"Random Forest Regression: Generated Energy vs. Latitude"</span>)</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>axis[<span class="dv">0</span>].set_title(<span class="st">"Support Vector Regression: Generated Energy vs. Latitude"</span>)</span>
 <span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>axis[<span class="dv">0</span>].legend()</span>
 <span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>axis[<span class="dv">1</span>].scatter(X.loc[:,[<span class="st">"long"</span>]], y.loc[:,[<span class="st">'generated_energy'</span>]], color<span class="op">=</span><span class="st">'blue'</span>, label<span class="op">=</span><span class="st">'Data'</span>, s<span class="op">=</span><span class="dv">5</span>)</span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>axis[<span class="dv">1</span>].scatter(X.loc[:,[<span class="st">"long"</span>]], y_energy, color<span class="op">=</span><span class="st">'blue'</span>, label<span class="op">=</span><span class="st">'Data'</span>, s<span class="op">=</span><span class="dv">5</span>)</span>
 <span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>axis[<span class="dv">1</span>].plot(plot_long_x, plot_energy_y, color<span class="op">=</span><span class="st">'red'</span>,lw<span class="op">=</span><span class="dv">2</span>, label<span class="op">=</span><span class="st">"Generated Energy Model"</span>)</span>
 <span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>axis[<span class="dv">1</span>].set_xlabel(<span class="st">"Longitude"</span>)</span>
 <span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>axis[<span class="dv">1</span>].set_ylabel(<span class="st">"Generated Energy(MWh)"</span>)</span>
-<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>axis[<span class="dv">1</span>].set_title(<span class="st">"Random Forest Regression: Generated Energy vs. Longitude"</span>)</span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>axis[<span class="dv">1</span>].set_title(<span class="st">"Support Vector Regression: Generated Energy vs. Longitude"</span>)</span>
 <span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>axis[<span class="dv">1</span>].legend()</span>
 <span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a>axis[<span class="dv">2</span>].scatter(X.loc[:,[<span class="st">"capacity"</span>]], y.loc[:,[<span class="st">'generated_energy'</span>]], color<span class="op">=</span><span class="st">'blue'</span>, label<span class="op">=</span><span class="st">'Data'</span>, s<span class="op">=</span><span class="dv">5</span>)</span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a>axis[<span class="dv">2</span>].scatter(X.loc[:,[<span class="st">"capacity"</span>]], y_energy, color<span class="op">=</span><span class="st">'blue'</span>, label<span class="op">=</span><span class="st">'Data'</span>, s<span class="op">=</span><span class="dv">5</span>)</span>
 <span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a>axis[<span class="dv">2</span>].plot(plot_cap_x, plot_energy_y, color<span class="op">=</span><span class="st">'red'</span>,lw<span class="op">=</span><span class="dv">2</span>, label<span class="op">=</span><span class="st">"Generated Energy Model"</span>)</span>
 <span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a>axis[<span class="dv">2</span>].set_xlabel(<span class="st">"Capacity(MW)"</span>)</span>
 <span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a>axis[<span class="dv">2</span>].set_ylabel(<span class="st">"Generated Energy(MWh)"</span>)</span>
-<span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a>axis[<span class="dv">2</span>].set_title(<span class="st">"Random Forest Regression: Generated Energy vs. Capacity"</span>)</span>
+<span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a>axis[<span class="dv">2</span>].set_title(<span class="st">"Support Vector Regression: Generated Energy vs. Capacity"</span>)</span>
 <span id="cb17-29"><a href="#cb17-29" aria-hidden="true" tabindex="-1"></a>axis[<span class="dv">2</span>].legend()</span>
 <span id="cb17-30"><a href="#cb17-30" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-31"><a href="#cb17-31" aria-hidden="true" tabindex="-1"></a>plt.subplots_adjust(left<span class="op">=</span><span class="fl">0.1</span>,</span>
@@ -1242,7 +1353,7 @@ MAPE Average: 0.0019449076617190596</code></pre>
 <div id="fig-generated-energy-vs-input-features" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-generated-energy-vs-input-features-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="">
-<img src="2-rf-solar_files/figure-html/fig-generated-energy-vs-input-features-output-1.png" id="fig-generated-energy-vs-input-features" class="img-fluid figure-img">
+<img src="3-svm-solar_files/figure-html/fig-generated-energy-vs-input-features-output-1.png" id="fig-generated-energy-vs-input-features" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-generated-energy-vs-input-features-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;1
@@ -1251,32 +1362,32 @@ Figure&nbsp;1
 </div>
 </div>
 </div></div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [17]:</pre></div><div id="cell-fig-cost-vs-input-features" class="cell" data-execution_count="17">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>plot_cost_y <span class="op">=</span> pd.DataFrame(preds).loc[:,[<span class="dv">1</span>]].sort_values(by<span class="op">=</span>[<span class="dv">1</span>])</span>
+<div class="cell-container"><div class="cell-decorator"><pre>In [19]:</pre></div><div id="cell-fig-cost-vs-input-features" class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>plot_cost_y <span class="op">=</span> pd.DataFrame(cost_preds).loc[:,[<span class="dv">0</span>]].sort_values(by<span class="op">=</span>[<span class="dv">0</span>])</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>figure, axis <span class="op">=</span> plt.subplots(<span class="dv">3</span>)</span>
 <span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>figure.set_size_inches(<span class="dv">15</span>,<span class="dv">15</span>)</span>
 <span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>axis[<span class="dv">0</span>].scatter(X.loc[:,[<span class="st">"lat"</span>]], y.loc[:,[<span class="st">'cost'</span>]], color<span class="op">=</span><span class="st">'blue'</span>, label<span class="op">=</span><span class="st">'Data'</span>, s<span class="op">=</span><span class="dv">5</span>)</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>axis[<span class="dv">0</span>].scatter(X.loc[:,[<span class="st">"lat"</span>]], y_cost, color<span class="op">=</span><span class="st">'blue'</span>, label<span class="op">=</span><span class="st">'Data'</span>, s<span class="op">=</span><span class="dv">5</span>)</span>
 <span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>axis[<span class="dv">0</span>].plot(plot_lat_x, plot_cost_y, color<span class="op">=</span><span class="st">'red'</span>,lw<span class="op">=</span><span class="dv">2</span>, label<span class="op">=</span><span class="st">"Cost Model"</span>)</span>
 <span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>axis[<span class="dv">0</span>].set_xlabel(<span class="st">"Latitude"</span>)</span>
 <span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>axis[<span class="dv">0</span>].set_ylabel(<span class="st">"Cost($)"</span>)</span>
-<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>axis[<span class="dv">0</span>].set_title(<span class="st">"Random Forest Regression: Cost vs. Latitude"</span>)</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>axis[<span class="dv">0</span>].set_title(<span class="st">"Support Vector Regression: Cost vs. Latitude"</span>)</span>
 <span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>axis[<span class="dv">0</span>].legend()</span>
 <span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>axis[<span class="dv">1</span>].scatter(X.loc[:,[<span class="st">"long"</span>]], y.loc[:,[<span class="st">'cost'</span>]], color<span class="op">=</span><span class="st">'blue'</span>, label<span class="op">=</span><span class="st">'Data'</span>, s<span class="op">=</span><span class="dv">5</span>)</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>axis[<span class="dv">1</span>].scatter(X.loc[:,[<span class="st">"long"</span>]], y_cost, color<span class="op">=</span><span class="st">'blue'</span>, label<span class="op">=</span><span class="st">'Data'</span>, s<span class="op">=</span><span class="dv">5</span>)</span>
 <span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>axis[<span class="dv">1</span>].plot(plot_long_x, plot_cost_y, color<span class="op">=</span><span class="st">'red'</span>,lw<span class="op">=</span><span class="dv">2</span>, label<span class="op">=</span><span class="st">"Cost Model"</span>)</span>
 <span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>axis[<span class="dv">1</span>].set_xlabel(<span class="st">"Longitude"</span>)</span>
 <span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>axis[<span class="dv">1</span>].set_ylabel(<span class="st">"Cost($)"</span>)</span>
-<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>axis[<span class="dv">1</span>].set_title(<span class="st">"Random Forest Regression: Cost vs. Longitude"</span>)</span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>axis[<span class="dv">1</span>].set_title(<span class="st">"Support Vector Regression: Cost vs. Longitude"</span>)</span>
 <span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>axis[<span class="dv">1</span>].legend()</span>
 <span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>axis[<span class="dv">2</span>].scatter(X.loc[:,[<span class="st">"capacity"</span>]], y.loc[:,[<span class="st">'cost'</span>]], color<span class="op">=</span><span class="st">'blue'</span>, label<span class="op">=</span><span class="st">'Data'</span>, s<span class="op">=</span><span class="dv">5</span>)</span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>axis[<span class="dv">2</span>].scatter(X.loc[:,[<span class="st">"capacity"</span>]], y_cost, color<span class="op">=</span><span class="st">'blue'</span>, label<span class="op">=</span><span class="st">'Data'</span>, s<span class="op">=</span><span class="dv">5</span>)</span>
 <span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>axis[<span class="dv">2</span>].plot(plot_cap_x, plot_cost_y, color<span class="op">=</span><span class="st">'red'</span>,lw<span class="op">=</span><span class="dv">2</span>, label<span class="op">=</span><span class="st">"Cost Model"</span>)</span>
 <span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>axis[<span class="dv">2</span>].set_xlabel(<span class="st">"Capacity(MW)"</span>)</span>
 <span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>axis[<span class="dv">2</span>].set_ylabel(<span class="st">"Cost($)"</span>)</span>
-<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a>axis[<span class="dv">2</span>].set_title(<span class="st">"Random Forest Regression: Cost vs. Capacity"</span>)</span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a>axis[<span class="dv">2</span>].set_title(<span class="st">"Support Vector Regression: Cost vs. Capacity"</span>)</span>
 <span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a>axis[<span class="dv">2</span>].legend()</span>
 <span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a>plt.subplots_adjust(left<span class="op">=</span><span class="fl">0.1</span>,</span>
@@ -1291,54 +1402,10 @@ Figure&nbsp;1
 <div id="fig-cost-vs-input-features" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-cost-vs-input-features-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="">
-<img src="2-rf-solar_files/figure-html/fig-cost-vs-input-features-output-1.png" id="fig-cost-vs-input-features" class="img-fluid figure-img">
+<img src="3-svm-solar_files/figure-html/fig-cost-vs-input-features-output-1.png" id="fig-cost-vs-input-features" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-cost-vs-input-features-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;2
-</figcaption>
-</figure>
-</div>
-</div>
-</div></div>
-<div id="cell-30" class="cell markdown">
-<p>A graph of the feature importances. This helps to visualize the magnitude of importance of each feature, and compare their impact against one another.</p>
-</div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [14]:</pre></div><div id="cell-fig-feature-importances" class="cell" data-execution_count="14">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Feature Importances"</span>)</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>plt.barh(<span class="bu">range</span>(<span class="bu">len</span>(indices)), importances[indices], color<span class="op">=</span><span class="st">'b'</span>, align<span class="op">=</span><span class="st">'center'</span>)</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>plt.yticks(<span class="bu">range</span>(<span class="bu">len</span>(indices)), [features[i] <span class="cf">for</span> i <span class="kw">in</span> indices])</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Relative Importance"</span>)</span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div id="fig-feature-importances" class="quarto-figure quarto-figure-center quarto-float anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-feature-importances-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="">
-<img src="2-rf-solar_files/figure-html/fig-feature-importances-output-1.png" id="fig-feature-importances" class="img-fluid figure-img">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-feature-importances-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;3
-</figcaption>
-</figure>
-</div>
-</div>
-</div></div>
-<div id="cell-32" class="cell markdown">
-<p>A graph of one of the decision trees in the random forest. This displays the decision making process the model takes to arive at predictions.</p>
-</div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [15]:</pre></div><div id="cell-fig-decision-tree" class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>fn <span class="op">=</span> [<span class="st">'lat'</span>,<span class="st">'long'</span>,<span class="st">'capacity'</span>]</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>cn <span class="op">=</span> [<span class="st">'generated_energy'</span>,<span class="st">'cost'</span>]</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>plt.subplots(nrows<span class="op">=</span><span class="dv">1</span>, ncols<span class="op">=</span><span class="dv">1</span>, figsize<span class="op">=</span>(<span class="dv">4</span>,<span class="dv">4</span>), dpi<span class="op">=</span><span class="dv">800</span>)</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>tree.plot_tree(reg.estimators_[<span class="dv">0</span>],feature_names<span class="op">=</span>fn,class_names<span class="op">=</span>cn,filled<span class="op">=</span><span class="va">True</span>, max_depth<span class="op">=</span><span class="dv">3</span>)</span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div id="fig-decision-tree" class="quarto-figure quarto-figure-center quarto-float anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-decision-tree-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="">
-<img src="2-rf-solar_files/figure-html/fig-decision-tree-output-1.png" id="fig-decision-tree" class="img-fluid figure-img">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-decision-tree-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4
 </figcaption>
 </figure>
 </div>
