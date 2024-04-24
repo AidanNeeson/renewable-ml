@@ -32,11 +32,8 @@ The website can be found at this [link](https://aidanneeson610artifact.netlify.a
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](http://colab.research.google.com/github/ReadyResearchers-2023-24/aidanneeson-renewable-ml/blob/master)
 
 Google Colab can be used to run the notebooks without the need for any
-installations. The only requirement is that the necessary data files in the
-[data](./data/) directory are downloaded and then copied into the Colab
-notebook's file system so the notebooks have access to the data. The relative
-paths to the datasets in the notebooks may need to be edited depending on the
-directory structure for the Colab file.
+installations. Keep in mind, the commands to read in the datasets change
+depending on the environment being used to run the notebooks.
 
 #### Manual Steps
 
