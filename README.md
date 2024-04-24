@@ -25,7 +25,15 @@ through the power of machine learning.
 
 The website can be found at this [link](https://aidanneeson610artifact.netlify.app/)
 
-### Running the Notebooks Manually
+### Running the Notebooks
+
+#### Google Colab
+
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](http://colab.research.google.com/github/ReadyResearchers-2023-24/aidanneeson-renewable-ml/blob/master)
+
+Google Colab can be used to run the notebooks without the need for any installations. The only requirement is that the necessary data files in the [data](./data/) directory are downloaded and then copied into the Colab notebook's file system so the notebooks have access to the data. The relative paths to the datasets in the notebooks may need to be edited depending on the directory structure for the Colab file.
+
+#### Manual Steps
 
 If it is desired to run the notebooks manually and/or interact with the
 datasets, `Jupyter` makes this possible through the use of a few simple
