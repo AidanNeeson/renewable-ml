@@ -90,7 +90,7 @@ These equations incorporate crucial pieces of geospatial data that were not pres
 
 {{< embed 1-datasets.ipynb#wind-dataset-preview >}}
 
-This dataset can be accessed and downloaded from [here](https://drive.google.com/file/d/1DfA-SBMgd4lOy1eMd10OHLN7Poe5PR2F/view?usp=sharing).
+This dataset can be accessed and downloaded from [here](https://github.com/ReadyResearchers-2023-24/aidanneeson-renewable-ml/blob/main/data/wind.csv).
 
 ### Solar
 
@@ -120,4 +120,4 @@ The chain of calculations incorporate more of the geospatial data, which exempli
 
 {{< embed 1-datasets.ipynb#solar-dataset-preview >}}
 
-This dataset is also available to be accessed and downloaded [here](https://drive.google.com/file/d/1l-USz-TNYyco7rYOaHT3BY_fcnBXI92e/view?usp=sharing).
+This dataset is also available to be accessed and downloaded [here](https://github.com/ReadyResearchers-2023-24/aidanneeson-renewable-ml/blob/main/data/solar.csv).
