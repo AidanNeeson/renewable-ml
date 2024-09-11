@@ -23,13 +23,13 @@ through the power of machine learning.
 
 ### Accessing the Website
 
-The website can be found at this [link](https://aidanneeson610artifact.netlify.app/)
+The website can be found at this [link](https://renewableml.netlify.app/)
 
 ### Running the Notebooks
 
 #### Google Colab
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](http://colab.research.google.com/github/ReadyResearchers-2023-24/aidanneeson-renewable-ml/blob/master)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](http://colab.research.google.com/github/AidanNeeson/renewable-ml/blob/master)
 
 Google Colab can be used to run the notebooks without the need for any
 installations. Keep in mind, the commands to read in the datasets change
@@ -83,7 +83,7 @@ One also has the option boot up the Renewable ML website locally just by using
 `quarto preview app` in the repository's root in the CLI.
 
 There is now a website that hosts the note books!
-You can find it [here](https://aidanneeson610artifact.netlify.app/)
+You can find it [here](https://renewableml.netlify.app/)
 
 ## Some Related Works
 
@@ -116,7 +116,7 @@ of two main data sets: `wind.csv` and `solar.csv`. These two data sets
 each consist of 13 attributes, with each attribute having either approximately
 125000 or 11500 observations depending on the data set being examined. Full
 diagnostic reports regarding these data sets can be found on the
-[website](https://aidanneeson610artifact.netlify.app/data.html).
+[website](https://renewableml.netlify.app/data.html).
 
 These data sets are the heart of this artifact, in that they are what drives
 the predictions to be made. Making use of Python Jupyter Notebooks, the data
