@@ -2,7 +2,7 @@ project:
   type: website
 
 website:
-  title: "Aidan Neeson - CMPSC 610"
+  title: "Renewable ML"
   navbar:
     left:
       - href: index.qmd

@@ -22,7 +22,7 @@ The [Data](data.qmd) page provides an in-depth walkthrough of the process of get
 
 Ultimately, the experiments yielded promising results, with the random forest having the capability to make accurate predictions a majority of the time. The other models, however, gave bad results and lacked the ability to make even remotely accurate predictions. In the end, this still contributes to the goal of the project by supplying evidence that machine learning models are able to interpret locational data effectively to arrive at valid predictions of array parameters.
 
-For a detailed description of the project, methodologies, experiments, and results, view the thesis found [here](https://github.com/ReadyResearchers-2023-24/cis-600-f2023-610-s2024-senior-thesis-AidanNeeson).
+For a detailed description of the project, methodologies, experiments, and results, view the thesis found [here](https://github.com/AidanNeeson/renewable-ml-thesis).
 
 #### Thesis Abstract
 
