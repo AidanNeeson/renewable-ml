@@ -1,1 +1,1 @@
-Sitemap: https://aidanneeson610artifact.netlify.app/sitemap.xml
+Sitemap: https://renewableml.netlify.app/sitemap.xml
